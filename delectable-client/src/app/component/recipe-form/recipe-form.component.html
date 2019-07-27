@@ -1,0 +1,47 @@
+<form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Name">
+    </div>
+    <div class="form-group">
+      <label for="source">Source</label>
+      <input type="text" class="form-control" id="source" placeholder="www.google.com">
+    </div>
+    <div class="form-group">
+        <p>Prep Time</p>
+        <label for="hours">Hours</label>
+        <select class="form-control" id="hours">
+          <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
+        </select>
+        <label for="minutes">Minutes</label>
+        <select class="form-control" id="minutes">
+          <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
+        </select>
+        <label for="seconds">Seconds</label>
+        <select class="form-control" id="seconds">
+            <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <p>Cook Time</p>
+        <label for="hours">Hours</label>
+        <select class="form-control" id="hours">
+          <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
+        </select>
+        <label for="minutes">Minutes</label>
+        <select class="form-control" id="minutes">
+          <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
+        </select>
+        <label for="seconds">Seconds</label>
+        <select class="form-control" id="seconds">
+            <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="descripton">Descripton</label>
+        <textarea class="form-control" id="descripton" rows="3"></textarea>
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
