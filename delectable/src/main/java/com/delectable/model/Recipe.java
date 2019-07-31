@@ -1,36 +1,38 @@
 package com.delectable.model;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.delectable.controller.PantryController;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Recipe {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "recipe_id")
 	private int id;
 	private String name;
 	private int prepTime;
 	private int cookTime;
 
-	@OneToMany(mappedBy = "recipe")
-	private List<RecipeStep> directions;
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+	private List<RecipeStep> directions = new ArrayList<>();
 
-	@OneToMany(mappedBy = "recipe")
-    List<Ingredient> ingredients;
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    List<Ingredient> ingredients = new ArrayList<>();
 	private String source;
 
 	public Recipe() {
 		super();
 	}
 
-	public Recipe(int id, String name, int prepTime, int cookTime, List<RecipeStep> directions,
+	public Recipe(String name, int prepTime, int cookTime, List<RecipeStep> directions,
 			List<Ingredient> ingredients, String source) {
-		this.id = id;
 		this.name = name;
 		this.prepTime = prepTime;
 		this.cookTime = cookTime;
@@ -76,7 +78,9 @@ public class Recipe {
 	}
 
 	public void setDirections(List<RecipeStep> directions) {
-		this.directions = directions;
+		for(RecipeStep step : directions) {
+			addRecipeStep(step);
+		}
 	}
 
 	public List<Ingredient> getIngredients() {
@@ -84,7 +88,9 @@ public class Recipe {
 	}
 
 	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+		for(Ingredient ingredient : ingredients) {
+			addIngredient(ingredient);
+		}
 	}
 
 	public String getSource() {
@@ -94,7 +100,24 @@ public class Recipe {
 	public void setSource(String source) {
 		this.source = source;
 	}
+	
+	public void addRecipeStep(RecipeStep step) {
+		directions.add(step);
+		step.setRecipe(this);
+	}
 
-	
-	
+	public void removeRecipeStep(RecipeStep step) {
+		directions.remove(step);
+		step.setRecipe(null);
+	}
+
+	public void addIngredient(Ingredient ingredient) {
+		ingredients.add(ingredient);
+		ingredient.getPantry().getIngredients().add(ingredient);		
+	}
+
+	public void removeIngredient(Ingredient ingredient) {
+		ingredients.remove(ingredient);
+		ingredient.getPantry().getIngredients().remove(ingredient);
+	}
 }

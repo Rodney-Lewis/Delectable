@@ -17,16 +17,17 @@ public class RecipeStep {
     String intrustructions;
 
     @ManyToOne
-    @JoinColumn(name="recipe_id", nullable = false)
+    @JoinColumn(name="recipe_id")
     private Recipe recipe;
 
     public RecipeStep() {
         super();
     }
 
-    public RecipeStep(int step, String intrustructions) {
+    public RecipeStep(int step, String intrustructions, Recipe recipe) {
         this.step = step;
         this.intrustructions = intrustructions;
+        this.recipe = recipe;
     }
 
     public int getStep() {
@@ -43,6 +44,14 @@ public class RecipeStep {
 
     public void setIntrustructions(String intrustructions) {
         this.intrustructions = intrustructions;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
 }
