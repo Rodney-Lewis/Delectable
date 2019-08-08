@@ -1,36 +1,37 @@
-<div class="card my-5">
-    <div class="card-body">
-      <table class="table table-bordered table-striped">
-          <tbody>
-          <tr>
-            <th>#</th>
-            <td>{{recipe.id}}</td>
-          </tr>
-          <tr>
-            <th>name</th>
-            <td>{{recipe.name}}</td>
-          </tr>
-          <tr>
-            <th>description</th>
-            <td>{{recipe.description}}</td>
-          </tr>
-          <tr>
-            <th>prepTime</th>
-            <td>{{recipe.prepTime}}</td>
-          </tr>
-          <tr>
-            <th>cookTime</th>
-            <td>{{recipe.cookTime}}</td>
-          </tr>
-          <tr>
-            <th>directions</th>
-            <td>{{recipe.directions}}</td>
-          </tr>
-          <tr>
-            <th>source</th>
-            <td>{{recipe.source}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="row d-flex justify-content-center">
+  <div class="col-10">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <th>#</th>
+          <td>{{recipe.id}}</td>
+        </tr>
+        <tr>
+          <th>name</th>
+          <td>{{recipe.name}}</td>
+        </tr>
+        <tr>
+          <th>description</th>
+          <td>{{recipe.description}}</td>
+        </tr>
+        <tr>
+          <th>prepTime</th>
+          <td>{{recipe.prepTime}}</td>
+        </tr>
+        <tr>
+          <th>cookTime</th>
+          <td>{{recipe.cookTime}}</td>
+        </tr>
+        <tr>
+          <th>directions</th>
+          <td>{{recipe.directions}}</td>
+        </tr>
+        <tr>
+          <th>source</th>
+          <td>{{recipe.source}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button><a class="nav-link" routerLink="/recipe/add">Add Item</a></button>
   </div>
+</div>

@@ -1,11 +1,12 @@
-<div class="card my-5">
-  <div class="card-body">
-    <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
+<div class="row d-flex justify-content-center">
+    <div class="col-10">
+      <table class="table table-striped">
+        <thead class="thead-white">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Source</th>
+          <th scope="col">Details</th>
         </tr>
       </thead>
       <tbody>
@@ -13,9 +14,10 @@
           <td>{{ recipe.id }}</td>
           <td>{{ recipe.name }}</td>
           <td><a href="{{recipe.source}}">{{ recipe.source }}</a></td>
-          <td><a [routerLink]="['/recipe/detail', recipe.id]" class="btn btn-info">Details</a></td>
+          <td><a [routerLink]="['/recipe/detail', recipe.id]" class="btn btn-info">More</a></td>
         </tr>
       </tbody>
     </table>
+    <button><a class="nav-link" routerLink="/recipe/add">Add Item</a></button>
   </div>
 </div>

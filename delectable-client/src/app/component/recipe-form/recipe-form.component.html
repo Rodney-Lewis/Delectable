@@ -1,47 +1,99 @@
-<form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <h4>Recipe</h4>
     <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" placeholder="Name">
+       <label for="name">Name</label>
+       <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
     </div>
     <div class="form-group">
-      <label for="source">Source</label>
-      <input type="text" class="form-control" id="source" placeholder="www.google.com">
+       <label for="source">Source</label>
+       <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
     </div>
     <div class="form-group">
-        <p>Prep Time</p>
-        <label for="hours">Hours</label>
-        <select class="form-control" id="hours">
-          <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
-        </select>
-        <label for="minutes">Minutes</label>
-        <select class="form-control" id="minutes">
-          <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
-        </select>
-        <label for="seconds">Seconds</label>
-        <select class="form-control" id="seconds">
-            <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
-        </select>
+       <h3>Prep Time</h3>
+       <div class="row">
+          <div class="col-auto">
+             <label for="prepHour">Hours</label>
+             <select class="form-control custom-select" size="2" id="prepHour">
+                <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
+             </select>
+          </div>
+          <div class="col-auto">
+             <label for="prepMinute">Minutes</label>
+             <select class="form-control custom-select" size="2" id="prepMinute">
+                <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
+             </select>
+          </div>
+          <div class="col-auto">
+             <label for="prepSecond">Seconds</label>
+             <select class="form-control custom-select" size="2" id="prepSecond">
+                <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
+             </select>
+          </div>
+       </div>
     </div>
-
     <div class="form-group">
-        <p>Cook Time</p>
-        <label for="hours">Hours</label>
-        <select class="form-control" id="hours">
-          <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
-        </select>
-        <label for="minutes">Minutes</label>
-        <select class="form-control" id="minutes">
-          <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
-        </select>
-        <label for="seconds">Seconds</label>
-        <select class="form-control" id="seconds">
-            <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
-        </select>
+       <h3>Cook Time</h3>
+       <div class="row">
+          <div class="col-auto">
+             <label for="cookHour">Hours</label>
+             <select class="form-control custom-select" size="2" id="cookHour">
+                <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
+             </select>
+          </div>
+          <div class="col-auto">
+             <label for="cookMinute">Minutes</label>
+             <select class="form-control custom-select" size="2" id="cookMinute">
+                <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
+             </select>
+          </div>
+          <div class="col-auto">
+             <label for="cookSecond">Seconds</label>
+             <select class="form-control custom-select" size="" id="cookSecond">
+                <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
+             </select>
+          </div>
+       </div>
     </div>
-
-    <div class="form-group">
-        <label for="descripton">Descripton</label>
-        <textarea class="form-control" id="descripton" rows="3"></textarea>
-      </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+    <h3>Directions</h3>
+    <div class="form-group" *ngFor="let direction of getDirectionsFormControls.controls; let i = index">
+       <div class="row" [formGroup]="direction">
+          <div class="col-1">
+             <label for="step_{{i}}">Step {{direction.controls.step.value}}</label>
+          </div>
+          <div class="col-8">
+             <input type="text" class="form-control" id="step_{{i}}" formControlName="instructions">
+          </div>
+          <div class="col-1">
+             <button class="btn-light" (click)=removeDirection(direction)>Remove</button>
+          </div>
+       </div>
+    </div>
+    <button class="btn-light" (click)=addDirection()>Add step</button>
+    <h3>Ingredients</h3>
+    <div class="form-group" *ngFor="let ingredient of getIngredientsFormControls.controls; let i = index">
+       <div class="row" [formGroup]="ingredient">
+          <div class="col-auto">
+             <label for="pantryItem">Pantry Item</label>
+             <select class="form-control" id="pantryItem">
+                <option *ngFor="let pantry of PantryItems" value="{{pantry.name}}">{{pantry.name}}</option>
+             </select>
+          </div>
+          <div class="col-auto">
+             <label for="quantity_{{i}}">Quantity</label>
+             <input type="text" class="form-control" id="quantity_{{i}}" formControlName="quantity">
+          </div>
+          <div class="col-auto">
+             <label for="serving_{{i}}">Serving Type</label>
+             <input type="text" class="form-control" id="serving_{{i}}" idformControlName="servingType">
+          </div>
+          <div class="col-auto">
+             <button class="btn-light" (click)=removeIngredient(i)>Remove</button>
+          </div>
+       </div>
+    </div>
+    <button class="btn-light" (click)=addIngredient()>Add ingredient</button>
+    <button class="btn-light" type="submit">Submit</button>
+    </form>
+    <p>
+       Form Value: {{ recipeForm.value | json }}
+    </p>

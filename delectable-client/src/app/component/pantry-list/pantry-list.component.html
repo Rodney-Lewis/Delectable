@@ -1,0 +1,21 @@
+<div class="row d-flex justify-content-center">
+  <div class="col-10">
+    <table class="table table-striped">
+      <thead class="thead-white">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pantry of pantryItems">
+          <td>{{ pantry.id }}</td>
+          <td>{{ pantry.name }}</td>
+          <td><a [routerLink]="['/pantry/detail', pantry.id]" class="btn btn-info">More</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <button><a class="nav-link" routerLink="/pantry/add">Add Item</a></button>
+  </div>
+</div>

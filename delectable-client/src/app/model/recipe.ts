@@ -1,4 +1,5 @@
 import { RecipeStep } from "./recipe-step";
+import { Ingredient } from "./ingredient";
 
 export class Recipe {
     id: number;
@@ -6,6 +7,6 @@ export class Recipe {
     prepTime: number;
     cookTime: number;
     directions: RecipeStep[];
-    ingredients: string[];
+    ingredients: Ingredient[];
     source: string;
 }
