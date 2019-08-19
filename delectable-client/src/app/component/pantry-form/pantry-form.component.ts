@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PantryService } from '../../service/pantry.service';
 import { Pantry } from '../../model/pantry';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pantry-form',
@@ -15,7 +16,8 @@ export class PantryFormComponent implements OnInit {
   });
   pantryItem: Pantry;
 
-  constructor(private formBuilder: FormBuilder, private pantryService: PantryService) {
+  constructor(private formBuilder: FormBuilder, private pantryService: PantryService, 
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -26,5 +28,6 @@ export class PantryFormComponent implements OnInit {
 
   onSubmit() {
     this.pantryService.add(this.pantryForm.value).subscribe();
+    this.router.navigate(['/pantry/list']);
   }
 }

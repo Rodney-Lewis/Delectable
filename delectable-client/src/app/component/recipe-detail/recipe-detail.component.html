@@ -3,16 +3,12 @@
     <table class="table table-bordered table-striped">
         <tbody>
         <tr>
-          <th>#</th>
+          <th>ID</th>
           <td>{{recipe.id}}</td>
         </tr>
         <tr>
           <th>name</th>
           <td>{{recipe.name}}</td>
-        </tr>
-        <tr>
-          <th>description</th>
-          <td>{{recipe.description}}</td>
         </tr>
         <tr>
           <th>prepTime</th>
@@ -23,15 +19,36 @@
           <td>{{recipe.cookTime}}</td>
         </tr>
         <tr>
-          <th>directions</th>
-          <td>{{recipe.directions}}</td>
+            <th>TotalTime</th>
+            <td>{{recipe.totalTime}}</td>
         </tr>
         <tr>
-          <th>source</th>
-          <td>{{recipe.source}}</td>
-        </tr>
+            <th>source</th>
+            <td>{{recipe.source}}</td>
+          </tr>
       </tbody>
     </table>
-    <button><a class="nav-link" routerLink="/recipe/add">Add Item</a></button>
+    <table class="table table-bordered table-striped">
+        <tr>
+          <th>Step #</th>
+          <th>Instruction</th>
+        </tr>
+        <tr *ngFor="let direction of recipe.directions">
+            <td>{{direction.step}}</td>
+            <td>{{direction.instructions}}</td>
+        </tr>
+    </table>
+    <table class="table table-bordered table-striped">
+        <tr>
+          <th>Ingredient</th>
+          <th>Quantity</th>
+          <th>Serving Size</th>
+        </tr>
+        <tr *ngFor="let ingredient of recipe.ingredients">
+          <td>{{ingredient.pantry.name}}</td>
+          <td>{{ingredient.quantity}}</td>
+          <td>{{ingredient.servingType}}</td>
+        </tr>
+    </table>
   </div>
 </div>

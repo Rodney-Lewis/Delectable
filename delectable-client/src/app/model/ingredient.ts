@@ -1,6 +1,7 @@
+import { Pantry } from "./pantry";
+
 export class Ingredient {
-    recipeId: Number;
-    pantryId: Number;
+    pantry: Pantry;
     quantity: String;
     servingType: String;
 }

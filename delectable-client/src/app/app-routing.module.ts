@@ -5,6 +5,7 @@ import { RecipeDetailComponent } from './component/recipe-detail/recipe-detail.c
 import { RecipeFormComponent } from './component/recipe-form/recipe-form.component';
 import { PantryFormComponent } from './component/pantry-form/pantry-form.component';
 import { PantryListComponent } from './component/pantry-list/pantry-list.component';
+import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.component';
 
  
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
   { path: 'recipe/add', component: RecipeFormComponent },
   { path: 'pantry/add', component: PantryFormComponent },
+  { path: 'recipe/add/2/:id', component: RecipeForm2Component }
 ];
  
 @NgModule({

@@ -14,19 +14,26 @@ public class RecipeStep {
     @Column(name = "step_id")
 	private int id;
     int step;
-    String intrustructions;
+    String instructions;
 
     @ManyToOne
     @JoinColumn(name="recipe_id")
-    private Recipe recipe;
+    private Recipe recipe = new Recipe();
 
     public RecipeStep() {
         super();
     }
 
-    public RecipeStep(int step, String intrustructions, Recipe recipe) {
+    public RecipeStep(int step, String instructions, Recipe recipe) {
         this.step = step;
-        this.intrustructions = intrustructions;
+        this.instructions = instructions;
+        this.recipe = recipe;
+    }
+
+    public RecipeStep(int id, int step, String instructions, Recipe recipe) {
+        this.id = id;
+        this.step = step;
+        this.instructions = instructions;
         this.recipe = recipe;
     }
 
@@ -38,12 +45,12 @@ public class RecipeStep {
         this.step = step;
     }
 
-    public String getIntrustructions() {
-        return intrustructions;
+    public String getinstructions() {
+        return instructions;
     }
 
-    public void setIntrustructions(String intrustructions) {
-        this.intrustructions = intrustructions;
+    public void setinstructions(String instructions) {
+        this.instructions = instructions;
     }
 
     public Recipe getRecipe() {

@@ -15,7 +15,6 @@ export class PantryListComponent implements OnInit {
   ngOnInit() {
     this.pantryService.findAll().subscribe(data => {
       this.pantryItems = data;
-      console.log(data);
     })
   }
 }

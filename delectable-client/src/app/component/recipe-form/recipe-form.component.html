@@ -1,99 +1,54 @@
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-    <h4>Recipe</h4>
-    <div class="form-group">
-       <label for="name">Name</label>
-       <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
-    </div>
-    <div class="form-group">
-       <label for="source">Source</label>
-       <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
-    </div>
-    <div class="form-group">
-       <h3>Prep Time</h3>
-       <div class="row">
-          <div class="col-auto">
-             <label for="prepHour">Hours</label>
-             <select class="form-control custom-select" size="2" id="prepHour">
-                <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
-             </select>
-          </div>
-          <div class="col-auto">
-             <label for="prepMinute">Minutes</label>
-             <select class="form-control custom-select" size="2" id="prepMinute">
-                <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
-             </select>
-          </div>
-          <div class="col-auto">
-             <label for="prepSecond">Seconds</label>
-             <select class="form-control custom-select" size="2" id="prepSecond">
-                <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
-             </select>
-          </div>
-       </div>
-    </div>
-    <div class="form-group">
-       <h3>Cook Time</h3>
-       <div class="row">
-          <div class="col-auto">
-             <label for="cookHour">Hours</label>
-             <select class="form-control custom-select" size="2" id="cookHour">
-                <option *ngFor="let hour of maxHourRange" value="{{hour}}">{{hour}}</option>
-             </select>
-          </div>
-          <div class="col-auto">
-             <label for="cookMinute">Minutes</label>
-             <select class="form-control custom-select" size="2" id="cookMinute">
-                <option *ngFor="let minute of maxMinuteRange" value="{{minute}}">{{minute}}</option>
-             </select>
-          </div>
-          <div class="col-auto">
-             <label for="cookSecond">Seconds</label>
-             <select class="form-control custom-select" size="" id="cookSecond">
-                <option *ngFor="let second of maxSecondRange" value="{{second}}">{{second}}</option>
-             </select>
-          </div>
-       </div>
-    </div>
-    <h3>Directions</h3>
-    <div class="form-group" *ngFor="let direction of getDirectionsFormControls.controls; let i = index">
-       <div class="row" [formGroup]="direction">
-          <div class="col-1">
-             <label for="step_{{i}}">Step {{direction.controls.step.value}}</label>
-          </div>
-          <div class="col-8">
-             <input type="text" class="form-control" id="step_{{i}}" formControlName="instructions">
-          </div>
-          <div class="col-1">
-             <button class="btn-light" (click)=removeDirection(direction)>Remove</button>
-          </div>
-       </div>
-    </div>
-    <button class="btn-light" (click)=addDirection()>Add step</button>
-    <h3>Ingredients</h3>
-    <div class="form-group" *ngFor="let ingredient of getIngredientsFormControls.controls; let i = index">
-       <div class="row" [formGroup]="ingredient">
-          <div class="col-auto">
-             <label for="pantryItem">Pantry Item</label>
-             <select class="form-control" id="pantryItem">
-                <option *ngFor="let pantry of PantryItems" value="{{pantry.name}}">{{pantry.name}}</option>
-             </select>
-          </div>
-          <div class="col-auto">
-             <label for="quantity_{{i}}">Quantity</label>
-             <input type="text" class="form-control" id="quantity_{{i}}" formControlName="quantity">
-          </div>
-          <div class="col-auto">
-             <label for="serving_{{i}}">Serving Type</label>
-             <input type="text" class="form-control" id="serving_{{i}}" idformControlName="servingType">
-          </div>
-          <div class="col-auto">
-             <button class="btn-light" (click)=removeIngredient(i)>Remove</button>
-          </div>
-       </div>
-    </div>
-    <button class="btn-light" (click)=addIngredient()>Add ingredient</button>
-    <button class="btn-light" type="submit">Submit</button>
-    </form>
-    <p>
-       Form Value: {{ recipeForm.value | json }}
-    </p>
+<div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+         <div class="col-lg-9 col-sm-12">
+            <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+               <div class="col">
+                  <h5>Recipe</h5>
+               </div>
+            </div>
+            <div class="form-row form-group">
+               <div class="col">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+               </div>
+            </div>
+            <div class="form-row form-group">
+               <div class="col">
+                  <label for="source">Source</label>
+                  <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
+               </div>
+            </div>
+            <div class="row">
+               <div class="col">
+                  <h5>Time</h5>
+               </div>
+            </div>
+            <div class="form-row form-group">
+               <div class="col">
+                  <label for="prepHour">Prep time</label>
+                  <input type="text" class="form-control" id="prepTime" formControlName="prepTime" placeholder="HH:MM:SS" pattern="((0?[0-9]|[1-9][0-9])(:[0-5][0-9])(:[0-5][0-9]))|(([0-5]?[0-9]):([0-5][0-9]))|([0-5][0-9])">
+                  <small id="prepTimeHelpBlock" class="form-text text-muted">
+                  Accepted formats: HH:MM:SS, MM:SS, SS
+                  </small>
+               </div>
+               <div class="col">
+                  <label for="cookHour">Cook time</label>
+                  <input type="text" class="form-control" id="cookTime" formControlName="cookTime" placeholder="HH:MM:SS" pattern="((0?[0-9]|[1-9][0-9])(:[0-5][0-9])(:[0-5][0-9]))|(([0-5]?[0-9]):([0-5][0-9]))|([0-5][0-9])">
+                  <small id="cookTimeHelpBlock" class="form-text text-muted">
+                  Accepted formats: HH:MM:SS, MM:SS, SS
+                  </small>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-auto">
+                  <button class="btn btn-dark" type="submit">Submit</button>
+               </div>
+            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <p>
+      Form Value: {{ recipeForm.value | json }}
+   </p>

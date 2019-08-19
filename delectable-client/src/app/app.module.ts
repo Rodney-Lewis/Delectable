@@ -13,6 +13,8 @@ import { PantryFormComponent } from './component/pantry-form/pantry-form.compone
 import { PantryService } from './service/pantry.service';
 import { NavComponent } from './component/nav/nav.component';
 import { PantryListComponent } from './component/pantry-list/pantry-list.component';
+import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -23,14 +25,16 @@ import { PantryListComponent } from './component/pantry-list/pantry-list.compone
     RecipeDetailComponent,
     PantryFormComponent,
     NavComponent,
-    PantryListComponent
+    PantryListComponent,
+    RecipeForm2Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [RecipeService, PantryService],
   bootstrap: [AppComponent]

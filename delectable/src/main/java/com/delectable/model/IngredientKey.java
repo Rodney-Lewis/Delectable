@@ -16,6 +16,7 @@ class IngredientKey implements Serializable {
     int pantryId;
 
     public IngredientKey() {
+        super();
     }
 
     public IngredientKey(int recipeId, int pantryId) {

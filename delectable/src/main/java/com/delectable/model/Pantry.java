@@ -17,17 +17,26 @@ public class Pantry {
     int id;
 
     String name;
-
+    
     @OneToMany(mappedBy = "pantry")
-    List<Ingredient> ingredients;
+    List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     public Pantry() {
         super();
     }
 
+    public Pantry(int id) {
+        this.id = id;
+    }
+
     public Pantry(String name) {
         this.name = name;
-        this.ingredients = new ArrayList<>();
+    }
+
+    public Pantry(int id, String name, List<Ingredient> ingredients) {
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
     }
 
     public int getId() {
