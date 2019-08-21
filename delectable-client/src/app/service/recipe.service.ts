@@ -15,12 +15,15 @@ export class RecipeService {
 
   public findAll() : Observable<Recipe[]> {
     this.suffix = '/get';
-    return this.http.get<Recipe[]>('http://localhost:8080/recipe/get');
+    return this.http.get<Recipe[]>(this.recipeUrl+this.suffix);
   }
 
   public findById(id: number) : Observable<Recipe> {
-    this.suffix = '/get/${id}';
-    return this.http.get<Recipe>(`http://localhost:8080/recipe/get/${id}`);
+    this.suffix = '/get/';
+    /*
+      /get/id
+    */
+    return this.http.get<Recipe>(this.recipeUrl+this.suffix+id.toString());
   }
 
   public add(recipe: Recipe) : Observable<Recipe> {
