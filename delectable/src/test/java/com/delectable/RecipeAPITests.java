@@ -62,7 +62,8 @@ public class RecipeAPITests {
 
         //https://github.com/Rodney-Lewis/Delectable/issues/2
         //Verify that only 1 object was created
-        assertTrue(recipeService.count() == 1);
+        List<Recipe> recipeList = (List<Recipe>) recipeService.findAll();
+        assertTrue(recipeList.size() == 1);
     }
 
     
