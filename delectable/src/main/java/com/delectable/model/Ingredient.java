@@ -13,13 +13,11 @@ public class Ingredient {
     @ManyToOne
     @MapsId("recipeId")
     @JoinColumn(name="recipe_id")
-    @JsonBackReference(value="rep")
     Recipe recipe = new Recipe();
 
     @ManyToOne
     @MapsId("pantryId")
     @JoinColumn(name="pantry_id")
-    @JsonBackReference(value="pan")
     Pantry pantry = new Pantry();
 
     String quantity;
@@ -29,9 +27,10 @@ public class Ingredient {
        super();
     }
 
-    public Ingredient(Pantry pantry, String quantity, String servingType) {
+    public Ingredient(Pantry pantry, Recipe recipe, String quantity, String servingType) {
         this.id = new IngredientKey(recipe.getId(), pantry.getId());
         this.pantry = pantry;
+        this.recipe = recipe;
         this.quantity = quantity;
         this.servingType = servingType;
     }

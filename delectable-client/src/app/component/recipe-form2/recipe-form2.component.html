@@ -45,6 +45,7 @@
                 </thead>
                 <tbody>
                    <tr *ngFor="let ingredient of ingredients.controls; let i = index" formGroupName="{{i}}">
+                      <input type="hidden" class=form-control formControlName="recipe">
                       <td>
                           <select class="form-control" formControlName="pantry">
                               <option *ngFor="let pantry of pantryItemList" [ngValue]=pantry.id>{{pantry.name}}</option>

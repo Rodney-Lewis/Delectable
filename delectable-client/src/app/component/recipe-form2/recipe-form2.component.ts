@@ -36,15 +36,8 @@ export class RecipeForm2Component implements OnInit {
         this.recipeForm.controls.source.setValue(recipe.source);
         this.recipeForm.controls.prepTime.setValue(recipe.prepTime);
         this.recipeForm.controls.cookTime.setValue(recipe.cookTime);
-        this.directions.push(this.formBuilder.group({
-          step: [1],
-          instructions: ['Step 1']
-        }))
-        this.ingredients.push(this.formBuilder.group({
-          pantry: [],
-          quantity: [''],
-          servingType: ['']
-        }))
+        this.addDirection();
+        this.addIngredient();
       });
     });
 
@@ -59,6 +52,7 @@ export class RecipeForm2Component implements OnInit {
 
   addIngredient() {
     this.ingredients.push(this.formBuilder.group({
+        recipe: [this.recipeForm.controls.id.value],
         pantry: [],
         quantity: [''],
         servingType: ['']
