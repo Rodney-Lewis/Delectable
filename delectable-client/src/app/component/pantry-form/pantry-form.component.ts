@@ -27,7 +27,8 @@ export class PantryFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.pantryService.add(this.pantryForm.value).subscribe();
-    this.router.navigate(['/pantry/list']);
+    this.pantryService.add(this.pantryForm.value).subscribe(data => {
+      this.router.navigate(['/pantry/list']);
+    });
   }
 }
