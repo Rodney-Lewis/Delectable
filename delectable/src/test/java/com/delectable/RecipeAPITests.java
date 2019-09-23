@@ -16,6 +16,8 @@ import com.delectable.service.PantryService;
 import com.delectable.model.RecipeStep;
 import com.delectable.model.Ingredient;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +52,19 @@ public class RecipeAPITests {
         recipeSteps.add(new RecipeStep(2, "In a 10-inch or 12-inch skillet, melt butter over medium heat. Whisk", recipe));
 
         List<Ingredient> items = new ArrayList<>();
-        items.add(new Ingredient(pantryItem1, "1", "Tablespoon"));
-        items.add(new Ingredient(pantryItem2, "3/4", "Tablespoon"));
-        items.add(new Ingredient(pantryItem3, "5/8", "Tablespoon"));
+        items.add(new Ingredient(pantryItem1, recipe, "1", "Tablespoon"));
+        items.add(new Ingredient(pantryItem2, recipe, "3/4", "Tablespoon"));
+        items.add(new Ingredient(pantryItem3, recipe, "5/8", "Tablespoon"));
 
         recipe.setDirections(recipeSteps);
         recipe.setIngredients(items);
-        recipeService.save(recipe);
+        recipe = recipeService.save(recipe);
+
+        //https://github.com/Rodney-Lewis/Delectable/issues/2
+        //Verify that only 1 object was created
+        List<Recipe> recipeList = (List<Recipe>) recipeService.findAll();
+        assertTrue(recipeList.size() == 1);
     }
+
+    
 }
