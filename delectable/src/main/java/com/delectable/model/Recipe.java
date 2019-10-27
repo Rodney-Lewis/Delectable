@@ -30,6 +30,9 @@ public class Recipe {
 	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "recipe")
+	List<Schedule> schedules = new ArrayList<Schedule>();
 
 	public Recipe() {
 		super();
@@ -110,6 +113,16 @@ public class Recipe {
 		}
 	}
 
+	public List<Schedule> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(List<Schedule> schedules) {
+		for(Schedule schedule: schedules){
+			addSchedule(schedule);
+		}
+	}
+
 	public String getSource() {
 		return source;
 	}
@@ -136,6 +149,16 @@ public class Recipe {
 	public void removeIngredient(Ingredient ingredient) {
 		ingredients.remove(ingredient);
 		ingredient.getPantry().getIngredients().remove(ingredient);
+	}
+
+	public void addSchedule(Schedule schedule) {
+		schedules.add(schedule);
+		schedule.setRecipe(this);
+	}
+
+	public void removeSchedule(Schedule schedule) {
+		schedules.remove(schedule);
+		schedule.setRecipe(null);
 	}
 
 	public void setTotalTime() {
@@ -210,5 +233,9 @@ public class Recipe {
 		} else {
 			return (totalTime = String.format("%1$d", totalTimeSeconds));
 		}
+	}
+
+	public Recipe getRecipe() {
+	    return this;
 	}
 }

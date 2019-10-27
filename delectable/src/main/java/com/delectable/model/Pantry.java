@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Pantry {
 
     String name;
     
+    @JsonManagedReference
     @OneToMany(mappedBy = "pantry")
     List<Ingredient> ingredients = new ArrayList<Ingredient>();
 

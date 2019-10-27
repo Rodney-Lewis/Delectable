@@ -15,6 +15,7 @@ public class Ingredient {
     @JoinColumn(name="recipe_id")
     Recipe recipe = new Recipe();
 
+    @JsonBackReference
     @ManyToOne
     @MapsId("pantryId")
     @JoinColumn(name="pantry_id")
