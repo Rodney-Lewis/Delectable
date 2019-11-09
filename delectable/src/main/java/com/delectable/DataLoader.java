@@ -1,6 +1,7 @@
 package com.delectable;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.delectable.model.Ingredient;
@@ -12,6 +13,7 @@ import com.delectable.service.PantryService;
 import com.delectable.service.RecipeService;
 import com.delectable.service.ScheduleService;
 
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -91,11 +93,26 @@ public class DataLoader implements ApplicationRunner {
         recipe2.setIngredients(items2);
         recipe2 = recipeService.save(recipe2);
 
-        Schedule schedule1 = new Schedule(0, recipe1);
-        Schedule schedule2 = new Schedule(10, recipe2);
+        Schedule schedule1 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
+        Schedule schedule2 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.LUNCH.toString(), recipe1);
+        Schedule schedule3 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.DINNER.toString(), recipe1);
+        Schedule schedule4 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.BREAKFAST.toString(), recipe2);
+        Schedule schedule5 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.LUNCH.toString(), recipe1);
+        Schedule schedule6 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.DINNER.toString(), recipe2);
+        Schedule schedule7 = new Schedule(System.currentTimeMillis() + (86400000 * 4), Schedule.MealTypes.DINNER.toString(), recipe1);
+        Schedule schedule8 = new Schedule(System.currentTimeMillis() + (86400000 * 5), Schedule.MealTypes.DINNER.toString(), recipe2);
+        Schedule schedule9 = new Schedule(System.currentTimeMillis() + (86400000 * 6), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
+        Schedule schedule10 = new Schedule(System.currentTimeMillis() + (86400000 * 6), Schedule.MealTypes.DINNER.toString(), recipe2);
 
         scheduleService.save(schedule1);
         scheduleService.save(schedule2);
-        
+        scheduleService.save(schedule3);
+        scheduleService.save(schedule4);
+        scheduleService.save(schedule5);
+        scheduleService.save(schedule6);
+        scheduleService.save(schedule7);
+        scheduleService.save(schedule8);
+        scheduleService.save(schedule9);
+        scheduleService.save(schedule10);
     }
 }

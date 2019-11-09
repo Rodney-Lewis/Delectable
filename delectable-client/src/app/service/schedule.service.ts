@@ -10,16 +10,17 @@ export class ScheduleService {
   private suffix: string;
 
   constructor(private http: HttpClient) {
-    this.scheduleApiUrl='http://localhost:8080/schedule';
+    this.scheduleApiUrl='http://localhost:8000/schedule';
   }
 
-  public findAllByTimeframe(start:number, end:number) : Observable<Schedule[]> {
+  public findAllScheduled() : Observable<Schedule[]> {
     this.suffix ='/get';
-    let params = new HttpParams();
-    params = params.append("start", start.toString());
-    params = params.append("end", end.toString());
+    return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix)
+  }
 
-    return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix, {params: params})
+  public getAllMealTypes() : Observable<string[]> {
+    this.suffix ='/get/mealtypes';
+    return this.http.get<string[]>(this.scheduleApiUrl+this.suffix)
   }
 
   public add(schedule: Schedule) : Observable<Schedule> {

@@ -10,7 +10,7 @@ export class PantryService {
   private suffix: string;
 
   constructor(private http: HttpClient) { 
-    this.pantryUrl = 'http://localhost:8080/pantry';
+    this.pantryUrl = 'http://localhost:8000/pantry';
   }
 
   public findAll() : Observable<Pantry[]> {

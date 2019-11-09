@@ -16,6 +16,7 @@ import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.comp
 import { CommonModule } from '@angular/common';
 import { ScheduleListComponent } from './component/schedule-list/schedule-list.component';
 import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
+import { ScheduleService } from './service/schedule.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { ScheduleFormComponent } from './component/schedule-form/schedule-form.c
     FormsModule,
     CommonModule
   ],
-  providers: [RecipeService, PantryService],
+  providers: [RecipeService, PantryService, ScheduleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

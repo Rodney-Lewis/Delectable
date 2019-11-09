@@ -10,7 +10,7 @@ export class RecipeService {
   private suffix: string;
 
   constructor(private http: HttpClient) { 
-    this.recipeUrl = 'http://localhost:8080/recipe';
+    this.recipeUrl = 'http://localhost:8000/recipe';
   }
 
   public findAll() : Observable<Recipe[]> {

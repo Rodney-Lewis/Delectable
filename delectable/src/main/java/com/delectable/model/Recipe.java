@@ -30,7 +30,6 @@ public class Recipe {
 	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "recipe")
 	List<Schedule> schedules = new ArrayList<Schedule>();
 
