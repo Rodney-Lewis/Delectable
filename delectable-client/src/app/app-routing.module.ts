@@ -8,6 +8,7 @@ import { PantryListComponent } from './component/pantry-list/pantry-list.compone
 import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.component';
 import { ScheduleListComponent } from './component/schedule-list/schedule-list.component';
 import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
+import { PantryDetailComponent } from './component/pantry-detail/pantry-detail.component';
 
  
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'recipe/list', component: RecipeListComponent },
   { path: 'pantry/list', component: PantryListComponent },
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
+  { path: 'pantry/detail/:id', component: PantryDetailComponent },
   { path: 'recipe/add', component: RecipeFormComponent },
   { path: 'pantry/add', component: PantryFormComponent },
   { path: 'recipe/add/2/:id', component: RecipeForm2Component }

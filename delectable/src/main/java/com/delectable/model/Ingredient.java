@@ -2,23 +2,15 @@ package com.delectable.model;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.*;
-
-
 @Entity
 public class Ingredient {
-    @EmbeddedId
-    IngredientKey id = new IngredientKey();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ingredient_id")
+    int id;
 
     @ManyToOne
-    @MapsId("recipeId")
-    @JoinColumn(name="recipe_id")
-    Recipe recipe = new Recipe();
-
-    @JsonBackReference
-    @ManyToOne
-    @MapsId("pantryId")
-    @JoinColumn(name="pantry_id")
     Pantry pantry = new Pantry();
 
     String quantity;
@@ -28,28 +20,25 @@ public class Ingredient {
        super();
     }
 
-    public Ingredient(Pantry pantry, Recipe recipe, String quantity, String servingType) {
-        this.id = new IngredientKey(recipe.getId(), pantry.getId());
+    public Ingredient(Pantry pantry, String quantity, String servingType) {
         this.pantry = pantry;
-        this.recipe = recipe;
         this.quantity = quantity;
         this.servingType = servingType;
     }
-   
-    public IngredientKey getId() {
+
+    public Ingredient(int id, Pantry pantry, String quantity, String servingType) {
+        this.id = id;
+        this.pantry = pantry;
+        this.quantity = quantity;
+        this.servingType = servingType;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(IngredientKey id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
     }
 
     public Pantry getPantry() {

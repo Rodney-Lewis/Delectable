@@ -48,13 +48,13 @@ public class RecipeAPITests {
         .save(new Recipe("French Toast","10:20:30", "20:30:40", "Food network", new ArrayList<>(), new ArrayList<>() ));
 
         List<RecipeStep> recipeSteps = new ArrayList<>();
-        recipeSteps.add(new RecipeStep(1, "In a small bowl, combine cinnamon, nutmeg, and sugar and set aside briefly.", recipe));
-        recipeSteps.add(new RecipeStep(2, "In a 10-inch or 12-inch skillet, melt butter over medium heat. Whisk", recipe));
+        recipeSteps.add(new RecipeStep(1, "In a small bowl, combine cinnamon, nutmeg, and sugar and set aside briefly."));
+        recipeSteps.add(new RecipeStep(2, "In a 10-inch or 12-inch skillet, melt butter over medium heat. Whisk"));
 
         List<Ingredient> items = new ArrayList<>();
-        items.add(new Ingredient(pantryItem1, recipe, "1", "Tablespoon"));
-        items.add(new Ingredient(pantryItem2, recipe, "3/4", "Tablespoon"));
-        items.add(new Ingredient(pantryItem3, recipe, "5/8", "Tablespoon"));
+        items.add(new Ingredient(pantryItem1, "1", "Tablespoon"));
+        items.add(new Ingredient(pantryItem2, "3/4", "Tablespoon"));
+        items.add(new Ingredient(pantryItem3, "5/8", "Tablespoon"));
 
         recipe.setDirections(recipeSteps);
         recipe.setIngredients(items);

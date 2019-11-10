@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { ScheduleListComponent } from './component/schedule-list/schedule-list.component';
 import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
 import { ScheduleService } from './service/schedule.service';
+import { PantryDetailComponent } from './component/pantry-detail/pantry-detail.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ScheduleService } from './service/schedule.service';
     PantryListComponent,
     RecipeForm2Component,
     ScheduleListComponent,
-    ScheduleFormComponent
+    ScheduleFormComponent,
+    PantryDetailComponent
   ],
   imports: [
     BrowserModule,
