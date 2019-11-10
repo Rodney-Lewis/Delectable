@@ -14,6 +14,9 @@ import { NavComponent } from './component/nav/nav.component';
 import { PantryListComponent } from './component/pantry-list/pantry-list.component';
 import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.component';
 import { CommonModule } from '@angular/common';
+import { ScheduleListComponent } from './component/schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
+import { ScheduleService } from './service/schedule.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { CommonModule } from '@angular/common';
     PantryFormComponent,
     NavComponent,
     PantryListComponent,
-    RecipeForm2Component
+    RecipeForm2Component,
+    ScheduleListComponent,
+    ScheduleFormComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
-  providers: [RecipeService, PantryService],
+  providers: [RecipeService, PantryService, ScheduleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

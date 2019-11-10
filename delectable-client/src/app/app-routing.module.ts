@@ -6,9 +6,13 @@ import { RecipeFormComponent } from './component/recipe-form/recipe-form.compone
 import { PantryFormComponent } from './component/pantry-form/pantry-form.component';
 import { PantryListComponent } from './component/pantry-list/pantry-list.component';
 import { RecipeForm2Component } from './component/recipe-form2/recipe-form2.component';
+import { ScheduleListComponent } from './component/schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
 
  
 const routes: Routes = [
+  { path: '', component: ScheduleListComponent},
+  { path: 'schedule/add', component: ScheduleFormComponent},
   { path: 'recipe/list', component: RecipeListComponent },
   { path: 'pantry/list', component: PantryListComponent },
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
