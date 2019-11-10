@@ -2,15 +2,11 @@ package com.delectable.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.*;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity
 public class Recipe {
 
@@ -24,14 +20,11 @@ public class Recipe {
 	private String totalTime;
 	private String source;
 
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-	private List<RecipeStep> directions = new ArrayList<RecipeStep>();
+	@OneToMany(cascade = CascadeType.ALL)
+	List<RecipeStep> directions = new ArrayList<RecipeStep>();
 
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
     List<Ingredient> ingredients = new ArrayList<Ingredient>();
-	
-	@OneToMany(mappedBy = "recipe")
-	List<Schedule> schedules = new ArrayList<Schedule>();
 
 	public Recipe() {
 		super();
@@ -55,8 +48,8 @@ public class Recipe {
 		this.prepTime = prepTime;
 		this.cookTime = cookTime;
 		this.source = source;
-		this.directions = directions;
-		this.ingredients = ingredients;
+		setDirections(directions);
+		setIngredients(ingredients);
 		setTotalTime();
 	}
 
@@ -112,16 +105,6 @@ public class Recipe {
 		}
 	}
 
-	public List<Schedule> getSchedules() {
-		return schedules;
-	}
-
-	public void setSchedules(List<Schedule> schedules) {
-		for(Schedule schedule: schedules){
-			addSchedule(schedule);
-		}
-	}
-
 	public String getSource() {
 		return source;
 	}
@@ -132,32 +115,18 @@ public class Recipe {
 	
 	public void addRecipeStep(RecipeStep step) {
 		directions.add(step);
-		step.setRecipe(this);
 	}
 
 	public void removeRecipeStep(RecipeStep step) {
 		directions.remove(step);
-		step.setRecipe(null);
 	}
 
 	public void addIngredient(Ingredient ingredient) {
 		ingredients.add(ingredient);
-		ingredient.getPantry().getIngredients().add(ingredient);		
 	}
 
 	public void removeIngredient(Ingredient ingredient) {
 		ingredients.remove(ingredient);
-		ingredient.getPantry().getIngredients().remove(ingredient);
-	}
-
-	public void addSchedule(Schedule schedule) {
-		schedules.add(schedule);
-		schedule.setRecipe(this);
-	}
-
-	public void removeSchedule(Schedule schedule) {
-		schedules.remove(schedule);
-		schedule.setRecipe(null);
 	}
 
 	public void setTotalTime() {
@@ -234,7 +203,7 @@ public class Recipe {
 		}
 	}
 
-	public Recipe getRecipe() {
-	    return this;
+	public void setTotalTime(String totalTime) {
+		this.totalTime = totalTime;
 	}
 }

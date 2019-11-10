@@ -3,12 +3,8 @@ package com.delectable.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
+
 
 @Entity
 public class Pantry {
@@ -19,10 +15,6 @@ public class Pantry {
     int id;
 
     String name;
-    
-    @JsonManagedReference
-    @OneToMany(mappedBy = "pantry")
-    List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     public Pantry() {
         super();
@@ -36,10 +28,9 @@ public class Pantry {
         this.name = name;
     }
 
-    public Pantry(int id, String name, List<Ingredient> ingredients) {
+    public Pantry(int id, String name) {
         this.id = id;
         this.name = name;
-        this.ingredients = ingredients;
     }
 
     public int getId() {
@@ -57,13 +48,4 @@ public class Pantry {
     public void setName(String name) {
         this.name = name;
     }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
- 
 }

@@ -1,7 +1,6 @@
 package com.delectable;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.delectable.model.Ingredient;
@@ -13,7 +12,6 @@ import com.delectable.service.PantryService;
 import com.delectable.service.RecipeService;
 import com.delectable.service.ScheduleService;
 
-import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -53,45 +51,37 @@ public class DataLoader implements ApplicationRunner {
             pantryService.save(item);
         }
 
-        Recipe recipe1 = recipeService
-        .save(new Recipe("Easy crock pot teriyaki chicken","00:10:00", "06:00:00", "Food.com", new ArrayList<>(), new ArrayList<>() ));
-
         List<RecipeStep> recipeSteps1 = new ArrayList<>();
-        recipeSteps1.add(new RecipeStep(1, "Brown ground beef, breaking meat into small pieces, cooking until pink disappears from meat.", recipe1));
-        recipeSteps1.add(new RecipeStep(2, "Pour into colander and drain.", recipe1));
-        recipeSteps1.add(new RecipeStep(3, "Place cooked meat and all other ingredients into crock pot and stir thoroughly.", recipe1));
-        recipeSteps1.add(new RecipeStep(4, "Cook on High for 4 hours or Low for 6-8 hours.", recipe1));
-        recipeSteps1.add(new RecipeStep(5, "***If you can still see individual grains of rice, keep cooking it until they disappear.", recipe1));
-        recipeSteps1.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired.", recipe1));
+        recipeSteps1.add(new RecipeStep(1, "Brown ground beef, breaking meat into small pieces, cooking until pink disappears from meat."));
+        recipeSteps1.add(new RecipeStep(2, "Pour into colander and drain."));
+        recipeSteps1.add(new RecipeStep(3, "Place cooked meat and all other ingredients into crock pot and stir thoroughly."));
+        recipeSteps1.add(new RecipeStep(4, "Cook on High for 4 hours or Low for 6-8 hours."));
+        recipeSteps1.add(new RecipeStep(5, "***If you can still see individual grains of rice, keep cooking it until they disappear."));
+        recipeSteps1.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired."));
 
         List<Ingredient> items1 = new ArrayList<>();
-        items1.add(new Ingredient(pantryItems.get(0), recipe1, "1", "Tablespoon"));
-        items1.add(new Ingredient(pantryItems.get(1), recipe1, "3/4", "Tablespoon"));
-        items1.add(new Ingredient(pantryItems.get(2), recipe1, "5/8", "Tablespoon"));
+        items1.add(new Ingredient(pantryItems.get(0), "1", "Tablespoon"));
+        items1.add(new Ingredient(pantryItems.get(1),  "3/4", "Tablespoon"));
+        items1.add(new Ingredient(pantryItems.get(2),  "5/8", "Tablespoon"));
 
-        recipe1.setDirections(recipeSteps1);
-        recipe1.setIngredients(items1);
-        recipe1 = recipeService.save(recipe1);
+        Recipe recipe1 = recipeService
+        .save(new Recipe("Easy crock pot teriyaki chicken","00:10:00", "06:00:00", "Food.com", recipeSteps1, items1));
+
+        List<RecipeStep> recipeSteps2 = new ArrayList<RecipeStep>();
+        recipeSteps2.add(new RecipeStep(1, "Brown ground beef, breaking meat into small pieces, cooking until pink disappears from meat."));
+        recipeSteps2.add(new RecipeStep(2, "Pour into colander and drain."));
+        recipeSteps2.add(new RecipeStep(3, "Place cooked meat and all other ingredients into crock pot and stir thoroughly."));
+        recipeSteps2.add(new RecipeStep(4, "Cook on High for 4 hours or Low for 6-8 hours."));
+        recipeSteps2.add(new RecipeStep(5, "***If you can still see individual grains of rice, keep cooking it until they disappear."));
+        recipeSteps2.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired."));
+
+        List<Ingredient> items2 = new ArrayList<Ingredient>();
+        items2.add(new Ingredient(pantryItems.get(0),  "1", "Tablespoon"));
+        items2.add(new Ingredient(pantryItems.get(1),  "3/4", "Tablespoon"));
+        items2.add(new Ingredient(pantryItems.get(2), "5/8", "Tablespoon"));
 
         Recipe recipe2 = recipeService
-        .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", new ArrayList<>(), new ArrayList<>()));
-
-        List<RecipeStep> recipeSteps2 = new ArrayList<>();
-        recipeSteps2.add(new RecipeStep(1, "Brown ground beef, breaking meat into small pieces, cooking until pink disappears from meat.", recipe2));
-        recipeSteps2.add(new RecipeStep(2, "Pour into colander and drain.", recipe2));
-        recipeSteps2.add(new RecipeStep(3, "Place cooked meat and all other ingredients into crock pot and stir thoroughly.", recipe2));
-        recipeSteps2.add(new RecipeStep(4, "Cook on High for 4 hours or Low for 6-8 hours.", recipe2));
-        recipeSteps2.add(new RecipeStep(5, "***If you can still see individual grains of rice, keep cooking it until they disappear.", recipe2));
-        recipeSteps2.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired.", recipe2));
-
-        List<Ingredient> items2 = new ArrayList<>();
-        items2.add(new Ingredient(pantryItems.get(0), recipe2, "1", "Tablespoon"));
-        items2.add(new Ingredient(pantryItems.get(1), recipe2, "3/4", "Tablespoon"));
-        items2.add(new Ingredient(pantryItems.get(2), recipe2, "5/8", "Tablespoon"));
-
-        recipe2.setDirections(recipeSteps2);
-        recipe2.setIngredients(items2);
-        recipe2 = recipeService.save(recipe2);
+        .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", recipeSteps2, items2));
 
         Schedule schedule1 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
         Schedule schedule2 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.LUNCH.toString(), recipe1);
