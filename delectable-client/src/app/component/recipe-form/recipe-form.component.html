@@ -1,54 +1,48 @@
-<div class="container-fluid">
-      <div class="row d-flex justify-content-center">
-         <div class="col-lg-9 col-sm-12">
-            <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-            <div class="form-row">
-               <div class="col">
-                  <h5>Recipe</h5>
-               </div>
-            </div>
-            <div class="form-row form-group">
-               <div class="col">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
-               </div>
-            </div>
-            <div class="form-row form-group">
-               <div class="col">
-                  <label for="source">Source</label>
-                  <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
-               </div>
-            </div>
-            <div class="row">
-               <div class="col">
-                  <h5>Time</h5>
-               </div>
-            </div>
-            <div class="form-row form-group">
-               <div class="col">
-                  <label for="prepHour">Prep time</label>
-                  <input type="text" class="form-control" id="prepTime" formControlName="prepTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
-                  <small id="prepTimeHelpBlock" class="form-text text-muted">
-                  Accepted formats: HH:MM:SS
-                  </small>
-               </div>
-               <div class="col">
-                  <label for="cookHour">Cook time</label>
-                  <input type="text" class="form-control" id="cookTime" formControlName="cookTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
-                  <small id="cookTimeHelpBlock" class="form-text text-muted">
-                  Accepted formats: HH:MM:SS
-                  </small>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-auto">
-                  <button class="btn btn-dark" type="submit">Submit</button>
-               </div>
-            </div>
-            </form>
-         </div>
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+   <div class="form-row">
+      <div class="col">
+         <h5>Recipe</h5>
       </div>
    </div>
-   <p>
-      Form Value: {{ recipeForm.value | json }}
-   </p>
+   <div class="form-row form-group">
+      <div class="col">
+         <label for="name">Name</label>
+         <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+      </div>
+   </div>
+   <div class="form-row form-group">
+      <div class="col">
+         <label for="source">Source</label>
+         <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
+      </div>
+   </div>
+   <div class="row">
+      <div class="col">
+         <h5>Time</h5>
+      </div>
+   </div>
+   <div class="form-row form-group">
+      <div class="col">
+         <label for="prepHour">Prep time</label>
+         <input type="text" class="form-control" id="prepTime" formControlName="prepTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
+         <small id="prepTimeHelpBlock" class="form-text text-muted">
+         Accepted formats: HH:MM:SS
+         </small>
+      </div>
+      <div class="col">
+         <label for="cookHour">Cook time</label>
+         <input type="text" class="form-control" id="cookTime" formControlName="cookTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
+         <small id="cookTimeHelpBlock" class="form-text text-muted">
+         Accepted formats: HH:MM:SS
+         </small>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-auto">
+         <button class="btn btn-dark" type="submit">Submit</button>
+      </div>
+   </div>
+</form> 
+<p>
+Form Value: {{ recipeForm.value | json }}
+</p>
