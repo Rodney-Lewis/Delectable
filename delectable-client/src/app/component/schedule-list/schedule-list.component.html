@@ -1,26 +1,54 @@
-<div class="row" *ngFor="let schedule of schedules; let i = index">
-    <div class="col-12">
-        <div *ngIf="schedule.uniqueDay && i != 0">
-            <hr>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <div *ngIf="schedule.uniqueDay" class="font-weight-bold">
-                    {{ schedule.epochDay }}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="row month">
+         
+                <div class="col d-flex justify-content-center">
+                    {{ monthsString[month] }} {{ year }}
+                </div>
+          
+            </div>
+            <div class="row daysInWeek d-flex justify-content-center">
+                <div class="col-1" *ngFor="let d of daysInWeek">
+                    {{ d }}
                 </div>
             </div>
-            <div class="col-sm-2">
-                {{ schedule.mealType }}
+            <div class="row day d-flex justify-content-center" *ngFor="let month of builtMonth">
+                <div class="col-1" *ngFor="let m of month">
+                    <a [routerLink]="['', m.getTime()]" class="btn btn-link">{{ m.getDate() }}</a>
+                </div>
             </div>
-            <div class="col-auto">
-                <a [routerLink]="['/recipe/detail', schedule.recipe.id]" class="badge badge-light">{{ schedule.recipe.name }}</a>
+        </div>
+
+        <div class="col-6">
+            <div class="row" *ngFor="let schedule of schedules; let i = index">
+                <div class="col-10">
+                    <div *ngIf="schedule.uniqueDay && i != 0">
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div *ngIf="schedule.uniqueDay" class="font-weight-bold">
+                                {{ schedule.epochDay }}
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            {{ schedule.mealType }}
+                        </div>
+                        <div class="col-sm-6">
+                            <a [routerLink]="['/recipe/detail', schedule.recipe.id]"
+                                class="badge badge-light">{{ schedule.recipe.name }}</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col d-flex justify-content-end">
-        <a routerLink="/schedule/add" class="btn btn-dark" role="button">Add Item</a>
+
+<div class="row mt-3">
+    <div class="col-10 d-flex justify-content-end">
+        <a routerLink="/schedule/add" class="btn btn-dark" role="button">Schedule recipe</a>
     </div>
 </div>

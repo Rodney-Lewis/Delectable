@@ -18,6 +18,11 @@ export class ScheduleService {
     return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix)
   }
 
+  public findAllScheduledByEpoch(epoch: number) : Observable<Schedule[]> {
+    this.suffix ='/get/';
+    return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix+epoch.toString())
+  }
+
   public getAllMealTypes() : Observable<string[]> {
     this.suffix ='/get/mealtypes';
     return this.http.get<string[]>(this.scheduleApiUrl+this.suffix)

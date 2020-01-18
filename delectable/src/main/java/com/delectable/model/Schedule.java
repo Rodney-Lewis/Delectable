@@ -24,17 +24,27 @@ public class Schedule {
     String mealType;
 
     public enum MealTypes {
-        DINNER("Dinner"),
+        BREAKFAST("Breakfast"),
         LUNCH("Lunch"),
-        BREAKFAST("Breakfast");
+        DINNER("Dinner"),
+        SNACK("Snack");
 
         private final String name;
         private MealTypes(String name){
             this.name = name;
         }
 
+        @Override
         public String toString() {
             return this.name;
+        }
+
+        public static String[] toStringArray() {
+            String[] stringArray = new String[values().length];
+            for(int i = 0; i < stringArray.length; i++) {
+                stringArray[i] = MealTypes.values()[i].name;
+            }
+            return stringArray;
         }
       }
 
@@ -82,11 +92,10 @@ public class Schedule {
     }
 
     public void setMealType(String mealType) {
-        for(MealTypes type : Schedule.MealTypes.values()) {
-            if(type.toString() == mealType) {
+        for(MealTypes type : MealTypes.values()) {
+            if(type.toString().equals(mealType)) {
                 this.mealType = mealType;
             }
         }
     }
-
 }

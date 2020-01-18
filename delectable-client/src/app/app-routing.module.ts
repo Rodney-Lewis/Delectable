@@ -10,9 +10,9 @@ import { ScheduleListComponent } from './component/schedule-list/schedule-list.c
 import { ScheduleFormComponent } from './component/schedule-form/schedule-form.component';
 import { PantryDetailComponent } from './component/pantry-detail/pantry-detail.component';
 
- 
 const routes: Routes = [
-  { path: '', component: ScheduleListComponent},
+  { path: '', redirectTo:new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch:'full'},
+  { path: ':epoch', component: ScheduleListComponent},
   { path: 'schedule/add', component: ScheduleFormComponent},
   { path: 'recipe/list', component: RecipeListComponent },
   { path: 'pantry/list', component: PantryListComponent },
@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'recipe/add', component: RecipeFormComponent },
   { path: 'pantry/add', component: PantryFormComponent },
   { path: 'recipe/add/2/:id', component: RecipeForm2Component }
+
 ];
  
 @NgModule({

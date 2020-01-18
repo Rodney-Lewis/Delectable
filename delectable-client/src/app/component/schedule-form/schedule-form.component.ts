@@ -49,7 +49,8 @@ export class ScheduleFormComponent implements OnInit {
     this.schedule.recipe = new Recipe();
     this.schedule.recipe.id = this.scheduleForm.get("recipe").value;
 
-    this.scheduleService.add(this.schedule).subscribe()
-    this.router.navigate(['']);
+    this.scheduleService.add(this.schedule).subscribe(data => {
+      this.router.navigate(['']);
+    })
   }
 }
