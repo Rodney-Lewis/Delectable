@@ -1,23 +1,22 @@
-<table class="table table-striped">
-  <thead class="thead-white">
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Source</th>
-    <th scope="col">Details</th>
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let recipe of recipes">
-    <td>{{ recipe.id }}</td>
-    <td>{{ recipe.name }}</td>
-    <td><a href="{{recipe.source}}">{{ recipe.source }}</a></td>
-    <td><a [routerLink]="['/recipe/detail', recipe.id]" class="btn btn-info">More</a></td>
-  </tr>
-</tbody>
-</table>
-<div class="row">
-<div class="col d-flex justify-content-end">
-  <a routerLink="/recipe/add" class="btn btn-dark" role="button">Add Item</a>
+<div class="row d-flex justify-content-center mr-auto">
+  <div class="col-10 pt-3">
+    <div class="card-deck">
+      <div class="card" *ngFor="let recipe of recipes">
+        <img class="card-img-top img-fluid"
+          src="https://img.sndimg.com/food/image/upload/c_thumb,q_80,w_567,h_319/v1/img/recipes/15/43/56/KLc6MFSvQlq6M8ofAEVp_Teriyaki-Chicken-3.png"
+          width="200" height="200" alt="Card image cap">
+        <div class="card-body">
+          <a [routerLink]="['/recipe/detail', recipe.id]">
+            <h5 class="card-title">{{ recipe.name }} </h5>
+          </a>
+          <p class="card-text">{{ recipe.source }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-10 d-flex justify-content-end mr-auto">
+    <a routerLink="/recipe/add" class="btn btn-dark" role="button">Add Item</a>
+  </div>
 </div>
