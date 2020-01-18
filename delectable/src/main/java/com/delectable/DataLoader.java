@@ -1,6 +1,7 @@
 package com.delectable;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.delectable.model.Ingredient;
@@ -83,16 +84,22 @@ public class DataLoader implements ApplicationRunner {
         Recipe recipe2 = recipeService
         .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", recipeSteps2, items2));
 
-        Schedule schedule1 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
-        Schedule schedule2 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.LUNCH.toString(), recipe1);
-        Schedule schedule3 = new Schedule(System.currentTimeMillis() + (86400000 * 1), Schedule.MealTypes.DINNER.toString(), recipe1);
-        Schedule schedule4 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.BREAKFAST.toString(), recipe2);
-        Schedule schedule5 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.LUNCH.toString(), recipe1);
-        Schedule schedule6 = new Schedule(System.currentTimeMillis() + (86400000 * 2), Schedule.MealTypes.DINNER.toString(), recipe2);
-        Schedule schedule7 = new Schedule(System.currentTimeMillis() + (86400000 * 4), Schedule.MealTypes.DINNER.toString(), recipe1);
-        Schedule schedule8 = new Schedule(System.currentTimeMillis() + (86400000 * 5), Schedule.MealTypes.DINNER.toString(), recipe2);
-        Schedule schedule9 = new Schedule(System.currentTimeMillis() + (86400000 * 6), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
-        Schedule schedule10 = new Schedule(System.currentTimeMillis() + (86400000 * 6), Schedule.MealTypes.DINNER.toString(), recipe2);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Schedule schedule1 = new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
+        Schedule schedule2 = new Schedule(calendar.getTimeInMillis() + (86400000 * 1), Schedule.MealTypes.LUNCH.toString(), recipe1);
+        Schedule schedule3 = new Schedule(calendar.getTimeInMillis() + (86400000 * 1), Schedule.MealTypes.DINNER.toString(), recipe1);
+        Schedule schedule4 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.BREAKFAST.toString(), recipe2);
+        Schedule schedule5 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.LUNCH.toString(), recipe1);
+        Schedule schedule6 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.DINNER.toString(), recipe2);
+        Schedule schedule7 = new Schedule(calendar.getTimeInMillis() + (86400000 * 4), Schedule.MealTypes.DINNER.toString(), recipe1);
+        Schedule schedule8 = new Schedule(calendar.getTimeInMillis() + (86400000 * 5), Schedule.MealTypes.DINNER.toString(), recipe2);
+        Schedule schedule9 = new Schedule(calendar.getTimeInMillis() + (86400000 * 6), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
+        Schedule schedule10 = new Schedule(calendar.getTimeInMillis() + (86400000 * 6), Schedule.MealTypes.DINNER.toString(), recipe2);
 
         scheduleService.save(schedule1);
         scheduleService.save(schedule2);
