@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../../service/schedule.service';
 import { Schedule } from '../../model/schedule';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-list',
@@ -15,21 +16,24 @@ export class ScheduleListComponent implements OnInit {
   schedule: Schedule[] = new Array();
   calendarMonth: Date[][] = new Array();
 
-  year: number = new Date().getFullYear();
-  month: number = new Date().getMonth();
-  numberOfDaysInMonth: number = new Date(this.year, this.month, 0).getDate();
+  currentDate: Date;
+  numberOfDaysInMonth: number = 0;
 
   nothingScheduled: boolean;
   nothingScheduledDate: Date;
 
-  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute) { }
+  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-
-    this.buildCalendarMonth();
-
     this.activatedroute.paramMap.subscribe(params => {
       this.scheduleService.findAllScheduledByEpoch(Number(params.get('epoch'))).subscribe(data => {
+
+        this.currentDate = new Date(Number(params.get('epoch')));
+        this.currentDate.setDate(1);
+        this.setCurrentDateToMidnight();
+        this.numberOfDaysInMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
+        this.buildCalendarMonth();
+
         if (data.length > 0) {
           this.nothingScheduled = false;
           this.schedule = data;
@@ -71,14 +75,10 @@ export class ScheduleListComponent implements OnInit {
   }
 
   buildCalendarMonth() {
-    var date = new Date();
     var lastWeek = false;
     var index = 0;
-
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setDate(0);
-    var sunday = this.findSundayInWeekByDate(date);
+    this.setCurrentDateToMidnight();
+    var sunday = this.findSundayInWeekByDate(this.currentDate);
 
     while (lastWeek === false) {
       this.calendarMonth[index] = this.buildCalendarWeek(sunday);
@@ -89,5 +89,31 @@ export class ScheduleListComponent implements OnInit {
         this.calendarMonth[index] = this.buildCalendarWeek(sunday);
       }
     }
+  }
+
+  nextMonth() {
+    if(this.currentDate.getMonth() == 11) {
+      this.currentDate.setFullYear(this.currentDate.getFullYear() + 1, 0, 1);
+    } else {
+      this.currentDate.setMonth(this.currentDate.getMonth() + 1, 1);
+    }
+    this.setCurrentDateToMidnight();
+    this.router.navigate(['', this.currentDate.getTime().toString()]);
+  }
+
+  previousMonth() {
+    if(this.currentDate.getMonth() == 0) {
+      this.currentDate.setFullYear(this.currentDate.getFullYear() - 1, 11, 1);
+    } else {
+      this.currentDate.setMonth(this.currentDate.getMonth() - 1, 1);
+    }
+    this.setCurrentDateToMidnight()
+    this.router.navigate(['', this.currentDate.getTime().toString()]);
+  }
+
+  setCurrentDateToMidnight() {
+    this.currentDate.setMinutes(0);
+    this.currentDate.setHours(0);
+    this.currentDate.setSeconds(0);
   }
 }
