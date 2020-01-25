@@ -1,15 +1,7 @@
 .daysInWeek{
-    font-size: 36px;
-}
-
-.days {
     font-size: 28px;
 }
 
 .month {
-    font-size: 40px;
-}
-
-.container {
-    padding: 5px;
+    font-size: 32px;
 }

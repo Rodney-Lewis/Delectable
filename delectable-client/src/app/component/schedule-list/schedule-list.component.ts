@@ -11,48 +11,49 @@ import { ActivatedRoute } from '@angular/router';
 export class ScheduleListComponent implements OnInit {
 
   daysInWeek: String[] = new Array("S", "M", "T", "W", "T", "F", "S");
-  monthsString: String[] = new Array("January", "Feburary", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December");
-  schedules: Schedule[];
-  builtMonth: Date[][] = new Array();
+  monthsInYear: String[] = new Array("January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+  schedule: Schedule[] = new Array();
+  calendarMonth: Date[][] = new Array();
+
   year: number = new Date().getFullYear();
   month: number = new Date().getMonth();
-  daysInMonth: number = new Date(this.year, this.month, 0).getDate();
+  numberOfDaysInMonth: number = new Date(this.year, this.month, 0).getDate();
 
-  yearNum: number;
-  monthNum: number;
-  dayNum: number;
+  nothingScheduled: boolean;
+  nothingScheduledDate: Date;
 
   constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute) { }
 
   ngOnInit() {
 
-    this.buildMonth();
+    this.buildCalendarMonth();
 
     this.activatedroute.paramMap.subscribe(params => {
       this.scheduleService.findAllScheduledByEpoch(Number(params.get('epoch'))).subscribe(data => {
         if (data.length > 0) {
-          this.schedules = data;
-          for (let schedule of this.schedules) {
-            var date = new Date(schedule.epoch);
-            schedule.epochDay = date.toDateString();
-            schedule.uniqueDay = false;
+          this.nothingScheduled = false;
+          this.schedule = data;
+          for (let scheduledItem of this.schedule) {
+            var date = new Date(scheduledItem.epoch);
+            scheduledItem.epochDay = date.toDateString();
+            scheduledItem.uniqueDay = false;
           }
 
-          this.schedules[0].uniqueDay = true;
-          for (var i = 0; i < this.schedules.length - 1; i++) {
-            if (this.schedules[i].epochDay != this.schedules[i + 1].epochDay) {
-              this.schedules[i + 1].uniqueDay = true;
+          this.schedule[0].uniqueDay = true;
+          for (var i = 0; i < this.schedule.length - 1; i++) {
+            if (this.schedule[i].epochDay != this.schedule[i + 1].epochDay) {
+              this.schedule[i + 1].uniqueDay = true;
             }
           }
         } else {
-          this.schedules.push("Nothing scheduled!");
+          this.nothingScheduled = true;
+          this.nothingScheduledDate = new Date(Number(params.get('epoch')));
         }
       })
     })
   }
 
-  findSunday(date) {
+  findSundayInWeekByDate(date) {
     var day = date.getDay() || 7;
     if (day !== 0) {
       date.setHours(-24 * day);
@@ -60,7 +61,7 @@ export class ScheduleListComponent implements OnInit {
     return date;
   }
 
-  buildWeek(date) {
+  buildCalendarWeek(date) {
     var week = new Array();
     for (var i = 0; i < 7; i++) {
       week.push(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -69,7 +70,7 @@ export class ScheduleListComponent implements OnInit {
     return week;
   }
 
-  buildMonth() {
+  buildCalendarMonth() {
     var date = new Date();
     var lastWeek = false;
     var index = 0;
@@ -77,17 +78,16 @@ export class ScheduleListComponent implements OnInit {
     date.setHours(0);
     date.setMinutes(0);
     date.setDate(0);
-    var sunday = this.findSunday(date);
+    var sunday = this.findSundayInWeekByDate(date);
 
     while (lastWeek === false) {
-      this.builtMonth[index] = this.buildWeek(sunday);
+      this.calendarMonth[index] = this.buildCalendarWeek(sunday);
       index++;
 
-      if (sunday.getDate() + 7 >= this.daysInMonth) {
+      if (sunday.getDate() + 7 >= this.numberOfDaysInMonth) {
         lastWeek = true;
-        this.builtMonth[index] = this.buildWeek(sunday);
+        this.calendarMonth[index] = this.buildCalendarWeek(sunday);
       }
     }
-    console.log(this.builtMonth);
   }
 }

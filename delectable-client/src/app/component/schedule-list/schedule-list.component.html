@@ -1,51 +1,61 @@
 <div class="container">
     <div class="row">
-        <div class="col-6">
+        <div class="col-sm-6">
             <div class="row month">
-         
                 <div class="col d-flex justify-content-center">
-                    {{ monthsString[month] }} {{ year }}
+                    {{ monthsInYear[month] }} {{ year }}
                 </div>
-          
             </div>
             <div class="row daysInWeek d-flex justify-content-center">
-                <div class="col-1" *ngFor="let d of daysInWeek">
-                    {{ d }}
+                <div class="col-1" *ngFor="let day of daysInWeek">
+                    {{ day }}
                 </div>
             </div>
-            <div class="row day d-flex justify-content-center" *ngFor="let month of builtMonth">
-                <div class="col-1" *ngFor="let m of month">
-                    <a [routerLink]="['', m.getTime()]" class="btn btn-link">{{ m.getDate() }}</a>
+            <div class="row day d-flex justify-content-center" *ngFor="let week of calendarMonth">
+                <div class="col-1" *ngFor="let day of week">
+                    <a [routerLink]="['', day.getTime()]" class="btn btn-link">{{ day.getDate() }}</a>
                 </div>
             </div>
         </div>
-
-        <div class="col-6">
-            <div class="row" *ngFor="let schedule of schedules; let i = index">
-                <div class="col-10">
-                    <div *ngIf="schedule.uniqueDay && i != 0">
-                        <hr>
+        <div class="col-sm-6">
+            <div *ngIf="nothingScheduled; else somethingSchedule">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="font-weight-bold">
+                            {{ nothingScheduledDate.toDateString() }}
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div *ngIf="schedule.uniqueDay" class="font-weight-bold">
-                                {{ schedule.epochDay }}
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            {{ schedule.mealType }}
-                        </div>
-                        <div class="col-sm-6">
-                            <a [routerLink]="['/recipe/detail', schedule.recipe.id]"
-                                class="badge badge-light">{{ schedule.recipe.name }}</a>
-                        </div>
+                    <div class="col-sm-6">
+                        Nothing scheduled!
                     </div>
                 </div>
             </div>
+            <ng-template #somethingSchedule>
+                <div class="row" *ngFor="let scheduledItem of schedule; let i = index">
+                    <div class="col-10">
+                        <div *ngIf="scheduledItem.uniqueDay && i != 0">
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div *ngIf="scheduledItem.uniqueDay" class="font-weight-bold">
+                                    {{ scheduledItem.epochDay }}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                {{ scheduledItem.mealType }}
+                            </div>
+                            <div class="col-sm-6">
+                                <a [routerLink]="['/recipe/detail', scheduledItem.recipe.id]"
+                                    class="badge badge-light">{{ scheduledItem.recipe.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>
-
 
 <div class="row mt-3">
     <div class="col-10 d-flex justify-content-end">
