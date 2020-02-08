@@ -1,7 +1,18 @@
 .daysInWeek{
-    font-size: 28px;
+    font-size: 20px;
 }
 
 .month {
-    font-size: 32px;
+    font-size: 24px;
+}
+
+td a {
+    display:block;
+    width:100%;
+}
+
+@media (max-width: 400px) {  
+    td a {
+        padding:0;
+    }
 }

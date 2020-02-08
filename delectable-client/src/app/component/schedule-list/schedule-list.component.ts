@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../../service/schedule.service';
-import { Schedule } from '../../model/schedule';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { Schedule } from '../../model/schedule'
 
 @Component({
   selector: 'app-schedule-list',
@@ -11,29 +11,29 @@ import { Router } from '@angular/router';
 })
 export class ScheduleListComponent implements OnInit {
 
-  daysInWeek: String[] = new Array("S", "M", "T", "W", "T", "F", "S");
+  daysInWeek: String[] = new Array("Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat");
   monthsInYear: String[] = new Array("January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-  schedule: Schedule[] = new Array();
   calendarMonth: Date[][] = new Array();
 
-  currentDate: Date;
+  currentDate: Date = new Date();
+  mutableDate: Date = new Date();
   numberOfDaysInMonth: number = 0;
-
   nothingScheduled: boolean;
+  schedule: Schedule[];
   nothingScheduledDate: Date;
 
   constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(params => {
+      this.currentDate = new Date(Number(params.get('epoch')));
+      this.mutableDate = new Date(Number(params.get('epoch')));
+      this.mutableDate.setDate(1);
+      this.mutableDate = this.setDateToMidnight(this.mutableDate);
+      this.numberOfDaysInMonth = new Date(this.mutableDate.getFullYear(), this.mutableDate.getMonth() + 1, 0).getDate();
+      this.buildCalendarMonth();
+
       this.scheduleService.findAllScheduledByEpoch(Number(params.get('epoch'))).subscribe(data => {
-
-        this.currentDate = new Date(Number(params.get('epoch')));
-        this.currentDate.setDate(1);
-        this.setCurrentDateToMidnight();
-        this.numberOfDaysInMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
-        this.buildCalendarMonth();
-
         if (data.length > 0) {
           this.nothingScheduled = false;
           this.schedule = data;
@@ -52,17 +52,20 @@ export class ScheduleListComponent implements OnInit {
         } else {
           this.nothingScheduled = true;
           this.nothingScheduledDate = new Date(Number(params.get('epoch')));
+
         }
       })
     })
   }
 
   findSundayInWeekByDate(date) {
-    var day = date.getDay() || 7;
-    if (day !== 0) {
-      date.setHours(-24 * day);
+    var day = new Date(date.getTime());
+    var dayNum = day.getDay();
+
+    if (dayNum !== 0) {
+      day.setHours(-24 * dayNum);
     }
-    return date;
+    return day;
   }
 
   buildCalendarWeek(date) {
@@ -77,43 +80,52 @@ export class ScheduleListComponent implements OnInit {
   buildCalendarMonth() {
     var lastWeek = false;
     var index = 0;
-    this.setCurrentDateToMidnight();
-    var sunday = this.findSundayInWeekByDate(this.currentDate);
+
+    var sunday = this.findSundayInWeekByDate(this.mutableDate);
 
     while (lastWeek === false) {
+      if (sunday.getDate() + 7 > this.numberOfDaysInMonth && sunday.getMonth() == this.currentDate.getMonth()) {
+        lastWeek = true;
+      }
       this.calendarMonth[index] = this.buildCalendarWeek(sunday);
       index++;
-
-      if (sunday.getDate() + 7 >= this.numberOfDaysInMonth) {
-        lastWeek = true;
-        this.calendarMonth[index] = this.buildCalendarWeek(sunday);
-      }
     }
   }
 
   nextMonth() {
-    if(this.currentDate.getMonth() == 11) {
+    if (this.currentDate.getMonth() == 11) {
       this.currentDate.setFullYear(this.currentDate.getFullYear() + 1, 0, 1);
     } else {
       this.currentDate.setMonth(this.currentDate.getMonth() + 1, 1);
     }
-    this.setCurrentDateToMidnight();
+    this.currentDate = this.setDateToMidnight(this.currentDate);
+    this.cleanUpMonth();
     this.router.navigate(['', this.currentDate.getTime().toString()]);
   }
 
   previousMonth() {
-    if(this.currentDate.getMonth() == 0) {
+    if (this.currentDate.getMonth() == 0) {
       this.currentDate.setFullYear(this.currentDate.getFullYear() - 1, 11, 1);
     } else {
       this.currentDate.setMonth(this.currentDate.getMonth() - 1, 1);
     }
-    this.setCurrentDateToMidnight()
+    this.currentDate = this.setDateToMidnight(this.currentDate);
+    this.cleanUpMonth();
     this.router.navigate(['', this.currentDate.getTime().toString()]);
   }
+  
+  cleanUpMonth() {
+    var d = document.getElementsByClassName("tablerows");
 
-  setCurrentDateToMidnight() {
-    this.currentDate.setMinutes(0);
-    this.currentDate.setHours(0);
-    this.currentDate.setSeconds(0);
+    for(var i = 0; i < d.length; i++) {
+      d[i].innerHTML = '';
+    }
+  }
+
+  setDateToMidnight(date) {
+    date.setMinutes(0);
+    date.setHours(0);
+    date.setSeconds(0);
+    return date;
   }
 }
