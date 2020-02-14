@@ -1,27 +1,40 @@
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-sm mt-3">
-            <div class="month d-flex justify-content-center">{{ monthsInYear[currentDate.getMonth()] }}
-                {{ currentDate.getFullYear() }}</div>
-            <table class="table table-bordered table-sm">
-                <th class="daysInWeek" *ngFor="let day of daysInWeek"> {{ day }}</th>
-                <tr class="tablerows" *ngFor="let week of calendarMonth">
-                    <td *ngFor="let day of week">
-                        <a class="btn btn-link" [routerLink]="['', day.getTime()]"
-                            *ngIf="day.getMonth() == currentDate.getMonth()">{{ day.getDate() }}</a>
-                    </td>
-                </tr>
-            </table>
-            <div class="row">
-                <button class="btn btn-outline-primary col-sm" (click)="previousMonth()">Previous month</button>
-                <button class="btn btn-outline-primary col-sm" (click)="nextMonth()">Next month</button>
+        <div class="col-sm">
+            <div class="row month">
+                <div class="col">
+                    {{ monthsInYear[currentDate.getMonth()] }}
+                    {{ currentDate.getFullYear() }}
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-primary ml-1 mb-2"
+                        (click)="previousMonth()">&lt;</button>
+                    <button type="button" class="btn btn-outline-primary ml-1 mb-2" (click)="today()">&bull;</button>
+                    <button type="button" class="btn btn-outline-primary ml-1 mb-2" (click)="nextMonth()"> &gt;</button>
+                </div>
             </div>
-            
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered table-sm">
+                        <th class="daysInWeek" *ngFor="let day of daysInWeek"> {{ day }}</th>
+                        <tr class="tablerows" *ngFor="let week of calendarMonth">
+                            <td *ngFor="let day of week">
+                                <a class="btn btn-link" [routerLink]="['', day.getTime()]"
+                                    [routerLinkActive]="['active']"
+                                    *ngIf="day.getMonth() == currentDate.getMonth()">{{ day.getDate() }}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="col-sm mt-4">
+        <div class="col-sm">
             <div class="row">
                 <div class="col font-weight-bold">
                     {{ currentDate.toDateString() }}
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <a routerLink="/schedule/add" class="btn btn-outline-primary" role="button">Schedule recipe</a>
                 </div>
             </div>
             <div *ngIf="nothingScheduled; else somethingSchedule">
@@ -33,10 +46,10 @@
             </div>
             <ng-template #somethingSchedule>
                 <div class="row" *ngFor="let scheduledItem of schedule; let i = index">
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         {{ scheduledItem.mealType }}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                         <a [routerLink]="['/recipe/detail', scheduledItem.recipe.id]"
                             class="badge badge-light">{{ scheduledItem.recipe.name }}</a>
                     </div>
@@ -44,10 +57,4 @@
             </ng-template>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col d-flex justify-content-end">
-            <a routerLink="/schedule/add" class="btn btn-dark" role="button">Schedule recipe</a>
-        </div>
-    </div>
 </div>
-

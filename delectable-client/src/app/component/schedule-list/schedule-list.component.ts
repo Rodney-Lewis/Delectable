@@ -113,6 +113,11 @@ export class ScheduleListComponent implements OnInit {
     this.cleanUpMonth();
     this.router.navigate(['', this.currentDate.getTime().toString()]);
   }
+
+  today() {
+    this.cleanUpMonth();
+    this.router.navigate(['']);
+  }
   
   cleanUpMonth() {
     var d = document.getElementsByClassName("tablerows");

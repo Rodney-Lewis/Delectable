@@ -53,7 +53,7 @@ export class ScheduleFormComponent implements OnInit {
 
     console.log(this.schedule);
     this.scheduleService.add(this.schedule).subscribe(data => {
-      this.router.navigate(['']);
+      this.router.navigate(['', this.date.getTime()]);
     })
 
   }
