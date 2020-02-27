@@ -1,54 +1,63 @@
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg">
             <div class="row month">
-         
-                <div class="col d-flex justify-content-center">
-                    {{ monthsString[month] }} {{ year }}
+                <div class="col">
+                    {{ monthsInYear[currentDate.getMonth()] }}
+                    {{ currentDate.getFullYear() }}
                 </div>
-          
-            </div>
-            <div class="row daysInWeek d-flex justify-content-center">
-                <div class="col-1" *ngFor="let d of daysInWeek">
-                    {{ d }}
-                </div>
-            </div>
-            <div class="row day d-flex justify-content-center" *ngFor="let month of builtMonth">
-                <div class="col-1" *ngFor="let m of month">
-                    <a [routerLink]="['', m.getTime()]" class="btn btn-link">{{ m.getDate() }}</a>
+                <div class="col d-flex justify-content-end mb-2">
+                    <button type="button" class="btn btn-outline-primary"
+                        (click)="previousMonth()">&lt;</button>
+                    <button type="button" class="btn btn-outline-primary ml-2" (click)="today()">&bull;</button>
+                    <button type="button" class="btn btn-outline-primary ml-2" (click)="nextMonth()"> &gt;</button>
                 </div>
             </div>
-        </div>
-
-        <div class="col-6">
-            <div class="row" *ngFor="let schedule of schedules; let i = index">
-                <div class="col-10">
-                    <div *ngIf="schedule.uniqueDay && i != 0">
-                        <hr>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div *ngIf="schedule.uniqueDay" class="font-weight-bold">
-                                {{ schedule.epochDay }}
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            {{ schedule.mealType }}
-                        </div>
-                        <div class="col-sm-6">
-                            <a [routerLink]="['/recipe/detail', schedule.recipe.id]"
-                                class="badge badge-light">{{ schedule.recipe.name }}</a>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered table-sm">
+                        <th class="daysInWeek" *ngFor="let day of daysInWeek"> {{ day }}</th>
+                        <tr class="tablerows" *ngFor="let week of calendarMonth">
+                            <td *ngFor="let day of week">
+                                <a class="btn btn-link" [routerLink]="['', day.getTime()]"
+                                    [routerLinkActive]="['active']"
+                                    *ngIf="day.getMonth() == currentDate.getMonth()">{{ day.getDate() }}</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-<div class="row mt-3">
-    <div class="col-10 d-flex justify-content-end">
-        <a routerLink="/schedule/add" class="btn btn-dark" role="button">Schedule recipe</a>
+        <div class="col-lg">
+            <div class="row mb-2">
+                <div class="col font-weight-bold">
+                    {{ currentDate.toDateString() }}
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <a routerLink="/schedule/add" class="btn btn-outline-primary" role="button">Schedule recipe</a>
+                </div>
+            </div>
+            <div *ngIf="nothingScheduled; else somethingSchedule">
+                <div class="row">
+                    <div class="col">
+                        Nothing scheduled!
+                    </div>
+                </div>
+            </div>
+            <ng-template #somethingSchedule>
+                <div class="row mb-2" *ngFor="let scheduledItem of schedule; let i = index">
+                    <div class="col-2">
+                        {{ scheduledItem.mealType }}
+                    </div>
+                    <div class="col-8">
+                        <a [routerLink]="['/recipe/detail', scheduledItem.recipe.id]"
+                        >{{ scheduledItem.recipe.name }}</a>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-outline-danger del-key" (click)="delete(scheduledItem.id)">x</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
     </div>
 </div>
