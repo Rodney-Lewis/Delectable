@@ -90,26 +90,41 @@ public class DataLoader implements ApplicationRunner {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        Schedule schedule1 = new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
-        Schedule schedule2 = new Schedule(calendar.getTimeInMillis() + (86400000 * 1), Schedule.MealTypes.LUNCH.toString(), recipe1);
-        Schedule schedule3 = new Schedule(calendar.getTimeInMillis() + (86400000 * 1), Schedule.MealTypes.DINNER.toString(), recipe1);
-        Schedule schedule4 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.BREAKFAST.toString(), recipe2);
-        Schedule schedule5 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.LUNCH.toString(), recipe1);
-        Schedule schedule6 = new Schedule(calendar.getTimeInMillis() + (86400000 * 2), Schedule.MealTypes.DINNER.toString(), recipe2);
-        Schedule schedule7 = new Schedule(calendar.getTimeInMillis() + (86400000 * 4), Schedule.MealTypes.DINNER.toString(), recipe1);
-        Schedule schedule8 = new Schedule(calendar.getTimeInMillis() + (86400000 * 5), Schedule.MealTypes.DINNER.toString(), recipe2);
-        Schedule schedule9 = new Schedule(calendar.getTimeInMillis() + (86400000 * 6), Schedule.MealTypes.BREAKFAST.toString(), recipe1);
-        Schedule schedule10 = new Schedule(calendar.getTimeInMillis() + (86400000 * 6), Schedule.MealTypes.DINNER.toString(), recipe2);
+        ArrayList<Schedule> schedulesList = new ArrayList<Schedule>();
 
-        scheduleService.save(schedule1);
-        scheduleService.save(schedule2);
-        scheduleService.save(schedule3);
-        scheduleService.save(schedule4);
-        scheduleService.save(schedule5);
-        scheduleService.save(schedule6);
-        scheduleService.save(schedule7);
-        scheduleService.save(schedule8);
-        scheduleService.save(schedule9);
-        scheduleService.save(schedule10);
+        //Create a 6 months worth of scheduled meals
+        for(int i = 0; i <= 90; i++) {
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe2));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.DINNER.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.DINNER.toString(), recipe2));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.LUNCH.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.LUNCH.toString(), recipe2));        
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.SNACK.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.SNACK.toString(), recipe2));
+            calendar.add(Calendar.HOUR_OF_DAY, 24);
+        }
+
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, -24);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        for(int i = 0; i < 90; i++) {
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.BREAKFAST.toString(), recipe2));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.DINNER.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.DINNER.toString(), recipe2));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.LUNCH.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.LUNCH.toString(), recipe2));        
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.SNACK.toString(), recipe1));
+            schedulesList.add(new Schedule(calendar.getTimeInMillis(), Schedule.MealTypes.SNACK.toString(), recipe2));
+            calendar.add(Calendar.HOUR_OF_DAY, -24);
+        }
+
+        for(int i = 0; i < schedulesList.size(); i ++) {
+            scheduleService.save(schedulesList.get(i));
+        }
     }
 }
