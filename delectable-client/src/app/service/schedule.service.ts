@@ -34,10 +34,8 @@ export class ScheduleService {
   }
 
   public delete(id: number) : Observable<Schedule> {
-    this.suffix = '/delete';
-    let params = new HttpParams();
-    params = params.append("id", id.toString());
-    return this.http.delete<Schedule>(this.scheduleApiUrl+this.suffix);
+    this.suffix = '/delete/';
+    return this.http.delete<Schedule>(this.scheduleApiUrl+this.suffix+id.toString());
   }
 
 }

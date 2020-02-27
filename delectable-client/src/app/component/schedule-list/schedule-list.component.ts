@@ -133,4 +133,10 @@ export class ScheduleListComponent implements OnInit {
     date.setSeconds(0);
     return date;
   }
+
+  delete(id) {
+    this.scheduleService.delete(id).subscribe(data => {
+      this.ngOnInit();
+    })
+  }
 }

@@ -30,9 +30,9 @@ public class ScheduleController {
         return(scheduleService.save(schedule));
     }
 
-    @DeleteMapping("/delete")
-    void deleteSchedule(@RequestBody Schedule schedule) {
-        scheduleService.delete(schedule);
+    @DeleteMapping("/delete/{Id}")
+    void deleteSchedule(@PathVariable int Id) {
+        scheduleService.deleteById(Id);
     }
 
     @GetMapping("/get")
