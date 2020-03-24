@@ -17,8 +17,15 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @PostMapping("/add")
-    Recipe addRecipe(@RequestBody Recipe recipe) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
+    Recipe addRecipe(@RequestBody String payload) {
+        Recipe recipe = new Recipe();
+
+        //Combine recipe forms
+        //Filesource -> Call image API to store it.
+        //Image API needs to return the path in which it's stored
+        //Path needs to be added to the recipe
+
         return(recipeService.save(recipe));
     }
 

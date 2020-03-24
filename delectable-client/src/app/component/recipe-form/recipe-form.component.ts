@@ -12,15 +12,19 @@ import { Router } from '@angular/router';
 })
 export class RecipeFormComponent implements OnInit {
 
+  imageSrc: string;
+
   pantryItems: Pantry[];
   recipeForm = this.formBuilder.group({
     name: [''],
     source: [''],
     prepTime: [''],
     cookTime: [''],
+    file: [],
+    fileSource: []
   });
 
-  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService, 
+  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService,
     private pantryService: PantryService, private router: Router) {
   }
 
@@ -28,6 +32,20 @@ export class RecipeFormComponent implements OnInit {
     this.pantryService.findAll().subscribe(data => {
       this.pantryItems = data;
     });
+  }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imageSrc = reader.result as string;
+        this.recipeForm.patchValue({
+          fileSource: reader.result
+        });
+      };
+    }
   }
 
   onSubmit() {
