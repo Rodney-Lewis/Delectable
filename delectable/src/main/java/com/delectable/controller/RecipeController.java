@@ -8,6 +8,7 @@ import com.delectable.model.Recipe;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value="/recipe")
@@ -18,15 +19,13 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-    Recipe addRecipe(@RequestBody String payload) {
-        Recipe recipe = new Recipe();
+    Recipe addRecipe(@RequestBody Recipe recipe) {
 
-        //Combine recipe forms
-        //Filesource -> Call image API to store it.
-        //Image API needs to return the path in which it's stored
-        //Path needs to be added to the recipe
-
-        return(recipeService.save(recipe));
+        String pattern = Pattern.quote(System.getProperty("file.separator"));
+        String[] fileName = recipe.getImageSource().split(pattern);
+        recipe.setImageSource(fileName[fileName.length - 1]);
+        recipeService.save(recipe);
+        return(recipe);
     }
 
     @GetMapping("/get")

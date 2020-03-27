@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Recipe {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "recipe_id")
 	private int id;
 	private String name;
@@ -19,12 +19,13 @@ public class Recipe {
 	private String cookTime;
 	private String totalTime;
 	private String source;
+	private String imageSource;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	List<RecipeStep> directions = new ArrayList<RecipeStep>();
 
 	@OneToMany(cascade = CascadeType.ALL)
-    List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 	public Recipe() {
 		super();
@@ -35,12 +36,23 @@ public class Recipe {
 		this.name = name;
 		this.prepTime = prepTime;
 		this.cookTime = cookTime;
-		this.source = source;
 		setDirections(directions);
 		setIngredients(ingredients);
 		setTotalTime();
 	}
-	
+
+	public Recipe(String name, String prepTime, String cookTime, String source, List<RecipeStep> directions,
+			List<Ingredient> ingredients, String imageSource) {
+		this.name = name;
+		this.prepTime = prepTime;
+		this.cookTime = cookTime;
+		this.source = source;
+		this.imageSource = imageSource;
+		setDirections(directions);
+		setIngredients(ingredients);
+		setTotalTime();
+	}
+
 	public Recipe(int id, String name, String prepTime, String cookTime, String source, List<RecipeStep> directions,
 			List<Ingredient> ingredients) {
 		this.id = id;
@@ -90,7 +102,7 @@ public class Recipe {
 	}
 
 	public void setDirections(List<RecipeStep> directions) {
-		for(RecipeStep step : directions) {
+		for (RecipeStep step : directions) {
 			addRecipeStep(step);
 		}
 	}
@@ -100,7 +112,7 @@ public class Recipe {
 	}
 
 	public void setIngredients(List<Ingredient> ingredients) {
-		for(Ingredient ingredient : ingredients) {
+		for (Ingredient ingredient : ingredients) {
 			addIngredient(ingredient);
 		}
 	}
@@ -112,7 +124,7 @@ public class Recipe {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
+
 	public void addRecipeStep(RecipeStep step) {
 		directions.add(step);
 	}
@@ -130,7 +142,7 @@ public class Recipe {
 	}
 
 	public void setTotalTime() {
-		if(!(cookTime == null || prepTime == null)) {
+		if (!(cookTime == null || prepTime == null)) {
 			totalTime = calculateTotalTime();
 		}
 	}
@@ -140,7 +152,7 @@ public class Recipe {
 	}
 
 	String calculateTotalTime() {
-		
+
 		String[] cookTimes = cookTime.split(":");
 		String[] prepTimes = prepTime.split(":");
 
@@ -154,7 +166,7 @@ public class Recipe {
 		long totalTimeMinutes = 0;
 		long totalTimeHours = 0;
 
-		switch(cookTimes.length) {
+		switch (cookTimes.length) {
 			case 1:
 				cookTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(cookTimes[0]));
 				cookTimeMinutes = 0;
@@ -168,11 +180,12 @@ public class Recipe {
 			case 3:
 				cookTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(cookTimes[2]));
 				cookTimeMinutes = TimeUnit.MINUTES.toSeconds(Long.parseLong(cookTimes[1]));
-				cookTimeHours = TimeUnit.HOURS.toSeconds(Long.parseLong(cookTimes[0]));;
+				cookTimeHours = TimeUnit.HOURS.toSeconds(Long.parseLong(cookTimes[0]));
+				;
 				break;
 		}
-		
-		switch(prepTimes.length) {
+
+		switch (prepTimes.length) {
 			case 1:
 				prepTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(prepTimes[0]));
 				prepTimeMinutes = 0;
@@ -194,10 +207,10 @@ public class Recipe {
 		totalTimeMinutes = ((prepTimeMinutes + cookTimeMinutes) % 60) + ((prepTimeSeconds + cookTimeSeconds) / 60);
 		totalTimeHours = ((prepTimeHours + cookTimeHours) % 60) + ((prepTimeHours + cookTimeHours) / 60);
 
-		if(totalTimeHours != 0) {
-			return(String.format("%1$d:%2$d:%3$d", totalTimeHours, totalTimeMinutes, totalTimeSeconds));
-		} else if(totalTimeMinutes != 0) {
-			return(String.format("%1$d:%2$d",totalTimeMinutes,totalTimeSeconds));
+		if (totalTimeHours != 0) {
+			return (String.format("%1$d:%2$d:%3$d", totalTimeHours, totalTimeMinutes, totalTimeSeconds));
+		} else if (totalTimeMinutes != 0) {
+			return (String.format("%1$d:%2$d", totalTimeMinutes, totalTimeSeconds));
 		} else {
 			return (totalTime = String.format("%1$d", totalTimeSeconds));
 		}
@@ -206,4 +219,14 @@ public class Recipe {
 	public void setTotalTime(String totalTime) {
 		this.totalTime = totalTime;
 	}
+
+	public String getImageSource() {
+		return imageSource;
+	}
+
+	public void setImageSource(String imageSource) {
+		this.imageSource = imageSource;
+	}
+
+
 }
