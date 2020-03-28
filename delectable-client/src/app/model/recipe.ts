@@ -10,4 +10,5 @@ export class Recipe {
     directions: RecipeStep[];
     ingredients: Ingredient[];
     source: string;
+    imageSource: string;
 }

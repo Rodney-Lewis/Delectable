@@ -1,22 +1,17 @@
-<div class="row">
-  <div class="col">
-    <div class="card-deck">
-      <div class="card" *ngFor="let recipe of recipes">
-        <img class="card-img-top img-fluid"
-          src="https://img.sndimg.com/food/image/upload/c_thumb,q_80,w_567,h_319/v1/img/recipes/15/43/56/KLc6MFSvQlq6M8ofAEVp_Teriyaki-Chicken-3.png"
-          width="200" height="200" alt="Card image cap">
-        <div class="card-body">
-          <a [routerLink]="['/recipe/detail', recipe.id]">
-            <h5 class="card-title">{{ recipe.name }} </h5>
-          </a>
-          <p class="card-text">{{ recipe.source }}</p>
-        </div>
-      </div>
-    </div>
+<div class="row mt-3 mb-3">
+  <div class="col d-flex justify-content-end">
+    <a routerLink="/recipe/add" class="btn btn-outline-primary" role="button">Add recipe</a>
   </div>
 </div>
-<div class="row">
-  <div class="col-10 d-flex justify-content-end mr-auto">
-    <a routerLink="/recipe/add" class="btn btn-dark" role="button">Add Item</a>
+<div class="card-deck mr-auto">
+  <div class="card" *ngFor="let recipe of recipes">
+    <img class="card-img-top img-fluid" src="{{'http://localhost:8000/filehandler/get/' + recipe.imageSource }}"
+      alt="Card image cap">
+    <div class="card-body">
+      <a [routerLink]="['/recipe/detail', recipe.id]">
+        <h5 class="card-title">{{ recipe.name }} </h5>
+      </a>
+      <p class="card-text">{{ recipe.source }}</p>
+    </div>
   </div>
 </div>
