@@ -8,6 +8,7 @@ import com.delectable.model.Recipe;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value="/recipe")
@@ -17,9 +18,14 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
     Recipe addRecipe(@RequestBody Recipe recipe) {
-        return(recipeService.save(recipe));
+
+        String pattern = Pattern.quote(System.getProperty("file.separator"));
+        String[] fileName = recipe.getImageSource().split(pattern);
+        recipe.setImageSource(fileName[fileName.length - 1]);
+        recipeService.save(recipe);
+        return(recipe);
     }
 
     @GetMapping("/get")

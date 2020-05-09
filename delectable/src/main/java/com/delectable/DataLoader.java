@@ -66,7 +66,7 @@ public class DataLoader implements ApplicationRunner {
         items1.add(new Ingredient(pantryItems.get(2),  "5/8", "Tablespoon"));
 
         Recipe recipe1 = recipeService
-        .save(new Recipe("Easy crock pot teriyaki chicken","00:10:00", "06:00:00", "Food.com", recipeSteps1, items1));
+        .save(new Recipe("Easy crock pot teriyaki chicken","00:10:00", "06:00:00", "Food.com", recipeSteps1, items1, "1 - YGZc7F8.png"));
 
         List<RecipeStep> recipeSteps2 = new ArrayList<RecipeStep>();
         recipeSteps2.add(new RecipeStep(1, "Brown ground beef, breaking meat into small pieces, cooking until pink disappears from meat."));
@@ -82,7 +82,7 @@ public class DataLoader implements ApplicationRunner {
         items2.add(new Ingredient(pantryItems.get(2), "5/8", "Tablespoon"));
 
         Recipe recipe2 = recipeService
-        .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", recipeSteps2, items2));
+        .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", recipeSteps2, items2, "1 - YGZc7F8.png"));
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);

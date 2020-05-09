@@ -1,48 +1,124 @@
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-   <div class="form-row">
-      <div class="col">
-         <h5>Recipe</h5>
+
+   <div formGroupName="recipe" class="form-group">
+      <div class="form-row">
+         <div class="col">
+            <h3>Create recipe</h3>
+         </div>
+      </div>
+      <div class="form-row">
+         <div class="col-lg">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+         </div>
+         <div class="col-lg">
+            <label for="source">Source</label>
+            <input type="text" class="form-control" id="source" formControlName="source"
+               placeholder="https://www.google.com">
+         </div>
+      </div>
+      <div class="form-row form-group">
+         <div class="col-lg">
+            <label for="prepHour">Prep time</label>
+            <input type="text" class="form-control" id="prepTime" formControlName="prepTime" placeholder="HH:MM:SS"
+               pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
+            <small id="prepTimeHelpBlock" class="form-text text-muted">
+               Accepted formats: HH:MM:SS
+            </small>
+         </div>
+         <div class="col-lg">
+            <label for="cookHour">Cook time</label>
+            <input type="text" class="form-control" id="cookTime" formControlName="cookTime" placeholder="HH:MM:SS"
+               pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
+            <small id="cookTimeHelpBlock" class="form-text text-muted">
+               Accepted formats: HH:MM:SS
+            </small>
+         </div>
+      </div>
+
+      <div class="form-group form-row" formArrayName="directions">
+         <div class="col">
+            <h5>Directions</h5>
+         </div>
+         <table class="table table-sm table-borderless">
+            <thead>
+               <tr>
+                  <th style="width: 5%">Step</th>
+                  <th style="width: 95%">Instruction</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let direction of directions.controls; let i = index" formGroupName="{{i}}">
+                  <td>{{direction.controls.step.value}}</td>
+                  <td><input type="text" class="form-control" formControlName="instructions"></td>
+                  <td><button class="btn btn-outline-danger key" type="button"
+                        (click)=removeDirection(direction)>-</button></td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td></td>
+                  <td><button class="btn btn-outline-primary key" type="button" (click)=addDirection()>+</button></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+
+      <div class="form-group form-row" formArrayName="ingredients">
+         <div class="col">
+            <h5>Ingredients</h5>
+         </div>
+         <table class="table table-borderless table-sm">
+            <thead>
+               <tr>
+                  <th style="width: 15%">Quantity</th>
+                  <th style="width: 25%">Serving</th>
+                  <th style="width: 60%">Item</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let ingredient of ingredients.controls; let i = index" formGroupName="{{i}}">
+                  <td><input type="text" class="form-control" formControlName="quantity"></td>
+                  <td><input type="text" class="form-control" formControlName="servingType"></td>
+                  <td>
+                     <select class="form-control" formControlName="pantry">
+                        <option *ngFor="let pantry of pantryItemList" [ngValue]=pantry.id>{{pantry.name}}</option>
+                     </select>
+                  </td>
+                  <td><button class="btn btn-outline-danger key" type="button" (click)=removeIngredient(i)>-</button>
+                  </td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><button class="btn btn-outline-primary key" type="button" (click)=addIngredient()>+</button></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div class="form-group">
+         <div class=row>
+            <div class="col">
+               <h5>Thumbnail</h5>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+               <input formControlName="imageSource" id="imageSource" type="file" (change)="onFileChange($event)">
+            </div>
+         </div>
       </div>
    </div>
-   <div class="form-row form-group">
-      <div class="col">
-         <label for="name">Name</label>
-         <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
-      </div>
-   </div>
-   <div class="form-row form-group">
-      <div class="col">
-         <label for="source">Source</label>
-         <input type="text" class="form-control" id="source" formControlName="source" placeholder="https://www.google.com">
-      </div>
-   </div>
+
    <div class="row">
       <div class="col">
-         <h5>Time</h5>
+          {{ recipeForm.value | json }}
+      </div>
+  </div>
+
+   <div class="row mt-3 mb-3">
+      <div class="col d-flex justify-content-end">
+         <button class="btn btn-outline-primary" type="submit">Create recipe</button>
       </div>
    </div>
-   <div class="form-row form-group">
-      <div class="col">
-         <label for="prepHour">Prep time</label>
-         <input type="text" class="form-control" id="prepTime" formControlName="prepTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
-         <small id="prepTimeHelpBlock" class="form-text text-muted">
-         Accepted formats: HH:MM:SS
-         </small>
-      </div>
-      <div class="col">
-         <label for="cookHour">Cook time</label>
-         <input type="text" class="form-control" id="cookTime" formControlName="cookTime" placeholder="HH:MM:SS" pattern="^(0[0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$">
-         <small id="cookTimeHelpBlock" class="form-text text-muted">
-         Accepted formats: HH:MM:SS
-         </small>
-      </div>
-   </div>
-   <div class="row">
-      <div class="col-auto">
-         <button class="btn btn-dark" type="submit">Submit</button>
-      </div>
-   </div>
-</form> 
-<p>
-Form Value: {{ recipeForm.value | json }}
-</p>
+</form>

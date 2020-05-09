@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormArray } from '@angular/forms';
 import { RecipeService } from '../../service/recipe.service';
 import { Pantry } from '../../model/pantry';
 import { PantryService } from '../../service/pantry.service';
+import { FileHandlerService } from '../../service/file-handler.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,28 +13,89 @@ import { Router } from '@angular/router';
 })
 export class RecipeFormComponent implements OnInit {
 
-  pantryItems: Pantry[];
+  pantryItemList: Pantry[];
+
   recipeForm = this.formBuilder.group({
-    name: [''],
-    source: [''],
-    prepTime: [''],
-    cookTime: [''],
+    recipe: this.formBuilder.group({
+      name: [''],
+      source: [''],
+      prepTime: [''],
+      cookTime: [''],
+      imageSource: [],
+      directions: this.formBuilder.array([]),
+      ingredients: this.formBuilder.array([])
+    }),
+    image: this.formBuilder.group({
+      imageMultipartFile: []
+    }),
   });
 
-  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService, 
-    private pantryService: PantryService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService,
+    private pantryService: PantryService, private fileHandlerService: FileHandlerService, 
+    private router: Router) {
   }
 
   ngOnInit() {
-    this.pantryService.findAll().subscribe(data => {
-      this.pantryItems = data;
-    });
+    this.pantryService.findAll().subscribe(pantryItemList => {
+      this.pantryItemList = pantryItemList;
+    })
+    this.addDirection();
+    this.addIngredient();
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.recipeForm.patchValue({
+        image: { imageMultipartFile: file }
+      });
+    }
   }
 
   onSubmit() {
-    this.recipeService.add(this.recipeForm.value).subscribe(recipe => {
-      this.router.navigate(['/recipe/add/2', recipe.id]);
-    });
+    const formData = new FormData();
+    formData.append('imageMultipartFile', this.recipeForm.get('image.imageMultipartFile').value);
+    this.fileHandlerService.add(formData).subscribe();
+
+    this.recipeService.add(this.recipeForm.get("recipe").value).subscribe();
+    this.router.navigate(['/recipe/list']);
   }
 
+  get ingredients() {
+    return this.recipeForm.get('recipe.ingredients') as FormArray;
+  }
+
+  addIngredient() {
+    this.ingredients.push(this.formBuilder.group({
+      pantry: [],
+      quantity: [''],
+      servingType: ['']
+    }));
+  }
+
+  removeIngredient(numberToRemove: number) {
+    this.ingredients.removeAt(numberToRemove);
+  }
+
+  get directions() {
+    return this.recipeForm.get('recipe.directions') as FormArray;
+  }
+
+  addDirection() {
+    this.directions.push(this.formBuilder.group({
+      step: [this.directions.length + 1],
+      instructions: ['']
+    }));
+  }
+
+  removeDirection(numberToRemove: number) {
+    this.directions.removeAt(numberToRemove);
+    this.reorderSteps();
+  }
+
+  reorderSteps() {
+    this.directions.controls.forEach((item, index) => {
+      item.patchValue({ step: index + 1 });
+    });
+  }
 }
