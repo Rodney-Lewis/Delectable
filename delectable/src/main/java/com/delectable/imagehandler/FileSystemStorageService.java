@@ -1,4 +1,4 @@
-package com.delectable.util.storage;
+package com.delectable.imagehandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
-import com.delectable.util.storage.StorageService;
+import com.delectable.imagehandler.exceptions.StorageException;
+import com.delectable.imagehandler.exceptions.StorageFileNotFoundException;
+import com.delectable.imagehandler.properties.StorageProperties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

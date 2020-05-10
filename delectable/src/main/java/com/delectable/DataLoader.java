@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.delectable.model.Ingredient;
-import com.delectable.model.Pantry;
-import com.delectable.model.Recipe;
-import com.delectable.model.RecipeStep;
-import com.delectable.model.Schedule;
-import com.delectable.service.PantryService;
-import com.delectable.service.RecipeService;
-import com.delectable.service.ScheduleService;
+import com.delectable.ingredient.Ingredient;
+import com.delectable.pantry.Pantry;
+import com.delectable.pantry.PantryService;
+import com.delectable.recipe.Recipe;
+import com.delectable.recipe.RecipeService;
+import com.delectable.recipe.RecipeStep;
+import com.delectable.schedule.Schedule;
+import com.delectable.schedule.ScheduleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -61,9 +61,9 @@ public class DataLoader implements ApplicationRunner {
         recipeSteps1.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired."));
 
         List<Ingredient> items1 = new ArrayList<>();
-        items1.add(new Ingredient(pantryItems.get(0), "1", "Tablespoon"));
-        items1.add(new Ingredient(pantryItems.get(1),  "3/4", "Tablespoon"));
-        items1.add(new Ingredient(pantryItems.get(2),  "5/8", "Tablespoon"));
+        items1.add(new Ingredient("White rice", "1", "Tablespoon"));
+        items1.add(new Ingredient("Sharp cheddar cheese",  "3/4", "Tablespoon"));
+        items1.add(new Ingredient("Chili powder",  "5/8", "Tablespoon"));
 
         Recipe recipe1 = recipeService
         .save(new Recipe("Easy crock pot teriyaki chicken","00:10:00", "06:00:00", "Food.com", recipeSteps1, items1, "1 - YGZc7F8.png"));
@@ -77,9 +77,9 @@ public class DataLoader implements ApplicationRunner {
         recipeSteps2.add(new RecipeStep(6, "Sprinkle cheese and spring onions over each serving, if desired."));
 
         List<Ingredient> items2 = new ArrayList<Ingredient>();
-        items2.add(new Ingredient(pantryItems.get(0),  "1", "Tablespoon"));
-        items2.add(new Ingredient(pantryItems.get(1),  "3/4", "Tablespoon"));
-        items2.add(new Ingredient(pantryItems.get(2), "5/8", "Tablespoon"));
+        items2.add(new Ingredient("White rice", "1", "Tablespoon"));
+        items2.add(new Ingredient("Sharp cheddar cheese",  "3/4", "Tablespoon"));
+        items2.add(new Ingredient("Chili powder",  "5/8", "Tablespoon"));
 
         Recipe recipe2 = recipeService
         .save(new Recipe("Crock pot texas hash", "00:10:00", "04:00:00", "Food.com", recipeSteps2, items2, "1 - YGZc7F8.png"));

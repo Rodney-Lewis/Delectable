@@ -1,10 +1,8 @@
-package com.delectable.controller;
+package com.delectable.recipe;
 
-import com.delectable.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.delectable.model.Recipe;
 
 import java.util.List;
 import java.util.Optional;

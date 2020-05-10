@@ -1,10 +1,7 @@
-package com.delectable.util.storage;
+package com.delectable.imagehandler.exceptions;
 
 public class StorageFileNotFoundException extends StorageException {
 
-	/**
-     *
-     */
     private static final long serialVersionUID = 7438317167388573457L;
 
     public StorageFileNotFoundException(String message) {

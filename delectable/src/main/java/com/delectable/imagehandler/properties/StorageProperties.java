@@ -1,4 +1,4 @@
-package com.delectable.util.storage;
+package com.delectable.imagehandler.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

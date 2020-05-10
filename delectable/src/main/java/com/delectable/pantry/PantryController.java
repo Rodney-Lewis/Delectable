@@ -1,10 +1,7 @@
-package com.delectable.controller;
+package com.delectable.pantry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.delectable.model.Pantry;
-import com.delectable.service.PantryService;
 
 import java.util.List;
 import java.util.Optional;

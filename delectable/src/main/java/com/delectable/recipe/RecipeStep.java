@@ -1,4 +1,4 @@
-package com.delectable.model;
+package com.delectable.recipe;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

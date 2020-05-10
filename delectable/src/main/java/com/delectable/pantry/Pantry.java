@@ -1,4 +1,4 @@
-package com.delectable.model;
+package com.delectable.pantry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

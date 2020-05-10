@@ -1,6 +1,6 @@
 package com.delectable;
 
-import com.delectable.util.storage.StorageProperties;
+import com.delectable.imagehandler.properties.StorageProperties;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

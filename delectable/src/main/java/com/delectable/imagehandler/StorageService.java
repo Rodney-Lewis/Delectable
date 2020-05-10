@@ -1,4 +1,4 @@
-package com.delectable.util.storage;
+package com.delectable.imagehandler;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

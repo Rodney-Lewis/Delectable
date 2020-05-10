@@ -1,4 +1,4 @@
-package com.delectable.model;
+package com.delectable.schedule;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.delectable.recipe.Recipe;
 
 @Entity
 public class Schedule {

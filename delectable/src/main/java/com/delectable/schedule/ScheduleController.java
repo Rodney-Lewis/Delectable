@@ -1,12 +1,11 @@
-package com.delectable.controller;
+package com.delectable.schedule;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.delectable.model.Schedule;
-import com.delectable.model.Schedule.MealTypes;
-import com.delectable.service.ScheduleService;
+import com.delectable.schedule.Schedule.MealTypes;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,7 +1,10 @@
-package com.delectable.model;
+package com.delectable.recipe;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import com.delectable.ingredient.Ingredient;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;

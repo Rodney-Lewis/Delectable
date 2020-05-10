@@ -1,9 +1,7 @@
-package com.delectable.service;
+package com.delectable.pantry;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import com.delectable.model.Pantry;
 
 @Repository
 public interface PantryService extends CrudRepository<Pantry, Integer> {}
