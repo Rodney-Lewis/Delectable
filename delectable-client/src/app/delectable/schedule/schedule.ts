@@ -1,4 +1,4 @@
-import { Recipe } from './recipe';
+import { Recipe } from '../recipe/recipe';
 
 export class Schedule {
     id:number;

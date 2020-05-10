@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { ScheduleService } from '../../service/schedule.service';
-import { RecipeService } from '../../service/recipe.service';
-import { Recipe } from '../../model/recipe';
-import { Schedule } from '../../model/schedule';
+import { ScheduleService } from '../schedule.service';
+import { RecipeService } from '../../recipe/recipe.service';
+import { Recipe } from '../../recipe/recipe';
+import { Schedule } from '../schedule';
 
 @Component({
   selector: 'app-schedule-form',

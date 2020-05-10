@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { PantryService } from '../../service/pantry.service';
-import { Pantry } from '../../model/pantry';
+import { PantryService } from '../../pantry.service';
+import { Pantry } from '../../pantry';
 import { Router } from '@angular/router';
 
 @Component({

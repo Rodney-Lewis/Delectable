@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray } from '@angular/forms';
-import { RecipeService } from '../../service/recipe.service';
-import { Pantry } from '../../model/pantry';
-import { PantryService } from '../../service/pantry.service';
-import { FileHandlerService } from '../../service/file-handler.service';
+import { RecipeService } from '../../recipe.service';
+import { Pantry } from '../../../pantry/pantry';
+import { PantryService } from '../../../pantry/pantry.service';
+import { FileHandlerService } from '../../../imagehandler/file-handler.service';
 import { Router } from '@angular/router';
 
 @Component({

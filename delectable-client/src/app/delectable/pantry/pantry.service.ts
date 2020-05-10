@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
-import { Pantry } from '../model/pantry';
+import { Pantry } from './pantry';
 
 @Injectable()
 export class PantryService {

@@ -1,5 +1,5 @@
 import { RecipeStep } from "./recipe-step";
-import { Ingredient } from "./ingredient";
+import { Ingredient } from "../ingredient/ingredient";
 
 export class Recipe {
     id: number;

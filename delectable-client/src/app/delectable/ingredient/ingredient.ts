@@ -1,7 +1,5 @@
-import { Pantry } from "./pantry";
-
 export class Ingredient {
-    pantry: Pantry;
+    pantry: String;
     quantity: String;
     servingType: String;
 }
