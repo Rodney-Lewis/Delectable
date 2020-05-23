@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/schedule")
+@RequestMapping(value="/api/ingredient")
 @CrossOrigin
 public class IngredientController {
 
-    @GetMapping("/get/measurements")
+    @GetMapping("/measurements")
     String[] getMeasurements() {
         return MeasurementType.toStringArray();
     }

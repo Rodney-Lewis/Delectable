@@ -5,7 +5,7 @@
 </div>
 <div class="card-deck mr-auto">
   <div class="card" *ngFor="let recipe of recipes">
-    <img class="card-img-top img-fluid" src="{{'http://localhost:8000/filehandler/get/' + recipe.imageSource }}"
+    <img class="card-img-top img-fluid" src="{{'http://dev-delectable.red.internal/filehandler/get/' + recipe.imageSource }}"
       alt="Card image cap">
     <div class="card-body">
       <a [routerLink]="['/recipe/detail', recipe.id]">

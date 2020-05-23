@@ -3,3 +3,11 @@
     height:35px;
     padding:0px;
 }
+
+.validator {
+    color: red;
+}
+
+.form-row {
+    margin-top: 1%;
+}

@@ -7,10 +7,8 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ingredient_id")
     int id;
 
-    @ManyToOne
     String pantry;
     String quantity;
     String servingType;
@@ -33,18 +31,18 @@ public class Ingredient {
     }
 
     public enum MeasurementType {
-        TEASPOONS("Teaspoon(s)"),
-        TABLESPOONS("Tablespoon(s)"),
-        CUPS("Cup(s)"),
-        FLUID_OUNCES("Fluid ounce(s)"),
-        PINTS("Pint(s)"),
-        LITERS("Liter(s)"),
-        QUARTS("Quart(s)"),
-        MILLILITERS("Milliliter(s)"),
-        OUNCES("Ounce(s)"),
-        POUNDS("Pound(s)"),
-        GRAMS("Gram(s)"),
-        KILOGRAMS("Kilogram(s)");
+        TEASPOONS("Teaspoon"),
+        TABLESPOONS("Tablespoon"),
+        CUPS("Cup"),
+        FLUID_OUNCES("Fluid ounce"),
+        PINTS("Pint"),
+        LITERS("Liter"),
+        QUARTS("Quart"),
+        MILLILITERS("Milliliter"),
+        OUNCES("Ounce"),
+        POUNDS("Pound"),
+        GRAMS("Gram"),
+        KILOGRAMS("Kilogram");
 
         private final String name;
         private MeasurementType(String name){

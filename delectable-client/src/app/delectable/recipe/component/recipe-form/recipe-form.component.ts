@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../../recipe.service';
-import { Pantry } from '../../../pantry/pantry';
-import { PantryService } from '../../../pantry/pantry.service';
 import { FileHandlerService } from '../../../imagehandler/file-handler.service';
 import { Router } from '@angular/router';
 
@@ -13,17 +11,21 @@ import { Router } from '@angular/router';
 })
 export class RecipeFormComponent implements OnInit {
 
-  pantryItemList: Pantry[];
+  invalidImageType: boolean = false;
+  invalidImageSize: boolean = false;
+  formSubmitted: boolean = false;
 
   recipeForm = this.formBuilder.group({
     recipe: this.formBuilder.group({
-      name: [''],
-      source: [''],
-      prepTime: [''],
-      cookTime: [''],
-      imageSource: [],
-      directions: this.formBuilder.array([]),
-      ingredients: this.formBuilder.array([])
+      name: ['', Validators.required],
+      source: ['', Validators.required],
+      prepTimeHour: [0, [Validators.min(0)]],
+      prepTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
+      prepTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
+      cookTimeHour: [0, [Validators.min(0)]],
+      cookTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
+      cookTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
+      imageSource: [''],
     }),
     image: this.formBuilder.group({
       imageMultipartFile: []
@@ -31,34 +33,49 @@ export class RecipeFormComponent implements OnInit {
   });
 
   constructor(private formBuilder: FormBuilder, private recipeService: RecipeService,
-    private pantryService: PantryService, private fileHandlerService: FileHandlerService, 
-    private router: Router) {
+    private fileHandlerService: FileHandlerService, private router: Router) {
   }
 
   ngOnInit() {
-    this.pantryService.findAll().subscribe(pantryItemList => {
-      this.pantryItemList = pantryItemList;
-    })
-    this.addDirection();
-    this.addIngredient();
+
+  }
+
+  onSubmit() {
+    this.formSubmitted = true;
+    if (this.recipeForm.invalid) {
+      return;
+    } else {
+      const imageFormData = new FormData();
+      imageFormData.append('imageMultipartFile', this.recipeForm.get('image.imageMultipartFile').value);
+      this.fileHandlerService.add(imageFormData).subscribe();
+
+      this.recipeService.add(this.recipeForm.get("recipe").value).subscribe();
+      this.router.navigate(['/recipe/list']);
+    }
+  }
+
+  getFormComponent(component: string) {
+    return this.recipeForm.get(component);
   }
 
   onFileChange(event) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.recipeForm.patchValue({
-        image: { imageMultipartFile: file }
-      });
+      if (event.target.files[0].type == "image/jpeg" || event.target.files[0].type == "image/png") {
+        this.invalidImageType = false;
+        if (event.target.files[0].size < 10000000) {
+          this.invalidImageSize = false;
+          const file = event.target.files[0];
+          this.recipeForm.patchValue({
+            image: { imageMultipartFile: file }
+          });
+        }
+        else {
+          this.invalidImageSize = true;
+        }
+      } else {
+        this.invalidImageType = true;
+      }
     }
-  }
-
-  onSubmit() {
-    const formData = new FormData();
-    formData.append('imageMultipartFile', this.recipeForm.get('image.imageMultipartFile').value);
-    this.fileHandlerService.add(formData).subscribe();
-
-    this.recipeService.add(this.recipeForm.get("recipe").value).subscribe();
-    this.router.navigate(['/recipe/list']);
   }
 
   get ingredients() {
@@ -67,9 +84,9 @@ export class RecipeFormComponent implements OnInit {
 
   addIngredient() {
     this.ingredients.push(this.formBuilder.group({
-      pantry: [],
-      quantity: [''],
-      servingType: ['']
+      pantry: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(1)]],
+      servingType: ['', Validators.required]
     }));
   }
 
@@ -84,7 +101,7 @@ export class RecipeFormComponent implements OnInit {
   addDirection() {
     this.directions.push(this.formBuilder.group({
       step: [this.directions.length + 1],
-      instructions: ['']
+      instructions: ['', Validators.required]
     }));
   }
 

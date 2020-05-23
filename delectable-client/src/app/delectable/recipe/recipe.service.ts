@@ -1,43 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Recipe } from './recipe';
-import { Observable } from 'rxjs'; 
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
 
-  private recipeUrl: string;
-  private suffix: string;
+  private recipeApiEndpoint: string = "/api/recipe";
 
-  constructor(private http: HttpClient) { 
-    this.recipeUrl = 'http://localhost:8000/recipe';
+  constructor(private http: HttpClient) {
   }
 
-  public findAll() : Observable<Recipe[]> {
-    this.suffix = '/get';
-    return this.http.get<Recipe[]>(this.recipeUrl+this.suffix);
+  public findAll(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.recipeApiEndpoint);
   }
 
-  public findById(id: number) : Observable<Recipe> {
-    this.suffix = '/get/';
-    /*
-      /get/id
-    */
-    return this.http.get<Recipe>(this.recipeUrl+this.suffix+id.toString());
+  public findById(id: number): Observable<Recipe> {
+    const endpointPattern = `${this.recipeApiEndpoint}/${id}`;
+    return this.http.get<Recipe>(endpointPattern);
   }
 
-  public add(recipe: Recipe) : Observable<Recipe> {
-    this.suffix = '/add';
-    return this.http.post<Recipe>(this.recipeUrl+this.suffix, recipe);
+  public add(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(this.recipeApiEndpoint, recipe);
   }
 
-  public update(recipe: Recipe) : Observable<Recipe> {
-    this.suffix = '/update';
-    return this.http.put<Recipe>(this.recipeUrl+this.suffix, recipe);
+  public update(recipe: Recipe): Observable<Recipe> {
+    return this.http.put<Recipe>(this.recipeApiEndpoint, recipe);
   }
 
-  public delete(id: number) : Observable<Recipe> {
-    this.suffix = '/delete';
-    return this.http.delete<Recipe>(this.recipeUrl+this.suffix);
+  public delete(id: number): Observable<Recipe> {
+    const endpointPattern = `${this.recipeApiEndpoint}/${id}`;
+    return this.http.delete<Recipe>(endpointPattern);
   }
 }

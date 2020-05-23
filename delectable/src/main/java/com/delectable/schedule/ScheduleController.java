@@ -17,24 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/schedule")
+@RequestMapping(value="/api/schedule")
 @CrossOrigin
 public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
 
-    @PostMapping("/add")
-    Schedule addSchedule(@RequestBody Schedule schedule) {
-        return(scheduleService.save(schedule));
-    }
-
-    @DeleteMapping("/delete/{Id}")
-    void deleteSchedule(@PathVariable int Id) {
-        scheduleService.deleteById(Id);
-    }
-
-    @GetMapping("/get")
+    @GetMapping
     List<Schedule> getScheduled() { 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -46,7 +36,7 @@ public class ScheduleController {
         return schedules;
     }
 
-    @GetMapping("/get/{epoch}")
+    @GetMapping("/{epoch}")
     List<Schedule> getScheduledByDate(@PathVariable Long epoch) { 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(epoch);
@@ -55,8 +45,18 @@ public class ScheduleController {
         return schedules;
     }
 
-    @GetMapping("/get/mealtypes")
+    @GetMapping("/mealtypes")
     String[] getMealtypes() {
         return MealTypes.toStringArray();
+    }
+
+    @PostMapping
+    Schedule addSchedule(@RequestBody Schedule schedule) {
+        return(scheduleService.save(schedule));
+    }
+
+    @DeleteMapping("/{Id}")
+    void deleteSchedule(@PathVariable int Id) {
+        scheduleService.deleteById(Id);
     }
 }

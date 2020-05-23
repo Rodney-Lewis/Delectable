@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { ScheduleService } from '../schedule.service';
-import { RecipeService } from '../../recipe/recipe.service';
-import { Recipe } from '../../recipe/recipe';
-import { Schedule } from '../schedule';
+import { ScheduleService } from '../../schedule.service';
+import { RecipeService } from '../../../recipe/recipe.service';
+import { Recipe } from '../../../recipe/recipe';
+import { Schedule } from '../../schedule';
 
 @Component({
   selector: 'app-schedule-form',
@@ -41,17 +41,12 @@ export class ScheduleFormComponent implements OnInit {
 
   onSubmit() {
     this.epochString = this.scheduleForm.get("epochDay").value;
-
-    console.log(this.epochString);
     this.epochStrings = this.epochString.split("-");
     this.date = new Date(parseInt(this.epochStrings[0]), parseInt(this.epochStrings[1]) - 1, parseInt(this.epochStrings[2]));
-    
     this.schedule.epoch = this.date.getTime();
     this.schedule.mealType = this.scheduleForm.get("mealType").value;
     this.schedule.recipe = new Recipe();
     this.schedule.recipe.id = this.scheduleForm.get("recipe").value;
-
-    console.log(this.schedule);
     this.scheduleService.add(this.schedule).subscribe(data => {
       this.router.navigate(['', this.date.getTime()]);
     })

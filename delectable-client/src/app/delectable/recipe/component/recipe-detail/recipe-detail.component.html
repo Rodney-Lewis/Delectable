@@ -1,50 +1,27 @@
 <table class="table table-bordered table-striped">
-    <tbody>
+  <tbody>
     <tr>
-      <th>ID</th>
-      <td>{{recipe.id}}</td>
-    </tr>
-    <tr>
-      <th>name</th>
+      <th>Name</th>
       <td>{{recipe.name}}</td>
     </tr>
     <tr>
-      <th>prepTime</th>
-      <td>{{recipe.prepTime}}</td>
+      <th>Source</th>
+      <td>{{recipe.source}}</td>
     </tr>
     <tr>
-      <th>cookTime</th>
-      <td>{{recipe.cookTime}}</td>
+      <th>Prep time</th>
+      <td>{{recipe.prepTimeHour}} Hours
+        {{recipe.prepTimeMinute}} Minutes
+        {{recipe.prepTimeSecond}} Seconds</td>
     </tr>
     <tr>
-        <th>TotalTime</th>
-        <td>{{recipe.totalTime}}</td>
+      <th>Cook time</th>
+      <td>{{recipe.cookTimeHour}} Hours
+        {{recipe.cookTimeMinute}} Minutes
+        {{recipe.cookTimeSecond}} Seconds</td>
     </tr>
-    <tr>
-        <th>source</th>
-        <td>{{recipe.source}}</td>
-      </tr>
+
   </tbody>
 </table>
-<table class="table table-bordered table-striped">
-    <tr>
-      <th>Step #</th>
-      <th>Instruction</th>
-    </tr>
-    <tr *ngFor="let direction of recipe.directions">
-        <td>{{direction.step}}</td>
-        <td>{{direction.instructions}}</td>
-    </tr>
-</table>
-<table class="table table-bordered table-striped">
-    <tr>
-      <th>Ingredient</th>
-      <th>Quantity</th>
-      <th>Serving Size</th>
-    </tr>
-    <tr *ngFor="let ingredient of recipe.ingredients">
-      <td>{{ingredient.pantry.name}}</td>
-      <td>{{ingredient.quantity}}</td>
-      <td>{{ingredient.servingType}}</td>
-    </tr>
-</table>
+
+<img class="img-fluid" src="{{'http://dev-delectable.red.internal/filehandler/get/' + recipe.imageSource }}" alt="Card image cap">

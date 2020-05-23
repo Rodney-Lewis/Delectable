@@ -1,11 +1,9 @@
 package com.delectable.schedule;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.delectable.recipe.Recipe;
@@ -15,11 +13,9 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "schedule_id")
     int id; 
    
     @ManyToOne
-    @JoinColumn(name="recipe_id")
     Recipe recipe = new Recipe();
      
     long epoch;

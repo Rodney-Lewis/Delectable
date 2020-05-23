@@ -7,7 +7,6 @@ import com.delectable.ingredient.Ingredient;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
 @Entity
@@ -15,13 +14,15 @@ public class Recipe {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "recipe_id")
 	private int id;
 	private String name;
-	private String prepTime;
-	private String cookTime;
-	private String totalTime;
 	private String source;
+	private int prepTimeHour;
+	private int prepTimeMinute;
+	private int prepTimeSecond;
+	private int cookTimeHour;
+	private int cookTimeMinute;
+	private int cookTimeSecond;
 	private String imageSource;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -34,38 +35,35 @@ public class Recipe {
 		super();
 	}
 
-	public Recipe(String name, String prepTime, String cookTime, String source, List<RecipeStep> directions,
-			List<Ingredient> ingredients) {
+	public Recipe(int id, String name, String source, int prepTimeHour, int prepTimeMinute, int prepTimeSecond,
+			int cookTimeHour, int cookTimeMinute, int cookTimeSecond, String imageSource) {
+		this.id = id;
 		this.name = name;
-		this.prepTime = prepTime;
-		this.cookTime = cookTime;
-		setDirections(directions);
-		setIngredients(ingredients);
-		setTotalTime();
-	}
-
-	public Recipe(String name, String prepTime, String cookTime, String source, List<RecipeStep> directions,
-			List<Ingredient> ingredients, String imageSource) {
-		this.name = name;
-		this.prepTime = prepTime;
-		this.cookTime = cookTime;
 		this.source = source;
+		this.prepTimeHour = prepTimeHour;
+		this.prepTimeMinute = prepTimeMinute;
+		this.prepTimeSecond = prepTimeSecond;
+		this.cookTimeHour = cookTimeHour;
+		this.cookTimeMinute = cookTimeMinute;
+		this.cookTimeSecond = cookTimeSecond;
 		this.imageSource = imageSource;
-		setDirections(directions);
-		setIngredients(ingredients);
-		setTotalTime();
 	}
 
-	public Recipe(int id, String name, String prepTime, String cookTime, String source, List<RecipeStep> directions,
+	public Recipe(int id, String name, String source, int prepTimeHour, int prepTimeMinute, int prepTimeSecond,
+			int cookTimeHour, int cookTimeMinute, int cookTimeSecond, String imageSource, List<RecipeStep> directions,
 			List<Ingredient> ingredients) {
 		this.id = id;
 		this.name = name;
-		this.prepTime = prepTime;
-		this.cookTime = cookTime;
 		this.source = source;
+		this.prepTimeHour = prepTimeHour;
+		this.prepTimeMinute = prepTimeMinute;
+		this.prepTimeSecond = prepTimeSecond;
+		this.cookTimeHour = cookTimeHour;
+		this.cookTimeMinute = cookTimeMinute;
+		this.cookTimeSecond = cookTimeSecond;
+		this.imageSource = imageSource;
 		setDirections(directions);
 		setIngredients(ingredients);
-		setTotalTime();
 	}
 
 	public int getId() {
@@ -82,22 +80,6 @@ public class Recipe {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getPrepTime() {
-		return prepTime;
-	}
-
-	public void setPrepTime(String prepTime) {
-		this.prepTime = prepTime;
-	}
-
-	public String getCookTime() {
-		return cookTime;
-	}
-
-	public void setCookTime(String cookTime) {
-		this.cookTime = cookTime;
 	}
 
 	public List<RecipeStep> getDirections() {
@@ -144,85 +126,6 @@ public class Recipe {
 		ingredients.remove(ingredient);
 	}
 
-	public void setTotalTime() {
-		if (!(cookTime == null || prepTime == null)) {
-			totalTime = calculateTotalTime();
-		}
-	}
-
-	public String getTotalTime() {
-		return totalTime;
-	}
-
-	String calculateTotalTime() {
-
-		String[] cookTimes = cookTime.split(":");
-		String[] prepTimes = prepTime.split(":");
-
-		long cookTimeSeconds = 0;
-		long cookTimeMinutes = 0;
-		long cookTimeHours = 0;
-		long prepTimeSeconds = 0;
-		long prepTimeMinutes = 0;
-		long prepTimeHours = 0;
-		long totalTimeSeconds = 0;
-		long totalTimeMinutes = 0;
-		long totalTimeHours = 0;
-
-		switch (cookTimes.length) {
-			case 1:
-				cookTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(cookTimes[0]));
-				cookTimeMinutes = 0;
-				cookTimeHours = 0;
-				break;
-			case 2:
-				cookTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(cookTimes[1]));
-				cookTimeMinutes = TimeUnit.MINUTES.toSeconds(Long.parseLong(cookTimes[0]));
-				cookTimeHours = 0;
-				break;
-			case 3:
-				cookTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(cookTimes[2]));
-				cookTimeMinutes = TimeUnit.MINUTES.toSeconds(Long.parseLong(cookTimes[1]));
-				cookTimeHours = TimeUnit.HOURS.toSeconds(Long.parseLong(cookTimes[0]));
-				;
-				break;
-		}
-
-		switch (prepTimes.length) {
-			case 1:
-				prepTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(prepTimes[0]));
-				prepTimeMinutes = 0;
-				prepTimeHours = 0;
-				break;
-			case 2:
-				prepTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(prepTimes[1]));
-				prepTimeMinutes = TimeUnit.MINUTES.toSeconds(Long.parseLong(prepTimes[0]));
-				prepTimeHours = 0;
-				break;
-			case 3:
-				prepTimeSeconds = TimeUnit.SECONDS.toSeconds(Long.parseLong(prepTimes[2]));
-				prepTimeMinutes = TimeUnit.MINUTES.toSeconds(Long.parseLong(prepTimes[1]));
-				prepTimeHours = TimeUnit.HOURS.toSeconds(Long.parseLong(prepTimes[0]));
-				break;
-		}
-
-		totalTimeSeconds = ((prepTimeSeconds + cookTimeSeconds) % 60);
-		totalTimeMinutes = ((prepTimeMinutes + cookTimeMinutes) % 60) + ((prepTimeSeconds + cookTimeSeconds) / 60);
-		totalTimeHours = ((prepTimeHours + cookTimeHours) % 60) + ((prepTimeHours + cookTimeHours) / 60);
-
-		if (totalTimeHours != 0) {
-			return (String.format("%1$d:%2$d:%3$d", totalTimeHours, totalTimeMinutes, totalTimeSeconds));
-		} else if (totalTimeMinutes != 0) {
-			return (String.format("%1$d:%2$d", totalTimeMinutes, totalTimeSeconds));
-		} else {
-			return (totalTime = String.format("%1$d", totalTimeSeconds));
-		}
-	}
-
-	public void setTotalTime(String totalTime) {
-		this.totalTime = totalTime;
-	}
-
 	public String getImageSource() {
 		return imageSource;
 	}
@@ -231,5 +134,51 @@ public class Recipe {
 		this.imageSource = imageSource;
 	}
 
+	public int getPrepTimeHour() {
+		return prepTimeHour;
+	}
 
+	public void setPrepTimeHour(int prepTimeHour) {
+		this.prepTimeHour = prepTimeHour;
+	}
+
+	public int getPrepTimeMinute() {
+		return prepTimeMinute;
+	}
+
+	public void setPrepTimeMinute(int prepTimeMinute) {
+		this.prepTimeMinute = prepTimeMinute;
+	}
+
+	public int getPrepTimeSecond() {
+		return prepTimeSecond;
+	}
+
+	public void setPrepTimeSecond(int prepTimeSecond) {
+		this.prepTimeSecond = prepTimeSecond;
+	}
+
+	public int getCookTimeHour() {
+		return cookTimeHour;
+	}
+
+	public void setCookTimeHour(int cookTimeHour) {
+		this.cookTimeHour = cookTimeHour;
+	}
+
+	public int getCookTimeMinute() {
+		return cookTimeMinute;
+	}
+
+	public void setCookTimeMinute(int cookTimeMinute) {
+		this.cookTimeMinute = cookTimeMinute;
+	}
+
+	public int getCookTimeSecond() {
+		return cookTimeSecond;
+	}
+
+	public void setCookTimeSecond(int cookTimeSecond) {
+		this.cookTimeSecond = cookTimeSecond;
+	}
 }

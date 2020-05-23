@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping(value="/filehandler")
+@RequestMapping(value="/api/filehandler")
 @CrossOrigin
 public class FileUploadController {
 
@@ -28,7 +28,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/get/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = storageService.loadAsResource(filename);
@@ -37,7 +37,7 @@ public class FileUploadController {
                 .body(file);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void handleFileUpload(@RequestParam("imageMultipartFile") MultipartFile file) {
         storageService.store(file);
     }

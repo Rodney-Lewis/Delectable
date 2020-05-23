@@ -5,8 +5,8 @@ import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-d
 import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
 import { PantryFormComponent } from './pantry/component/pantry-form/pantry-form.component';
 import { PantryListComponent } from './pantry/component/pantry-list/pantry-list.component';
-import { ScheduleListComponent } from './schedule/schedule-list/schedule-list.component';
-import { ScheduleFormComponent } from './schedule/schedule-form/schedule-form.component';
+import { ScheduleListComponent } from './schedule/component/schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './schedule/component/schedule-form/schedule-form.component';
 import { PantryDetailComponent } from './pantry/component/pantry-detail/pantry-detail.component';
 
 const routes: Routes = [

@@ -6,36 +6,32 @@ import { Schedule } from './schedule';
 @Injectable()
 export class ScheduleService {
 
-  private scheduleApiUrl: string;
-  private suffix: string;
+  private scheduleApiEndpoint: string = "/api/schedule";
 
   constructor(private http: HttpClient) {
-    this.scheduleApiUrl='http://localhost:8000/schedule';
   }
 
-  public findAllScheduled() : Observable<Schedule[]> {
-    this.suffix ='/get';
-    return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix)
+  public findAllScheduled(): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(this.scheduleApiEndpoint)
   }
 
-  public findAllScheduledByEpoch(epoch: number) : Observable<Schedule[]> {
-    this.suffix ='/get/';
-    return this.http.get<Schedule[]>(this.scheduleApiUrl+this.suffix+epoch.toString())
+  public findAllScheduledByEpoch(epoch: number): Observable<Schedule[]> {
+    const endpointPattern = `${this.scheduleApiEndpoint}/${epoch}`;
+    return this.http.get<Schedule[]>(endpointPattern);
   }
 
-  public getAllMealTypes() : Observable<string[]> {
-    this.suffix ='/get/mealtypes';
-    return this.http.get<string[]>(this.scheduleApiUrl+this.suffix)
+  public getAllMealTypes(): Observable<string[]> {
+    const endpointPattern = `${this.scheduleApiEndpoint}/mealtypes`;
+    return this.http.get<string[]>(endpointPattern)
   }
 
-  public add(schedule: Schedule) : Observable<Schedule> {
-    this.suffix = '/add';
-    return this.http.post<Schedule>(this.scheduleApiUrl+this.suffix, schedule);
+  public add(schedule: Schedule): Observable<Schedule> {
+    return this.http.post<Schedule>(this.scheduleApiEndpoint, schedule);
   }
 
-  public delete(id: number) : Observable<Schedule> {
-    this.suffix = '/delete/';
-    return this.http.delete<Schedule>(this.scheduleApiUrl+this.suffix+id.toString());
+  public delete(id: number): Observable<Schedule> {
+    const endpointPattern = `${this.scheduleApiEndpoint}/${id}`;
+    return this.http.delete<Schedule>(endpointPattern);
   }
 
 }

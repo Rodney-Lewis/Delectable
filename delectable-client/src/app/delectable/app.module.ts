@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { RecipeService } from './recipe/recipe.service';
 import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
@@ -13,8 +13,8 @@ import { PantryService } from './pantry/pantry.service';
 import { NavComponent } from './nav/component/header/nav.component';
 import { PantryListComponent } from './pantry/component/pantry-list/pantry-list.component';
 import { CommonModule } from '@angular/common';
-import { ScheduleListComponent } from './schedule/schedule-list/schedule-list.component';
-import { ScheduleFormComponent } from './schedule/schedule-form/schedule-form.component';
+import { ScheduleListComponent } from './schedule/component/schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './schedule/component/schedule-form/schedule-form.component';
 import { ScheduleService } from './schedule/schedule.service';
 import { PantryDetailComponent } from './pantry/component/pantry-detail/pantry-detail.component';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ScheduleService } from '../schedule.service';
+import { ScheduleService } from '../../schedule.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { Schedule } from '../schedule'
+import { Schedule } from '../../schedule'
 
 @Component({
   selector: 'app-schedule-list',
