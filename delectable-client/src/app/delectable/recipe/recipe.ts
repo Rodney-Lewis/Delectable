@@ -12,6 +12,7 @@ export class Recipe {
     cookTimeMinute: number;
     cookTimeSecond: number;
     imageSource: string;
+    deleted: boolean;
     //directions: RecipeStep[];
     //ingredients: Ingredient[];
 }

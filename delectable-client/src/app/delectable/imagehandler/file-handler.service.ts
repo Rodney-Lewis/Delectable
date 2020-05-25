@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,6 +15,10 @@ export class FileHandlerService {
   public getFileByName(name: string): Observable<ImageData> {
     const endpointPattern = `${this.imageHandlerApiEndpoint}/${name}`;
     return this.http.get<ImageData>(endpointPattern);
+  }
+
+  public buildImageUrl(name: string): string {
+    return `${this.imageHandlerApiEndpoint}/${name}`;
   }
 
   public add(fileData: FormData): Observable<FormData> {

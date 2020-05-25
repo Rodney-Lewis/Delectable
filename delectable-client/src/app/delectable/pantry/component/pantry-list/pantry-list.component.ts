@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pantry } from '../../pantry';
-import { PantryService } from '../../pantry.service';
+import { Pantry } from 'app/delectable/pantry/pantry';
+import { PantryService } from 'app/delectable/pantry/pantry.service';
 
 @Component({
   selector: 'app-pantry-list',

@@ -17,7 +17,7 @@ public class RecipeController {
 
     @GetMapping
     public List<Recipe> getRecipes() {
-        return (List<Recipe>) recipeService.findAll();
+        return (List<Recipe>) recipeService.findAllByDeleted(false);
     }
 
     @GetMapping("/{id}")
@@ -28,10 +28,14 @@ public class RecipeController {
 
     @PostMapping
     Recipe addRecipe(@RequestBody Recipe recipe) {
-
-        String pattern = Pattern.quote(System.getProperty("file.separator"));
-        String[] fileName = recipe.getImageSource().split(pattern);
-        recipe.setImageSource(fileName[fileName.length - 1]);
+        if(recipe.getImageSource() != "") {
+            String pattern = Pattern.quote(System.getProperty("file.separator"));
+            String[] fileName = recipe.getImageSource().split(pattern);
+            recipe.setImageSource(fileName[fileName.length - 1]);
+        } else {
+            recipe.setImageSource("dummy.jpg");
+        }
+        
         recipeService.save(recipe);
         return (recipe);
     }
@@ -43,6 +47,9 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable int id) {
-        recipeService.deleteById(id);
+        Optional<Recipe> recipe = recipeService.findById(id);
+        Recipe recipeToDelete = recipe.get();
+        recipeToDelete.setDeleted(true);
+        recipeService.save(recipeToDelete);
     }
 }

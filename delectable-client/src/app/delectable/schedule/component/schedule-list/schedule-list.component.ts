@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ScheduleService } from '../../schedule.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { Schedule } from '../../schedule'
+import { Schedule } from 'app/delectable/schedule/schedule'
+import { ScheduleService } from 'app/delectable/schedule/schedule.service';
 
 @Component({
   selector: 'app-schedule-list',
@@ -52,7 +52,6 @@ export class ScheduleListComponent implements OnInit {
         } else {
           this.nothingScheduled = true;
           this.nothingScheduledDate = new Date(Number(params.get('epoch')));
-
         }
       })
     })
@@ -80,7 +79,6 @@ export class ScheduleListComponent implements OnInit {
   buildCalendarMonth() {
     var lastWeek = false;
     var index = 0;
-
     var sunday = this.findSundayInWeekByDate(this.mutableDate);
 
     while (lastWeek === false) {
@@ -118,11 +116,11 @@ export class ScheduleListComponent implements OnInit {
     this.cleanUpMonth();
     this.router.navigate(['']);
   }
-  
+
   cleanUpMonth() {
     var d = document.getElementsByClassName("tablerows");
 
-    for(var i = 0; i < d.length; i++) {
+    for (var i = 0; i < d.length; i++) {
       d[i].innerHTML = '';
     }
   }

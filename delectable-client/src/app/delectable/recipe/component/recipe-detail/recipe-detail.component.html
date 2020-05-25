@@ -1,27 +1,53 @@
-<table class="table table-bordered table-striped">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td>{{recipe.name}}</td>
-    </tr>
-    <tr>
-      <th>Source</th>
-      <td>{{recipe.source}}</td>
-    </tr>
-    <tr>
-      <th>Prep time</th>
-      <td>{{recipe.prepTimeHour}} Hours
-        {{recipe.prepTimeMinute}} Minutes
-        {{recipe.prepTimeSecond}} Seconds</td>
-    </tr>
-    <tr>
-      <th>Cook time</th>
-      <td>{{recipe.cookTimeHour}} Hours
-        {{recipe.cookTimeMinute}} Minutes
-        {{recipe.cookTimeSecond}} Seconds</td>
-    </tr>
+<img class="img-fluid" src="{{ recipe.imageSource }}" alt="Card image cap">
 
-  </tbody>
-</table>
-
-<img class="img-fluid" src="{{'http://dev-delectable.red.internal/filehandler/get/' + recipe.imageSource }}" alt="Card image cap">
+<div class="row mt-4">
+  <div class="col-auto">
+    <h1>{{ recipe.name }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-auto">
+    Source
+  </div>
+  <div class="col-auto">
+    {{ recipe.source }}
+  </div>
+</div>
+<div class="row">
+  <div class="col-auto">
+    Prep time
+  </div>
+  <div class="col-auto">
+    30 Minutes
+    <div *ngIf="displayPrepTimeHour()">
+      {{recipe.prepTimeHour}} Hours
+    </div>
+    <div *ngIf="displayPrepTimeMinute()">
+      {{recipe.prepTimeMinute}} Minutes
+    </div>
+    <div *ngIf="displayPrepTimeSecond()">
+      {{recipe.prepTimeSecond}} Seconds
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-auto">
+    Cook time
+  </div>
+  <div class="col-auto">
+    <div *ngIf="displayCookTimeHour()">
+      {{recipe.cookTimeHour}} Hours
+    </div>
+    <div *ngIf="displayCookTimeMinute()">
+      {{recipe.cookTimeMinute}} Minutes
+    </div>
+    <div *ngIf="displayCookTimeSecond()">
+      {{recipe.cookTimeSecond}} Seconds
+    </div>
+  </div>
+</div>
+<div class="row justify-content-end" *ngIf="displayDeleteButton()">
+  <div class="col-auto">
+    <button type="button" class="btn btn-outline-danger" (click)="delete(recipe.id)">Remove recipe</button>
+  </div>
+</div>

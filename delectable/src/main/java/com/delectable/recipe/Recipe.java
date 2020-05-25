@@ -24,6 +24,7 @@ public class Recipe {
 	private int cookTimeMinute;
 	private int cookTimeSecond;
 	private String imageSource;
+	private boolean deleted;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	List<RecipeStep> directions = new ArrayList<RecipeStep>();
@@ -47,6 +48,7 @@ public class Recipe {
 		this.cookTimeMinute = cookTimeMinute;
 		this.cookTimeSecond = cookTimeSecond;
 		this.imageSource = imageSource;
+		this.deleted = false;
 	}
 
 	public Recipe(int id, String name, String source, int prepTimeHour, int prepTimeMinute, int prepTimeSecond,
@@ -62,6 +64,7 @@ public class Recipe {
 		this.cookTimeMinute = cookTimeMinute;
 		this.cookTimeSecond = cookTimeSecond;
 		this.imageSource = imageSource;
+		this.deleted = false;
 		setDirections(directions);
 		setIngredients(ingredients);
 	}
@@ -180,5 +183,13 @@ public class Recipe {
 
 	public void setCookTimeSecond(int cookTimeSecond) {
 		this.cookTimeSecond = cookTimeSecond;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

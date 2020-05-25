@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { RecipeService } from '../../recipe.service';
-import { FileHandlerService } from '../../../imagehandler/file-handler.service';
 import { Router } from '@angular/router';
+import { RecipeService } from 'app/delectable/recipe/recipe.service';
+import { FileHandlerService } from 'app/delectable/imagehandler/file-handler.service';
 
 @Component({
   selector: 'app-recipe-form',
@@ -36,26 +36,49 @@ export class RecipeFormComponent implements OnInit {
     private fileHandlerService: FileHandlerService, private router: Router) {
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   onSubmit() {
     this.formSubmitted = true;
     if (this.recipeForm.invalid) {
       return;
     } else {
-      const imageFormData = new FormData();
-      imageFormData.append('imageMultipartFile', this.recipeForm.get('image.imageMultipartFile').value);
-      this.fileHandlerService.add(imageFormData).subscribe();
-
-      this.recipeService.add(this.recipeForm.get("recipe").value).subscribe();
-      this.router.navigate(['/recipe/list']);
+      if (this.getFormComponent("recipe.imageSource").value != "") {
+        this.recipeService.add(this.getFormComponent("recipe").value).subscribe();
+        const imageFormData = new FormData();
+        imageFormData.append('imageMultipartFile', this.getFormComponent('image.imageMultipartFile').value);
+        this.fileHandlerService.add(imageFormData).subscribe(data => {
+          this.router.navigate(['/recipe/list']);
+        });
+      } else {
+        this.recipeService.add(this.getFormComponent("recipe").value).subscribe(data => {
+          this.router.navigate(['/recipe/list']);
+        });
+      }
     }
   }
 
   getFormComponent(component: string) {
     return this.recipeForm.get(component);
+  }
+
+  formFieldInvalid(component: string) {
+    return this.getFormComponent(component).invalid && (this.getFormComponent(component).dirty || this.getFormComponent(component).touched)
+  }
+
+  formFieldRequired(component: string) {
+    if (this.formFieldInvalid(component))
+      return this.getFormComponent(component).errors?.required;
+  }
+
+  formFieldMin(component: string) {
+    if (this.formFieldInvalid(component))
+      return this.getFormComponent(component).errors?.min;
+  }
+
+  formFieldMax(component: string) {
+    if (this.formFieldInvalid(component))
+      return this.getFormComponent(component).errors?.max;
   }
 
   onFileChange(event) {

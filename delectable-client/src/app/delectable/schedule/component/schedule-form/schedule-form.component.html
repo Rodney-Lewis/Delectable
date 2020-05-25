@@ -4,12 +4,18 @@
       <div class="col-sm">
         <label for="Date">Date</label>
         <input type="date" class="form-control" id="epochDay" formControlName="epochDay" placeholder="Name">
+        <div *ngIf="formFieldRequired('epochDay')" class="validator">
+          Date is a required field.
+        </div>
       </div>
       <div class="col-sm">
         <label for="mealType">Meal</label>
         <select class="form-control" formControlName="mealType">
           <option *ngFor="let mealType of mealTypes" [ngValue]=mealType>{{mealType}}</option>
         </select>
+        <div *ngIf="formFieldRequired('mealType')" class="validator">
+          Meal type is a required field.
+        </div>
       </div>
     </div>
     <div class="row">
@@ -18,6 +24,9 @@
         <select class="form-control" formControlName="recipe">
           <option *ngFor="let recipe of recipes" [ngValue]=recipe.id>{{recipe.name}}</option>
         </select>
+        <div *ngIf="formFieldRequired('recipe')" class="validator">
+          Recipe is a required field.
+        </div>
       </div>
     </div>
   </div>

@@ -1,16 +1,12 @@
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-
    <div formGroupName="recipe" class="form-group">
       <h3>Create recipe</h3>
       <div class="form-row">
          <div class="col-lg">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" required>
-            <div
-               *ngIf="getFormComponent('recipe.name').invalid && (getFormComponent('recipe.name').dirty || getFormComponent('recipe.name').touched) || formSubmitted">
-               <div *ngIf="getFormComponent('recipe.name').errors.required" class="validator">
-                  Name is a required field.
-               </div>
+            <div *ngIf="formFieldRequired('recipe.name')" class="validator">
+               Name is a required field.
             </div>
          </div>
       </div>
@@ -20,11 +16,8 @@
             <label for="source">Source</label>
             <input type="text" class="form-control" id="source" formControlName="source"
                placeholder="https://www.google.com">
-            <div
-               *ngIf="getFormComponent('recipe.source').invalid && (getFormComponent('recipe.source').dirty || getFormComponent('recipe.source').touched) || formSubmitted">
-               <div *ngIf="getFormComponent('recipe.source').errors.required" class="validator">
-                  Source is a required field.
-               </div>
+            <div *ngIf="formFieldRequired('recipe.source')" class="validator">
+               Source is a required field.
             </div>
          </div>
       </div>
@@ -32,85 +25,71 @@
       <div class="form-row">
          <div class="col">
             <div class="form-group">
-               <label>prepTime time</label>
+               <label>Prep time</label>
                <div class="input-group">
                   <input class="form-control time-hour" id="prepTimeHour" formControlName="prepTimeHour" type="number">
                   <input class="time-postfix" type="text" value=" Hours" readonly="readonly" />
                </div>
                <div class="input-group">
-                  <input class="form-control time-minute" id="prepTimeMinute" formControlName="prepTimeMinute" type="number">
+                  <input class="form-control time-minute" id="prepTimeMinute" formControlName="prepTimeMinute"
+                     type="number">
                   <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
                </div>
                <div class="input-group ">
-                  <input class="form-control time-second" id="prepTimeSecond" formControlName="prepTimeSecond" type="number">
+                  <input class="form-control time-second" id="prepTimeSecond" formControlName="prepTimeSecond"
+                     type="number">
                   <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
                </div>
-               <div
-                  *ngIf="getFormComponent('recipe.prepTimeHour').invalid && (getFormComponent('recipe.prepTimeHour').dirty || getFormComponent('recipe.prepTimeHour').touched)">
-                  <div *ngIf="getFormComponent('recipe.prepTimeHour').errors.min" class="validator">
-                     prepTime hours can not be less then 0.
-                  </div>
+               <div *ngIf="formFieldMin('recipe.prepTimeHour')" class="validator">
+                  Prep time hours can not be less then 0.
                </div>
-               <div
-                  *ngIf="getFormComponent('recipe.prepTimeMinute').invalid && (getFormComponent('recipe.prepTimeMinute').dirty || getFormComponent('recipe.prepTimeMinute').touched)">
-                  <div *ngIf="getFormComponent('recipe.prepTimeMinute').errors.min" class="validator">
-                     prepTime minutes can not be less then 0.
-                  </div>
-                  <div *ngIf="getFormComponent('recipe.prepTimeMinute').errors.max" class="validator">
-                     prepTime minutes can not be greater then 59.
-                  </div>
+               <div *ngIf="formFieldMin('recipe.prepTimeMinute')" class="validator">
+                  Prep time minutes can not be less then 0.
                </div>
-               <div
-                  *ngIf="getFormComponent('recipe.prepTimeSecond').invalid && (getFormComponent('recipe.prepTimeSecond').dirty || getFormComponent('recipe.prepTimeSecond').touched)">
-                  <div *ngIf="getFormComponent('recipe.prepTimeSecond').errors.min" class="validator">
-                     prepTime seconds can not be less then 0.
-                  </div>
-                  <div *ngIf="getFormComponent('recipe.prepTimeSecond').errors.max" class="validator">
-                     prepTime seconds can not be greater then 59.
-                  </div>
+               <div *ngIf="formFieldMax('recipe.prepTimeMinute')" class="validator">
+                  Prep time minutes can not be greater then 59.
+               </div>
+               <div *ngIf="formFieldMin('recipe.prepTimeSecond')" class="validator">
+                  Prep time seconds can not be less then 0.
+               </div>
+               <div *ngIf="formFieldMax('recipe.prepTimeSecond')" class="validator">
+                  Prep time seconds can not be greater then 59.
                </div>
             </div>
          </div>
+      </div>
 
-         <div class="col">
-            <div class="form-group">
-               <label>cookTime time</label>
-               <div class="input-group">
-                  <input class="form-control time-hour" id="cookTimeHour" formControlName="cookTimeHour" type="number">
-                  <input class="time-postfix" type="text" value=" Hours" readonly="readonly" />
-               </div>
-               <div class="input-group">
-                  <input class="form-control time-minute" id="cookTimeMinute" formControlName="cookTimeMinute" type="number">
-                  <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
-               </div>
-               <div class="input-group ">
-                  <input class="form-control time-second" id="cookTimeSecond" formControlName="cookTimeSecond" type="number">
-                  <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
-               </div>
-               <div
-                  *ngIf="getFormComponent('recipe.cookTimeHour').invalid && (getFormComponent('recipe.cookTimeHour').dirty || getFormComponent('recipe.cookTimeHour').touched)">
-                  <div *ngIf="getFormComponent('recipe.cookTimeHour').errors.min" class="validator">
-                     cookTime hours can not be less then 0.
-                  </div>
-               </div>
-               <div
-                  *ngIf="getFormComponent('recipe.cookTimeMinute').invalid && (getFormComponent('recipe.cookTimeMinute').dirty || getFormComponent('recipe.cookTimeMinute').touched)">
-                  <div *ngIf="getFormComponent('recipe.cookTimeMinute').errors.min" class="validator">
-                     cookTime minutes can not be less then 0.
-                  </div>
-                  <div *ngIf="getFormComponent('recipe.cookTimeMinute').errors.max" class="validator">
-                     cookTime minutes can not be greater then 59.
-                  </div>
-               </div>
-               <div
-                  *ngIf="getFormComponent('recipe.cookTimeSecond').invalid && (getFormComponent('recipe.cookTimeSecond').dirty || getFormComponent('recipe.cookTimeSecond').touched)">
-                  <div *ngIf="getFormComponent('recipe.cookTimeSecond').errors.min" class="validator">
-                     cookTime seconds can not be less then 0.
-                  </div>
-                  <div *ngIf="getFormComponent('recipe.cookTimeSecond').errors.max" class="validator">
-                     cookTime seconds can not be greater then 59.
-                  </div>
-               </div>
+      <div class="col">
+         <div class="form-group">
+            <label>Cook time</label>
+            <div class="input-group">
+               <input class="form-control time-hour" id="cookTimeHour" formControlName="cookTimeHour" type="number">
+               <input class="time-postfix" type="text" value=" Hours" readonly="readonly" />
+            </div>
+            <div class="input-group">
+               <input class="form-control time-minute" id="cookTimeMinute" formControlName="cookTimeMinute"
+                  type="number">
+               <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
+            </div>
+            <div class="input-group ">
+               <input class="form-control time-second" id="cookTimeSecond" formControlName="cookTimeSecond"
+                  type="number">
+               <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
+            </div>
+            <div *ngIf="formFieldMin('recipe.cookTimeHour')" class="validator">
+               Cook time hours can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMin('recipe.cookTimeMinute')" class="validator">
+               Cook time minutes can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMax('recipe.cookTimeMinute')" class="validator">
+               Cook time minutes can not be greater then 59.
+            </div>
+            <div *ngIf="formFieldMin('recipe.cookTimeSecond')" class="validator">
+               Cook time seconds can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMax('recipe.cookTimeSecond')" class="validator">
+               Cook time seconds can not be greater then 59.
             </div>
          </div>
       </div>
@@ -187,7 +166,7 @@
          <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSource"
             accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)">
          <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
-         <div *ngIf="(getFormComponent('recipe.imageSource').dirty || getFormComponent('recipe.imageSource').touched) || formSubmitted">
+         <div *ngIf="formFieldInvalid('recipe.imageSource')">
             <div *ngIf="invalidImageType" class="validator">
                Invalid image type.
             </div>
@@ -197,10 +176,10 @@
          </div>
       </div>
 
-         <div class="row mt-3 mb-3">
-            <div class="col d-flex justify-content-end">
-               <button class="btn btn-outline-primary" type="submit">Create recipe</button>
-            </div>
+      <div class="row mt-3 mb-3">
+         <div class="col d-flex justify-content-end">
+            <button class="btn btn-outline-primary" type="submit">Create recipe</button>
          </div>
       </div>
+   </div>
 </form>
