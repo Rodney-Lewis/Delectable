@@ -2,6 +2,9 @@ package com.delectable.recipe;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.delectable.ingredient.Ingredient;
 
@@ -15,14 +18,35 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@NotNull(message = "Name cannot be null")
 	private String name;
+
+	@NotNull(message = "Source cannot be null")
 	private String source;
+
+	@Min(value = 0, message = "Preparation hours can not be negative.")
 	private int prepTimeHour;
+
+	@Max(value = 59, message = "Preparation minutes can not be greater then 59.")
+	@Min(value = 0, message = "Preparation minutes can not be negative")
 	private int prepTimeMinute;
+
+	@Max(value = 59, message = "Preparation seconds can not be greater then 59.")
+	@Min(value = 0, message = "Preparation seconds can not be negative")
 	private int prepTimeSecond;
+
+	@Min(value = 0, message = "Cooking hours can not be negative.")
 	private int cookTimeHour;
-	private int cookTimeMinute;
+
+	@Max(value = 59, message = "Cooking minutes can not be greater then 59.")
+	@Min(value = 0, message = "Cooking minutes can not be negative")
+	private int cookTimeMinute; 
+	
+	@Max(value = 59, message = "Cooking seconds can not be greater then 59.")
+	@Min(value = 0, message = "Cooking seconds can not be negative")
 	private int cookTimeSecond;
+	
 	private String imageSource;
 	private boolean deleted;
 

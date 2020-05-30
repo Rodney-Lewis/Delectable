@@ -1,11 +1,17 @@
 package com.delectable.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/recipe")
@@ -27,22 +33,13 @@ public class RecipeController {
     }
 
     @PostMapping
-    Recipe addRecipe(@RequestBody Recipe recipe) {
-        if(recipe.getImageSource() != "") {
-            String pattern = Pattern.quote(System.getProperty("file.separator"));
-            String[] fileName = recipe.getImageSource().split(pattern);
-            recipe.setImageSource(fileName[fileName.length - 1]);
-        } else {
-            recipe.setImageSource("dummy.jpg");
-        }
-        
-        recipeService.save(recipe);
-        return (recipe);
+    Recipe addRecipe(@Valid @RequestBody Recipe recipe) {
+        return (recipeService.save(recipe));
     }
 
     @PutMapping
-    void updateRecipe(@RequestBody Recipe recipe) {
-        recipeService.save(recipe);
+    Recipe updateRecipe(@Valid @RequestBody Recipe recipe) {
+        return (recipeService.save(recipe));
     }
 
     @DeleteMapping("/{id}")
@@ -51,5 +48,17 @@ public class RecipeController {
         Recipe recipeToDelete = recipe.get();
         recipeToDelete.setDeleted(true);
         recipeService.save(recipeToDelete);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> arguementNotValidExceptionHandler(MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = error.getObjectName();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }
