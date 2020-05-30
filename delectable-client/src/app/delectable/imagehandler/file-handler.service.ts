@@ -9,15 +9,9 @@ export class FileHandlerService {
 
   private imageHandlerApiEndpoint: string = "/api/filehandler";
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
-  public getFileByName(name: string): Observable<ImageData> {
-    const endpointPattern = `${this.imageHandlerApiEndpoint}/${name}`;
-    return this.http.get<ImageData>(endpointPattern);
-  }
-
-  public buildImageUrl(name: string): string {
+  public getNamedImageUrl(name: string): string {
     return `${this.imageHandlerApiEndpoint}/${name}`;
   }
 
