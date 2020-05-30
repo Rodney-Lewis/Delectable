@@ -2,6 +2,7 @@ package com.delectable.imagehandler;
 
 import com.delectable.imagehandler.exceptions.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value="/api/filehandler")
+@RequestMapping(value = "/api/filehandler")
 @CrossOrigin
 public class ImageHandlerController {
 
@@ -26,6 +27,15 @@ public class ImageHandlerController {
     @Autowired
     public ImageHandlerController(StorageService storageService) {
         this.storageService = storageService;
+    }
+
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<Resource> serveDefaultFile() {
+        Resource file = new ClassPathResource("static/dummy.jpg");
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
     }
 
     @GetMapping("/{filename:.+}")
