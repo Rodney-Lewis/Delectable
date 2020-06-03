@@ -5,13 +5,11 @@
 </div>
 <div class="card-deck mr-auto">
   <div class="card" *ngFor="let recipe of recipes">
-    <img class="card-img-top img-fluid" src="{{ recipe.imageSource }}"
-      alt="Card image cap">
-    <div class="card-body">
-      <a [routerLink]="['/recipe/detail', recipe.id]">
+    <a [routerLink]="['/recipe/detail', recipe.id]">
+      <img class="card-img-top img-fluid" src="{{ recipe.imageSource }}" alt="Card image cap">
+      <div class="card-body">
         <h5 class="card-title">{{ recipe.name }} </h5>
-      </a>
-      <p class="card-text">{{ recipe.source }}</p>
-    </div>
+      </div>
+    </a>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormArray, Validators, FormControl, FormGroup, Form } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RecipeService } from 'app/delectable/recipe/recipe.service';
 import { FileHandlerService } from 'app/delectable/imagehandler/file-handler.service';
 
@@ -14,52 +14,100 @@ export class RecipeFormComponent implements OnInit {
   invalidImageType: boolean = false;
   invalidImageSize: boolean = false;
   formSubmitted: boolean = false;
-
-  recipeForm = this.formBuilder.group({
-    recipe: this.formBuilder.group({
-      name: ['', Validators.required],
-      source: ['', Validators.required],
-      prepTimeHour: [0, [Validators.min(0)]],
-      prepTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
-      prepTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
-      cookTimeHour: [0, [Validators.min(0)]],
-      cookTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
-      cookTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
-      imageSource: [''],
-    }),
-    image: this.formBuilder.group({
-      imageMultipartFile: []
-    }),
-  });
+  editRecipe: boolean = false;
+  recipeForm: FormGroup;
+  previewImage: String;
 
   constructor(private formBuilder: FormBuilder, private recipeService: RecipeService,
-    private fileHandlerService: FileHandlerService, private router: Router) {
+    private fileHandlerService: FileHandlerService, private router: Router, private activatedroute: ActivatedRoute) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.activatedroute.paramMap.subscribe(params => {
+      if (params.get('id') != null) {
+        this.editRecipe = true;
+        this.recipeService.findById(Number(params.get('id'))).subscribe(data => {
+          this.recipeForm = this.formBuilder.group({
+            recipe: this.formBuilder.group({
+              id: [data.id],
+              name: [data.name, Validators.required],
+              source: [data.source, Validators.required],
+              prepTimeHour: [data.prepTimeHour, [Validators.min(0)]],
+              prepTimeMinute: [data.prepTimeMinute, [Validators.min(0), Validators.max(59)]],
+              prepTimeSecond: [data.prepTimeSecond, [Validators.min(0), Validators.max(59)]],
+              cookTimeHour: [data.cookTimeHour, [Validators.min(0)]],
+              cookTimeMinute: [data.cookTimeMinute, [Validators.min(0), Validators.max(59)]],
+              cookTimeSecond: [data.cookTimeSecond, [Validators.min(0), Validators.max(59)]],
+              imageSource: [data.imageSource],
+            }),
+            image: this.formBuilder.group({
+              imageSourceFile: [''],
+              imageMultipartFile: []
+            }),
+          });
+          this.previewImage = this.fileHandlerService.getNamedImageUrl(data.imageSource);
+        })
+      } else {
+        this.editRecipe = false;
+        this.recipeForm = this.formBuilder.group({
+          recipe: this.formBuilder.group({
+            id: [0],
+            name: ['', Validators.required],
+            source: ['', Validators.required],
+            prepTimeHour: [0, [Validators.min(0)]],
+            prepTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
+            prepTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
+            cookTimeHour: [0, [Validators.min(0)]],
+            cookTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
+            cookTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
+            imageSource: [''],
+          }),
+          image: this.formBuilder.group({
+            imageSourceFile: [''],
+            imageMultipartFile: []
+          }),
+        });
+        this.previewImage = this.fileHandlerService.getNamedImageUrl("");
+      }
+    })
+  }
 
   onSubmit() {
     this.formSubmitted = true;
     if (this.recipeForm.invalid) {
       return;
     } else {
-      if (this.getFormComponent("recipe.imageSource").value != "") {
-        this.recipeService.add(this.getFormComponent("recipe").value).subscribe();
+      if (this.getFormComponent("image.imageSourceFile").value != "") {
+        if (this.editRecipe) {
+          this.recipeService.update(this.getFormComponent("recipe").value).subscribe();
+        } else {
+          this.recipeService.add(this.getFormComponent("recipe").value).subscribe();
+        }
         const imageFormData = new FormData();
         imageFormData.append('imageMultipartFile', this.getFormComponent('image.imageMultipartFile').value);
-        this.fileHandlerService.add(imageFormData).subscribe(data => {
+        this.fileHandlerService.add(imageFormData).subscribe(() => {
           this.router.navigate(['/recipe/list']);
         });
       } else {
-        this.recipeService.add(this.getFormComponent("recipe").value).subscribe(data => {
-          this.router.navigate(['/recipe/list']);
-        });
+        if (this.editRecipe) {
+          this.recipeService.update(this.getFormComponent("recipe").value).subscribe(() => {
+            this.router.navigate(['/recipe/detail', this.getFormComponent("recipe.id").value]);
+          });
+        } else {
+          this.recipeService.add(this.getFormComponent("recipe").value).subscribe(() => {
+            this.router.navigate(['/recipe/list']);
+          });
+        }
       }
     }
   }
 
   getFormComponent(component: string) {
     return this.recipeForm.get(component);
+  }
+
+  getFormComponentAsFormArray(component: string) {
+    return this.recipeForm.get(component) as FormGroup;
   }
 
   formFieldInvalid(component: string) {
@@ -81,6 +129,10 @@ export class RecipeFormComponent implements OnInit {
       return this.getFormComponent(component).errors?.max;
   }
 
+  triggerFileUpdload() {
+    document.getElementById("thumbnail").click();
+  }
+
   onFileChange(event) {
     if (event.target.files.length > 0) {
       if (event.target.files[0].type == "image/jpeg" || event.target.files[0].type == "image/png") {
@@ -89,8 +141,10 @@ export class RecipeFormComponent implements OnInit {
           this.invalidImageSize = false;
           const file = event.target.files[0];
           this.recipeForm.patchValue({
+            recipe: { imageSource: file.name },
             image: { imageMultipartFile: file }
           });
+          this.previewFile(file);
         }
         else {
           this.invalidImageSize = true;
@@ -99,6 +153,14 @@ export class RecipeFormComponent implements OnInit {
         this.invalidImageType = true;
       }
     }
+  }
+
+  previewFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.previewImage = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   get ingredients() {

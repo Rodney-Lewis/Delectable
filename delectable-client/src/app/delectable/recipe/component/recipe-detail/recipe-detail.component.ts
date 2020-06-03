@@ -12,6 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RecipeDetailComponent implements OnInit {
 
   recipe: Recipe = new Recipe();
+  totalTimeHour: number = 0;
+  totalTimeMinute: number = 0;
+  totalTimeSecond: number = 0;
 
   constructor(private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
 
@@ -19,7 +22,20 @@ export class RecipeDetailComponent implements OnInit {
     this.activatedroute.paramMap.subscribe(params => {
       this.recipeService.findById(Number(params.get('id'))).subscribe(data => {
         this.recipe = data;
-        this.recipe.imageSource = this.fileHandlerService.buildImageUrl(this.recipe.imageSource);
+        this.recipe.imageSource = this.fileHandlerService.getNamedImageUrl(this.recipe.imageSource);
+        if (this.recipe.cookTimeSecond + this.recipe.prepTimeSecond > 60) {
+          this.totalTimeMinute++;
+          this.totalTimeSecond = ((this.recipe.cookTimeSecond + this.recipe.prepTimeSecond) % 60);
+        } else {
+          this.totalTimeSecond = (this.recipe.cookTimeSecond + this.recipe.prepTimeSecond);
+        }
+        if (this.recipe.cookTimeMinute + this.recipe.prepTimeMinute > 60) {
+          this.totalTimeHour++;
+          this.totalTimeMinute = this.totalTimeMinute + ((this.recipe.cookTimeMinute + this.recipe.prepTimeMinute) % 60);
+        } else {
+          this.totalTimeMinute = (this.recipe.cookTimeMinute + this.recipe.prepTimeMinute);
+        }
+        this.totalTimeHour = this.totalTimeHour + this.recipe.cookTimeHour + this.recipe.prepTimeHour;
       })
     })
   }

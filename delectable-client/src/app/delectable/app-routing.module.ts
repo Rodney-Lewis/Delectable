@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
   { path: 'pantry/detail/:id', component: PantryDetailComponent },
   { path: 'recipe/add', component: RecipeFormComponent },
+  { path: 'recipe/edit/:id', component: RecipeFormComponent },
   { path: 'pantry/add', component: PantryFormComponent },
 
 ];

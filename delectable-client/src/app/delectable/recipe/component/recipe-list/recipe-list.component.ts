@@ -17,7 +17,7 @@ export class RecipeListComponent implements OnInit {
     this.recipeService.findAll().subscribe(data => {
       this.recipes = data;
       for (let recipe of this.recipes) {
-        recipe.imageSource = this.fileHandlerService.buildImageUrl(recipe.imageSource);
+        recipe.imageSource = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
       }
     })
   }

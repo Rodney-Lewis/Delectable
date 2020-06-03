@@ -1,16 +1,24 @@
-.body {
-    font-size: 24px;
+@media (max-width: 960px) { 
+    .recipetable {
+        justify-content: center;
+    }
 }
 
-.row {
-    justify-content: center;
+.col {
+    text-align: left;
+}
+
+table {
+    width: auto;
+}
+
+.inline {
+    display: inline-block;
+    margin-right: 5px;
 }
 
 .img-fluid {
-    max-width:640px; 
+    max-width:720px; 
     height:auto; 
-    width:100%; 
-    margin-left:auto; 
-    margin-right:auto; 
-    display:block
+    width:100%;
 }

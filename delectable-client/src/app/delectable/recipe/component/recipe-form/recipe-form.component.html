@@ -1,66 +1,80 @@
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+<form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+   <h3>Create recipe</h3>
+   <div class="row">
+      <div formGroupName="image" class="form-group col-lg">
+         <label for="thumbnail">Thumbnail</label>
+         <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSourceFile"
+            accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)" hidden>
+         <img [src]="previewImage" (click)="triggerFileUpdload()" class="img-fluid">
+         <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
+         <div *ngIf="formFieldInvalid('recipe.imageSource')">
+            <div *ngIf="invalidImageType" class="validator">
+               Invalid image type.
+            </div>
+            <div *ngIf="invalidImageSize" class="validator">
+               10Mb size exceeded, upload a lower resolution image.
+            </div>
+         </div>
+      </div>
+
+      <div formGroupName="recipe" class="form-group col-lg">
+         <div class="row">
+            <div class="col-lg">
+               <label for="name">Name</label>
+               <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" required>
+               <div *ngIf="formFieldRequired('recipe.name')" class="validator">
+                  Name is a required field.
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg">
+               <label for="source">Source</label>
+               <input type="text" class="form-control" id="source" formControlName="source"
+                  placeholder="https://www.google.com">
+               <div *ngIf="formFieldRequired('recipe.source')" class="validator">
+                  Source is a required field.
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
    <div formGroupName="recipe" class="form-group">
-      <h3>Create recipe</h3>
-      <div class="form-row">
-         <div class="col-lg">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" required>
-            <div *ngIf="formFieldRequired('recipe.name')" class="validator">
-               Name is a required field.
-            </div>
-         </div>
-      </div>
-
-      <div class="form-row">
-         <div class="col-lg">
-            <label for="source">Source</label>
-            <input type="text" class="form-control" id="source" formControlName="source"
-               placeholder="https://www.google.com">
-            <div *ngIf="formFieldRequired('recipe.source')" class="validator">
-               Source is a required field.
-            </div>
-         </div>
-      </div>
-
-      <div class="form-row">
+      <div class="row">
          <div class="col">
-            <div class="form-group">
-               <label>Prep time</label>
-               <div class="input-group">
-                  <input class="form-control time-hour" id="prepTimeHour" formControlName="prepTimeHour" type="number">
-                  <input class="time-postfix" type="text" value=" Hours" readonly="readonly" />
-               </div>
-               <div class="input-group">
-                  <input class="form-control time-minute" id="prepTimeMinute" formControlName="prepTimeMinute"
-                     type="number">
-                  <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
-               </div>
-               <div class="input-group ">
-                  <input class="form-control time-second" id="prepTimeSecond" formControlName="prepTimeSecond"
-                     type="number">
-                  <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
-               </div>
-               <div *ngIf="formFieldMin('recipe.prepTimeHour')" class="validator">
-                  Prep time hours can not be less then 0.
-               </div>
-               <div *ngIf="formFieldMin('recipe.prepTimeMinute')" class="validator">
-                  Prep time minutes can not be less then 0.
-               </div>
-               <div *ngIf="formFieldMax('recipe.prepTimeMinute')" class="validator">
-                  Prep time minutes can not be greater then 59.
-               </div>
-               <div *ngIf="formFieldMin('recipe.prepTimeSecond')" class="validator">
-                  Prep time seconds can not be less then 0.
-               </div>
-               <div *ngIf="formFieldMax('recipe.prepTimeSecond')" class="validator">
-                  Prep time seconds can not be greater then 59.
-               </div>
+            <label>Prep time</label>
+            <div class="input-group">
+               <input class="form-control time-hour" id="prepTimeHour" formControlName="prepTimeHour" type="number">
+               <input class="time-postfix" type="text" value=" Hours" readonly="readonly" />
+            </div>
+            <div class="input-group">
+               <input class="form-control time-minute" id="prepTimeMinute" formControlName="prepTimeMinute"
+                  type="number">
+               <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
+            </div>
+            <div class="input-group">
+               <input class="form-control time-second" id="prepTimeSecond" formControlName="prepTimeSecond"
+                  type="number">
+               <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
+            </div>
+            <div *ngIf="formFieldMin('recipe.prepTimeHour')" class="validator">
+               Prep time hours can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMin('recipe.prepTimeMinute')" class="validator">
+               Prep time minutes can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMax('recipe.prepTimeMinute')" class="validator">
+               Prep time minutes can not be greater then 59.
+            </div>
+            <div *ngIf="formFieldMin('recipe.prepTimeSecond')" class="validator">
+               Prep time seconds can not be less then 0.
+            </div>
+            <div *ngIf="formFieldMax('recipe.prepTimeSecond')" class="validator">
+               Prep time seconds can not be greater then 59.
             </div>
          </div>
-      </div>
-
-      <div class="col">
-         <div class="form-group">
+         <div class="col">
             <label>Cook time</label>
             <div class="input-group">
                <input class="form-control time-hour" id="cookTimeHour" formControlName="cookTimeHour" type="number">
@@ -71,7 +85,7 @@
                   type="number">
                <input class="time-postfix" type="text" value=" Minutes" readonly="readonly" />
             </div>
-            <div class="input-group ">
+            <div class="input-group">
                <input class="form-control time-second" id="cookTimeSecond" formControlName="cookTimeSecond"
                   type="number">
                <input class="time-postfix" type="text" value=" Seconds" readonly="readonly" />
@@ -93,93 +107,14 @@
             </div>
          </div>
       </div>
-      <!--
-      <div class="form-group form-row" formArrayName="ingredients">
-         <div class="col">
-            <h5>Ingredients</h5>
-         </div>
-         <table class="table table-borderless table-sm">
-            <thead>
-               <tr>
-                  <th style="width: 15%">Quantity</th>
-                  <th style="width: 25%">Measurement</th>
-                  <th style="width: 60%">Ingredient</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr *ngFor="let ingredient of ingredients.controls; let i = index" formGroupName="{{i}}">
-                  <td><input type="text" class="form-control" formControlName="quantity"></td>
-                  <td>
-
-                     <select class="form-control" formControlName="servingType">
-                        <option *ngFor="let measure of measurements">{{measure}}</option>
-                     </select>
-
-                  </td>
-                  <td>
-                     <input type="text" class="form-control" formControlName="pantry">
-  
-                  </td>
-                  <td><button class="btn btn-outline-danger key" type="button" (click)=removeIngredient(i)>-</button>
-                  </td>
-               </tr>
-               <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td><button class="btn btn-outline-primary key" type="button" (click)=addIngredient()>+</button></td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-
-      <div class="form-group form-row" formArrayName="directions">
-         <div class="col">
-            <h5>Directions</h5>
-         </div>
-         <table class="table table-sm table-borderless">
-            <thead>
-               <tr>
-                  <th style="width: 5%">Step</th>
-                  <th style="width: 95%">Instruction</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr *ngFor="let direction of directions.controls; let i = index" formGroupName="{{i}}">
-                  <td>{{direction.controls.step.value}}</td>
-                  <td><input type="text" class="form-control" formControlName="instructions"></td>
-                  <td><button class="btn btn-outline-danger key" type="button"
-                        (click)=removeDirection(direction)>-</button></td>
-               </tr>
-               <tr>
-                  <td></td>
-                  <td></td>
-                  <td><button class="btn btn-outline-primary key" type="button" (click)=addDirection()>+</button></td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-   -->
-
-      <div class="form-group">
-         <label for="thumbnail">Thumbnail</label>
-         <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSource"
-            accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)">
-         <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
-         <div *ngIf="formFieldInvalid('recipe.imageSource')">
-            <div *ngIf="invalidImageType" class="validator">
-               Invalid image type.
-            </div>
-            <div *ngIf="invalidImageSize" class="validator">
-               10Mb size exceeded, upload a lower resolution image.
-            </div>
-         </div>
-      </div>
-
-      <div class="row mt-3 mb-3">
-         <div class="col d-flex justify-content-end">
-            <button class="btn btn-outline-primary" type="submit">Create recipe</button>
-         </div>
+      <input class="form-control" id="id" formControlName="id" type="number" hidden>
+      <input class="form-control" id="imageSource" formControlName="imageSource" type="text" hidden>
+   </div>
+   <div class="row mt-3 mb-3">
+      <div class="col d-flex justify-content-end">
+         <button *ngIf=editRecipe class="btn btn-outline-primary" type="submit">Confirm edit</button>
+         <button *ngIf=!editRecipe class="btn btn-outline-primary" type="submit">Create recipe</button>
       </div>
    </div>
+   {{recipeForm.value | json}}
 </form>
