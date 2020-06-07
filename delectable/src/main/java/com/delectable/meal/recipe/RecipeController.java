@@ -1,15 +1,11 @@
-package com.delectable.recipe;
+package com.delectable.meal.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -23,7 +19,7 @@ public class RecipeController {
 
     @GetMapping
     public List<Recipe> getRecipes() {
-        return (List<Recipe>) recipeService.findAllByDeleted(false);
+        return (List<Recipe>) recipeService.findAllBydeleted(false);
     }
 
     @GetMapping("/{id}")
@@ -49,16 +45,5 @@ public class RecipeController {
         recipeToDelete.setDeleted(true);
         recipeService.save(recipeToDelete);
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> arguementNotValidExceptionHandler(MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = error.getObjectName();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
+    
 }

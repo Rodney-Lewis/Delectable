@@ -1,4 +1,4 @@
-package com.delectable.recipe;
+package com.delectable.meal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -6,25 +6,24 @@ import javax.persistence.Id;
 import javax.persistence.*;
 
 @Entity
-public class RecipeStep {
+public class Instruction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "step_id")
 	int id;
     int step;
     String instructions;
 
-    public RecipeStep() {
+    public Instruction() {
         super();
     }
 
-    public RecipeStep(int step, String instructions) {
+    public Instruction(int step, String instructions) {
         this.step = step;
         this.instructions = instructions;
     }
 
-    public RecipeStep(int id, int step, String instructions) {
+    public Instruction(int id, int step, String instructions) {
         this.id = id;
         this.step = step;
         this.instructions = instructions;

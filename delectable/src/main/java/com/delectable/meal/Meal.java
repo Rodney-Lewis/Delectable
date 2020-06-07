@@ -1,19 +1,18 @@
-package com.delectable.recipe;
+package com.delectable.meal;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.delectable.ingredient.Ingredient;
-
-import javax.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
-
-@Entity
-public class Recipe {
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Meal {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +20,6 @@ public class Recipe {
 
 	@NotNull(message = "Name cannot be null")
 	private String name;
-
-	@NotNull(message = "Source cannot be null")
-	private String source;
 
 	@Min(value = 0, message = "Preparation hours can not be negative.")
 	private int prepTimeHour;
@@ -41,64 +37,62 @@ public class Recipe {
 
 	@Max(value = 59, message = "Cooking minutes can not be greater then 59.")
 	@Min(value = 0, message = "Cooking minutes can not be negative")
-	private int cookTimeMinute; 
-	
+	private int cookTimeMinute;
+
 	@Max(value = 59, message = "Cooking seconds can not be greater then 59.")
 	@Min(value = 0, message = "Cooking seconds can not be negative")
 	private int cookTimeSecond;
-	
-	private String imageSource;
+
+	@NotNull
 	private boolean deleted;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	List<RecipeStep> directions = new ArrayList<RecipeStep>();
+	// Optional fields
+	private String imageSource;
+	private String description;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	List<Ingredient> ingredients = new ArrayList<Ingredient>();
-
-	public Recipe() {
+	public Meal() {
 		super();
 	}
 
-	public Recipe(int id, String name, String source, int prepTimeHour, int prepTimeMinute, int prepTimeSecond,
-			int cookTimeHour, int cookTimeMinute, int cookTimeSecond, String imageSource) {
-		this.id = id;
+	public Meal(@NotNull(message = "Name cannot be null") String name,
+			@Min(value = 0, message = "Preparation hours can not be negative.") int prepTimeHour,
+			@Max(value = 59, message = "Preparation minutes can not be greater then 59.") @Min(value = 0, message = "Preparation minutes can not be negative") int prepTimeMinute,
+			@Max(value = 59, message = "Preparation seconds can not be greater then 59.") @Min(value = 0, message = "Preparation seconds can not be negative") int prepTimeSecond,
+			@Min(value = 0, message = "Cooking hours can not be negative.") int cookTimeHour,
+			@Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
+			@Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
+			@NotNull boolean deleted, String imageSource, String description) {
 		this.name = name;
-		this.source = source;
 		this.prepTimeHour = prepTimeHour;
 		this.prepTimeMinute = prepTimeMinute;
 		this.prepTimeSecond = prepTimeSecond;
 		this.cookTimeHour = cookTimeHour;
 		this.cookTimeMinute = cookTimeMinute;
 		this.cookTimeSecond = cookTimeSecond;
+		this.deleted = deleted;
 		this.imageSource = imageSource;
-		this.deleted = false;
+		this.description = description;
 	}
 
-	public Recipe(int id, String name, String source, int prepTimeHour, int prepTimeMinute, int prepTimeSecond,
-			int cookTimeHour, int cookTimeMinute, int cookTimeSecond, String imageSource, List<RecipeStep> directions,
-			List<Ingredient> ingredients) {
+	public Meal(int id, @NotNull(message = "Name cannot be null") String name,
+			@Min(value = 0, message = "Preparation hours can not be negative.") int prepTimeHour,
+			@Max(value = 59, message = "Preparation minutes can not be greater then 59.") @Min(value = 0, message = "Preparation minutes can not be negative") int prepTimeMinute,
+			@Max(value = 59, message = "Preparation seconds can not be greater then 59.") @Min(value = 0, message = "Preparation seconds can not be negative") int prepTimeSecond,
+			@Min(value = 0, message = "Cooking hours can not be negative.") int cookTimeHour,
+			@Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
+			@Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
+			@NotNull boolean deleted, String imageSource, String description) {
 		this.id = id;
 		this.name = name;
-		this.source = source;
 		this.prepTimeHour = prepTimeHour;
 		this.prepTimeMinute = prepTimeMinute;
 		this.prepTimeSecond = prepTimeSecond;
 		this.cookTimeHour = cookTimeHour;
 		this.cookTimeMinute = cookTimeMinute;
 		this.cookTimeSecond = cookTimeSecond;
+		this.deleted = deleted;
 		this.imageSource = imageSource;
-		this.deleted = false;
-		setDirections(directions);
-		setIngredients(ingredients);
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		this.description = description;
 	}
 
 	public String getName() {
@@ -107,50 +101,6 @@ public class Recipe {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<RecipeStep> getDirections() {
-		return directions;
-	}
-
-	public void setDirections(List<RecipeStep> directions) {
-		for (RecipeStep step : directions) {
-			addRecipeStep(step);
-		}
-	}
-
-	public List<Ingredient> getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(List<Ingredient> ingredients) {
-		for (Ingredient ingredient : ingredients) {
-			addIngredient(ingredient);
-		}
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public void addRecipeStep(RecipeStep step) {
-		directions.add(step);
-	}
-
-	public void removeRecipeStep(RecipeStep step) {
-		directions.remove(step);
-	}
-
-	public void addIngredient(Ingredient ingredient) {
-		ingredients.add(ingredient);
-	}
-
-	public void removeIngredient(Ingredient ingredient) {
-		ingredients.remove(ingredient);
 	}
 
 	public String getImageSource() {
@@ -216,4 +166,17 @@ public class Recipe {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

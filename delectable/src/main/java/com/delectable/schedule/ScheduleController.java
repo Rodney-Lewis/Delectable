@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.delectable.schedule.Schedule.MealTypes;
+import com.delectable.schedule.Schedule.ScheduleType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,6 +49,11 @@ public class ScheduleController {
     @GetMapping("/mealtypes")
     String[] getMealtypes() {
         return MealTypes.toStringArray();
+    }
+
+    @GetMapping("/scheduletypes")
+    String[] getScheduleTypes() {
+        return ScheduleType.toStringArray();
     }
 
     @PostMapping
