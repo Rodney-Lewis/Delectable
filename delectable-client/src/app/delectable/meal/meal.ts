@@ -1,10 +1,8 @@
-import { RecipeStep } from "./recipe-step";
-import { Ingredient } from "../ingredient/ingredient";
+import { Instruction } from './instruction';
 
-export class Recipe {
+export class Meal {
     id: number;
     name: string;
-    source: string;
     prepTimeHour: number;
     prepTimeMinute: number;
     prepTimeSecond: number;
@@ -13,6 +11,5 @@ export class Recipe {
     cookTimeSecond: number;
     imageSource: string;
     deleted: boolean;
-    //directions: RecipeStep[];
-    //ingredients: Ingredient[];
+    directions: Instruction[];
 }

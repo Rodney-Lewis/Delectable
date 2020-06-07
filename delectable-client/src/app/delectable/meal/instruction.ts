@@ -1,4 +1,4 @@
-export class RecipeStep {
+export class Instruction {
     id: number;
     step: number;
     instructions: String;
