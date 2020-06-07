@@ -1,7 +1,7 @@
 package com.delectable.meal.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +29,35 @@ public class RecipeController {
     }
 
     @PostMapping
-    Recipe addRecipe(@Valid @RequestBody Recipe recipe) {
-        return (recipeService.save(recipe));
+    Recipe addRecipe(@Valid @RequestBody Recipe newRecipe) {
+        return (recipeService.save(newRecipe));
     }
 
-    @PutMapping
-    Recipe updateRecipe(@Valid @RequestBody Recipe recipe) {
-        return (recipeService.save(recipe));
+    @PutMapping("/{id}")
+    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe newRecipe) throws Exception {
+        Optional<Recipe> optRecipe = recipeService.findById(id);
+        if(optRecipe.isPresent()) {
+            Recipe recipeToUpdate = optRecipe.get();
+            if(recipeToUpdate.isDeleted())
+                throw new Exception("Recipe has been marked as deleted, it will not be updated.");
+            else {
+                recipeToUpdate.setCookTimeHour(newRecipe.getCookTimeHour());
+                recipeToUpdate.setCookTimeMinute(newRecipe.getCookTimeMinute());
+                recipeToUpdate.setCookTimeSecond(newRecipe.getCookTimeSecond());
+                recipeToUpdate.setPrepTimeHour(newRecipe.getPrepTimeHour());
+                recipeToUpdate.setPrepTimeMinute(newRecipe.getPrepTimeMinute());
+                recipeToUpdate.setPrepTimeSecond(newRecipe.getPrepTimeSecond());
+                recipeToUpdate.setName(newRecipe.getName());
+                recipeToUpdate.setDescription(newRecipe.getDescription());
+                recipeToUpdate.setImageSource(newRecipe.getImageSource());
+                recipeToUpdate.setSource(newRecipe.getSource());
+                recipeToUpdate.setIngredients(newRecipe.getIngredients());
+                recipeToUpdate.setDirections(newRecipe.getDirections());
+                return recipeService.save(recipeToUpdate);
+            }
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @DeleteMapping("/{id}")
