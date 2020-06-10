@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/restaurant")
@@ -16,7 +17,7 @@ public class RestaurantController {
 
     @GetMapping
     public List<Restaurant> getRestaurantItems() {
-        return (List<Restaurant>) restaurantService.findAll();
+        return (List<Restaurant>) restaurantService.findAllByDeleted(false);
     }
 
     @GetMapping("/{id}")
@@ -26,18 +27,26 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public void addRestaurant(@RequestBody Restaurant RestaurantItem) {
+    public void addRestaurant(@Valid @RequestBody Restaurant RestaurantItem) {
         restaurantService.save(RestaurantItem);
     }
 
-    @PutMapping
-    void updateRestaurant(@RequestBody Restaurant RestaurantItem) {
-        restaurantService.save(RestaurantItem);
+    @PutMapping("/{id}")
+    void updateRestaurant(@PathVariable int id, @Valid @RequestBody Restaurant newRestaurant) {
+        Optional<Restaurant> optRestaurant = restaurantService.findById(id);
+        Restaurant restaurantToUpdate = optRestaurant.get();
+        if(!restaurantToUpdate.isDeleted()) {
+            restaurantToUpdate.setName(newRestaurant.getName());
+            restaurantService.save(restaurantToUpdate);
+        }
     }
 
     @DeleteMapping("/{id}")
     void deleteRestaurantItemById(@PathVariable int id) {
-        restaurantService.deleteById(id);
+        Optional<Restaurant> optRestaurant = restaurantService.findById(id);
+        Restaurant restaurantToMarkAsDeleted = optRestaurant.get();
+        restaurantToMarkAsDeleted.setDeleted(true);
+        restaurantService.save(restaurantToMarkAsDeleted);
     }
 
 }

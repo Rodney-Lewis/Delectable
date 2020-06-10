@@ -12,17 +12,16 @@ public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
     @NotNull
-    String name;
+    private String name;
+
+    @NotNull
+	private boolean deleted = false;
 
     public Restaurant() {
         super();
-    }
-
-    public Restaurant(int id) {
-        this.id = id;
     }
 
     public Restaurant(String name) {
@@ -49,4 +48,13 @@ public class Restaurant {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isDeleted() {
+      return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+      this.deleted = deleted;
+    }
+
 }

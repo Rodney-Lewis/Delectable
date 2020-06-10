@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-auto">
+    Name
+  </div>
+  <div class="col-auto">
+    {{ restaurant.name }}
+  </div>
+</div>
+
+<div class="row justify-content-end mt-1" *ngIf="displayDeleteButton()">
+  <div class="col-auto">
+    <button type="button" class="btn btn-outline-primary" [routerLink]="['/restaurant/edit', restaurant.id]">Edit
+      restaurant</button>
+  </div>
+</div>
+
+<div class="row justify-content-end mt-1" *ngIf="displayDeleteButton()">
+  <div class="col-auto">
+    <button type="button" class="btn btn-outline-danger" (click)="delete(restaurant.id)">Remove restaurant</button>
+  </div>
+</div>

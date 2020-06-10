@@ -17,6 +17,12 @@ import { RecipeListComponent } from './meal/recipe/component/recipe-list/recipe-
 import { RecipeFormComponent } from './meal/recipe/component/recipe-form/recipe-form.component';
 import { RecipeDetailComponent } from './meal/recipe/component/recipe-detail/recipe-detail.component';
 import { RecipeService } from './meal/recipe/recipe.service';
+import { PreparedFoodListComponent } from './meal/preparedfood/component/prepared-food-list/prepared-food-list.component';
+import { PreparedFoodFormComponent } from './meal/preparedfood/component/prepared-food-form/prepared-food-form.component';
+import { PreparedFoodDetailComponent } from './meal/preparedfood/component/prepared-food-detail/prepared-food-detail.component';
+import { RestaurantFormComponent } from './restaurant/component/restaurant-form/restaurant-form.component';
+import { RestaurantListComponent } from './restaurant/component/restaurant-list/restaurant-list.component';
+import { RestuarantDetailComponent } from './restaurant/component/restaurant-detail/restaurant-detail.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,13 @@ import { RecipeService } from './meal/recipe/recipe.service';
     PantryListComponent,
     ScheduleListComponent,
     ScheduleFormComponent,
-    PantryDetailComponent
+    PantryDetailComponent,
+    PreparedFoodListComponent,
+    PreparedFoodFormComponent,
+    PreparedFoodDetailComponent,
+    RestaurantFormComponent,
+    RestaurantListComponent,
+    RestuarantDetailComponent
   ],
   imports: [
     BrowserModule,
