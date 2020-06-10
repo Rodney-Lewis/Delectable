@@ -80,9 +80,7 @@
                         </span>
                         <select class="form-control" id="unit" formControlName="unit"
                            [ngClass]="{'is-invalid': formFieldRequired('recipe.ingredients.'+i+'.unit')}">
-                           <option *ngFor="let unit of units" [value]=unit
-                              [selected]="print(unit, ingredient.unit, recipeForm.get('recipe.ingredients.'+i+'.unit'))">
-                              {{unit}}</option>
+                           <option *ngFor="let unit of units" [value]=unit>{{unit}}</option>
                         </select>
                      </div>
                      <div class="col-auto mt-auto end-col-sm-gutter">
