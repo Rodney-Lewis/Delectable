@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.delectable.ingredient.Ingredient;
-import com.delectable.meal.Instruction;
+import com.delectable.meal.Direction;
 import com.delectable.meal.Meal;
 
 import org.hibernate.annotations.Cascade;
@@ -29,7 +29,7 @@ public class Recipe extends Meal {
 	@NotNull
 	@OneToMany
 	@Cascade(CascadeType.ALL)
-	private List<Instruction> directions = new ArrayList<Instruction>();
+	private List<Direction> directions = new ArrayList<Direction>();
 
 	public Recipe() {
 		super();
@@ -43,7 +43,7 @@ public class Recipe extends Meal {
 			@Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
 			@Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
 			String imageSource, String description, @NotNull(message = "Source cannot be null") String source,
-			@NotNull List<Ingredient> ingredients, @NotNull List<Instruction> directions) {
+			@NotNull List<Ingredient> ingredients, @NotNull List<Direction> directions) {
 		super(name, prepTimeHour, prepTimeMinute, prepTimeSecond, cookTimeHour, cookTimeMinute, cookTimeSecond, false,
 				imageSource, description);
 		this.source = source;
@@ -59,7 +59,7 @@ public class Recipe extends Meal {
 			@Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
 			@Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
 			String imageSource, String description, @NotNull(message = "Source cannot be null") String source,
-			@NotNull List<Ingredient> ingredients, @NotNull List<Instruction> directions) {
+			@NotNull List<Ingredient> ingredients, @NotNull List<Direction> directions) {
 		super(id, name, prepTimeHour, prepTimeMinute, prepTimeSecond, cookTimeHour, cookTimeMinute, cookTimeSecond,
 				false, imageSource, description);
 		this.source = source;
@@ -83,11 +83,11 @@ public class Recipe extends Meal {
 		this.ingredients = ingredients;
 	}
 
-	public List<Instruction> getDirections() {
+	public List<Direction> getDirections() {
 		return directions;
 	}
 
-	public void setDirections(List<Instruction> directions) {
+	public void setDirections(List<Direction> directions) {
 		this.directions = directions;
 	}
 

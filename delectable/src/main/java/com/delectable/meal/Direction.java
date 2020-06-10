@@ -6,27 +6,27 @@ import javax.persistence.Id;
 import javax.persistence.*;
 
 @Entity
-public class Instruction {
+public class Direction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
     int step;
-    String instructions;
+    String instruction;
 
-    public Instruction() {
+    public Direction() {
         super();
     }
 
-    public Instruction(int step, String instructions) {
+    public Direction(int step, String instruction) {
         this.step = step;
-        this.instructions = instructions;
+        this.instruction = instruction;
     }
 
-    public Instruction(int id, int step, String instructions) {
+    public Direction(int id, int step, String instruction) {
         this.id = id;
         this.step = step;
-        this.instructions = instructions;
+        this.instruction = instruction;
     }
 
     public int getStep() {
@@ -37,12 +37,12 @@ public class Instruction {
         this.step = step;
     }
 
-    public String getinstructions() {
-        return instructions;
+    public String getinstruction() {
+        return instruction;
     }
 
-    public void setinstructions(String instructions) {
-        this.instructions = instructions;
+    public void setinstruction(String instruction) {
+        this.instruction = instruction;
     }
 
     public int getId() {

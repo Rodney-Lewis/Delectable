@@ -9,7 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.delectable.meal.Instruction;
+import com.delectable.meal.Direction;
 import com.delectable.meal.Meal;
 
 @Entity
@@ -19,7 +19,7 @@ public class PreparedFood extends Meal {
     private String brand;
 
     @OneToMany
-    private List<Instruction> directions = new ArrayList<Instruction>();
+    private List<Direction> directions = new ArrayList<Direction>();
 
     public PreparedFood() {
         super();
@@ -33,7 +33,7 @@ public class PreparedFood extends Meal {
             @Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
             @Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
             String imageSource, String description, @NotNull(message = "Brand cannot be null") String brand,
-            List<Instruction> directions) {
+            List<Direction> directions) {
         super(name, prepTimeHour, prepTimeMinute, prepTimeSecond, cookTimeHour, cookTimeMinute, cookTimeSecond, false,
                 imageSource, description);
         this.brand = brand;
@@ -48,7 +48,7 @@ public class PreparedFood extends Meal {
             @Max(value = 59, message = "Cooking minutes can not be greater then 59.") @Min(value = 0, message = "Cooking minutes can not be negative") int cookTimeMinute,
             @Max(value = 59, message = "Cooking seconds can not be greater then 59.") @Min(value = 0, message = "Cooking seconds can not be negative") int cookTimeSecond,
             String imageSource, String description, @NotNull(message = "Brand cannot be null") String brand,
-            List<Instruction> directions) {
+            List<Direction> directions) {
         super(id, name, prepTimeHour, prepTimeMinute, prepTimeSecond, cookTimeHour, cookTimeMinute, cookTimeSecond,
                 false, imageSource, description);
         this.brand = brand;
@@ -63,11 +63,11 @@ public class PreparedFood extends Meal {
         this.brand = brand;
     }
 
-    public List<Instruction> getDirections() {
+    public List<Direction> getDirections() {
         return directions;
     }
 
-    public void setDirections(List<Instruction> directions) {
+    public void setDirections(List<Direction> directions) {
         this.directions = directions;
     }
 
