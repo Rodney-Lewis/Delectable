@@ -9,25 +9,25 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    String pantry;
-    String quantity;
-    String servingType;
+    String name;
+    String measurement;
+    String unit;
 
     public Ingredient() {
        super();
     }
 
-    public Ingredient(String pantry, String quantity, String servingType) {
-        this.pantry = pantry;
-        this.quantity = quantity;
-        this.servingType = servingType;
+    public Ingredient(String name, String measurement, String unit) {
+        this.name = name;
+        this.measurement = measurement;
+        this.unit = unit;
     }
 
-    public Ingredient(int id, String pantry, String quantity, String servingType) {
+    public Ingredient(int id, String name, String measurement, String unit) {
         this.id = id;
-        this.pantry = pantry;
-        this.quantity = quantity;
-        this.servingType = servingType;
+        this.name = name;
+        this.measurement = measurement;
+        this.unit = unit;
     }
 
     public enum MeasurementType {
@@ -42,7 +42,9 @@ public class Ingredient {
         OUNCES("Ounce"),
         POUNDS("Pound"),
         GRAMS("Gram"),
-        KILOGRAMS("Kilogram");
+        KILOGRAMS("Kilogram"),
+        PACKET("Packet"),
+        TOTASTE("To taste");
 
         private final String name;
         private MeasurementType(String name){
@@ -64,34 +66,31 @@ public class Ingredient {
       }
 
     public int getId() {
-        return id;
+      return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getName() {
+      return name;
     }
 
-    public String getPantry() {
-        return pantry;
+    public void setName(String name) {
+      this.name = name;
     }
 
-    public void setPantry(String pantry) {
-        this.pantry = pantry;
+    public String getMeasurement() {
+      return measurement;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public void setMeasurement(String measurement) {
+      this.measurement = measurement;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public String getUnit() {
+      return unit;
     }
 
-    public String getServingType() {
-        return servingType;
+    public void setUnit(String unit) {
+      this.unit = unit;
     }
 
-    public void setServingType(String servingType) {
-        this.servingType = servingType;
-    }
 }
