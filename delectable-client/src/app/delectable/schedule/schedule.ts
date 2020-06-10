@@ -1,10 +1,10 @@
-import { Recipe } from '../recipe/recipe';
-
 export class Schedule {
     id:number;
     epoch:number;
     mealType:String;
-    recipe:Recipe;
+    scheduledTypeId: number;
+    scheduleType: String;
+
     //UI 
     epochDay:String;
     epochTime:String;

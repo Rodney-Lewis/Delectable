@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { RecipeService } from 'app/delectable/recipe/recipe.service';
-import { Recipe } from 'app/delectable/recipe/recipe';
 import { Schedule } from 'app/delectable/schedule/schedule';
+import { Recipe } from 'app/delectable/meal/recipe/recipe';
+import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
 
 @Component({
   selector: 'app-schedule-form',
@@ -49,8 +49,8 @@ export class ScheduleFormComponent implements OnInit {
       this.date = new Date(parseInt(this.epochStrings[0]), parseInt(this.epochStrings[1]) - 1, parseInt(this.epochStrings[2]));
       this.schedule.epoch = this.date.getTime();
       this.schedule.mealType = this.scheduleForm.get("mealType").value;
-      this.schedule.recipe = new Recipe();
-      this.schedule.recipe.id = this.scheduleForm.get("recipe").value;
+      //this.schedule.recipe = new Recipe();
+      //this.schedule.recipe.id = this.scheduleForm.get("recipe").value;
       this.scheduleService.add(this.schedule).subscribe(data => {
         this.router.navigate(['', this.date.getTime()]);
       })

@@ -1,5 +1,5 @@
-export class Instruction {
+export class Direction {
     id: number;
     step: number;
-    instructions: String;
+    instruction: String;
 }

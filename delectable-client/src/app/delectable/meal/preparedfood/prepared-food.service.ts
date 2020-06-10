@@ -22,12 +22,12 @@ export class PreparedFoodService {
     return this.http.get<PreparedFood>(endpointPattern);
   }
 
-  public add(recipe: PreparedFood): Observable<PreparedFood> {
-    return this.http.post<PreparedFood>(this.preparedFoodApiEndpoint, recipe);
+  public add(preparedFood: PreparedFood): Observable<PreparedFood> {
+    return this.http.post<PreparedFood>(this.preparedFoodApiEndpoint, preparedFood);
   }
 
-  public update(recipe: PreparedFood): Observable<PreparedFood> {
-    return this.http.put<PreparedFood>(this.preparedFoodApiEndpoint, recipe);
+  public update(preparedFood: PreparedFood): Observable<PreparedFood> {
+    return this.http.put<PreparedFood>(this.preparedFoodApiEndpoint, preparedFood);
   }
 
   public delete(id: number): Observable<PreparedFood> {

@@ -12,7 +12,7 @@ export class IngredientService {
   constructor(private http: HttpClient) {
   }
 
-  public getMeasurements(): Observable<string[]> {
+  public getUnits(): Observable<string[]> {
     const endpointPattern = `${this.ingredientApiEndpoint}/measurements`
     return this.http.get<string[]>(endpointPattern);
   }

@@ -24,8 +24,9 @@ export class RecipeService {
     return this.http.post<Recipe>(this.recipeApiEndpoint, recipe);
   }
 
-  public update(recipe: Recipe): Observable<Recipe> {
-    return this.http.put<Recipe>(this.recipeApiEndpoint, recipe);
+  public update(recipe: Recipe, id: number): Observable<Recipe> {
+    const endpointPattern = `${this.recipeApiEndpoint}/${id}`;
+    return this.http.put<Recipe>(endpointPattern, recipe);
   }
 
   public delete(id: number): Observable<Recipe> {

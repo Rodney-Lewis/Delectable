@@ -1,4 +1,5 @@
-import { Instruction } from './instruction';
+import { Direction } from './instruction';
+import { Ingredient } from '../ingredient/ingredient';
 
 export class Meal {
     id: number;
@@ -11,5 +12,5 @@ export class Meal {
     cookTimeSecond: number;
     imageSource: string;
     deleted: boolean;
-    directions: Instruction[];
+    description: string;
 }

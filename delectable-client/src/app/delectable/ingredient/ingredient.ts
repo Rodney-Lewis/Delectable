@@ -1,5 +1,6 @@
 export class Ingredient {
-    pantry: String;
-    quantity: String;
-    servingType: String;
+    id: number;
+    name: String;
+    measurement: String;
+    unit: String;
 }

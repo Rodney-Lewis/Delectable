@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from 'app/delectable/recipe/recipe';
-import { RecipeService } from 'app/delectable/recipe/recipe.service';
+
 import { FileHandlerService } from 'app/delectable/imagehandler/file-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Recipe } from '../../recipe';
+import { RecipeService } from '../../recipe.service';
 
 @Component({
   selector: 'app-recipe-detail',

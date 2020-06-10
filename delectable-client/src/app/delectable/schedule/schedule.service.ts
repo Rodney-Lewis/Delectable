@@ -24,6 +24,11 @@ export class ScheduleService {
     return this.http.get<string[]>(endpointPattern)
   }
 
+  public getAllScheduleTypes(): Observable<string[]> {
+    const endpointPattern = `${this.scheduleApiEndpoint}/scheduletypes`;
+    return this.http.get<string[]>(endpointPattern)
+  }
+
   public add(schedule: Schedule): Observable<Schedule> {
     return this.http.post<Schedule>(this.scheduleApiEndpoint, schedule);
   }

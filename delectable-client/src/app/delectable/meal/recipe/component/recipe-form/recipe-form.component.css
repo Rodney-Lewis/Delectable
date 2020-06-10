@@ -8,10 +8,6 @@
     color: red;
 }
 
-.form-row {
-    margin-top: 1%;
-}
-
 .img-fluid {
     max-width:640px; 
     height:auto; 
@@ -20,4 +16,21 @@
     margin-right:auto; 
     display:block;
     cursor:pointer;
+}
+
+.begin-col-sm-gutter {
+    padding-right: 0%;
+    margin-right: 0;
+}
+
+.mid-col-sm-gutter {
+    padding-right: 1%;
+    padding-left: 1%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.end-col-sm-gutter {
+    padding-left: 0%;
+    margin-left: 0;
 }
