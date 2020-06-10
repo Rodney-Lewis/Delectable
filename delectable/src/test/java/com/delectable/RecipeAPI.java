@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.delectable.ingredient.Ingredient;
-import com.delectable.meal.Instruction;
+import com.delectable.meal.Direction;
 import com.delectable.meal.recipe.Recipe;
 import com.delectable.meal.recipe.RecipeService;
 import org.junit.After;
@@ -123,10 +123,10 @@ public class RecipeAPI {
         }
 
         private Recipe createValidTestRecipe() {
-                List<Instruction> instructions = new ArrayList<>();
-                instructions.add(new Instruction(1, "1"));
-                instructions.add(new Instruction(2, "2"));
-                instructions.add(new Instruction(3, "3"));
+                List<Direction> instructions = new ArrayList<>();
+                instructions.add(new Direction(1, "1"));
+                instructions.add(new Direction(2, "2"));
+                instructions.add(new Direction(3, "3"));
 
                 List<Ingredient> ingredients = new ArrayList<>();
                 ingredients.add(new Ingredient("A", "1", "Tablespoon"));
