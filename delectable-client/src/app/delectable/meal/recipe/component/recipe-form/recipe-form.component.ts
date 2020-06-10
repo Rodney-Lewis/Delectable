@@ -98,7 +98,6 @@ export class RecipeFormComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.recipeForm.invalid) {
-      console.log(this.recipeForm.invalid);
       return;
     } else {
       if (this.getFormComponent("image.imageSourceFile").value != "") {
