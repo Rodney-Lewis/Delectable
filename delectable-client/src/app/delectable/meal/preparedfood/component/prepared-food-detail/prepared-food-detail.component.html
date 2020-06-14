@@ -1,0 +1,78 @@
+<div class="row mt-2">
+    <div class="col-lg">
+        <img [src]="thumbnailURL" class="img-fluid">
+    </div>
+    <div class="col-lg">
+        <div class="row mt-1">
+            <div class="col">
+                <h2>{{ preparedFood.name }}</h2>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col">
+                <b>Brand: </b>
+                <span>{{ preparedFood.brand }}</span>
+            </div>
+        </div>
+        <div class="row mt-1">
+			<div class="col">
+				<b>Prep time: </b>
+				{{preparedFood.prepTimeHour}}h
+				{{preparedFood.prepTimeMinute}}m
+				{{preparedFood.prepTimeSecond}}s
+			</div>
+		</div>
+		<div class="row mt-1">
+			<div class="col">
+				<b>Cook time: </b>
+				{{preparedFood.cookTimeHour}}h
+				{{preparedFood.cookTimeMinute}}m
+				{{preparedFood.cookTimeSecond}}s
+			</div>
+		</div>
+		<div class="row mt-1">
+			<div class="col">
+				<b>Total time: </b>
+				{{totalTimeHour}}h
+				{{totalTimeMinute}}m
+				{{totalTimeSecond}}s
+			</div>
+		</div>
+        <div class="row mt-1">
+            <div class="col">
+                <b>Description: </b>
+                <span>{{ preparedFood.description }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row center">
+    <div class="col-auto">
+        <div class="row mt-2">
+            <div class="col">
+                <h4>Directions</h4>
+            </div>
+        </div>
+        <div class="row" *ngFor="let direction of preparedFood.directions">
+            <div class="col">
+                <b>Step {{ direction.step }}: </b>
+                <span>{{ direction.instruction }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-end mt-2" *ngIf="displayDeleteButton()">
+    <div class="col-auto">
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/prepared/edit', preparedFood.id]">Edit
+            prepared food</button>
+    </div>
+</div>
+
+<div class="row justify-content-end mt-2 mb-2" *ngIf="displayDeleteButton()">
+    <div class="col-auto">
+        <button type="button" class="btn btn-outline-danger" (click)="delete(preparedFood.id)">Remove prepared
+            food</button>
+    </div>
+</div>

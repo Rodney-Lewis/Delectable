@@ -11,6 +11,9 @@ import { RecipeFormComponent } from './meal/recipe/component/recipe-form/recipe-
 import { RestaurantListComponent } from './restaurant/component/restaurant-list/restaurant-list.component';
 import { RestaurantFormComponent } from './restaurant/component/restaurant-form/restaurant-form.component';
 import { RestuarantDetailComponent } from './restaurant/component/restaurant-detail/restaurant-detail.component';
+import { PreparedFoodListComponent } from './meal/preparedfood/component/prepared-food-list/prepared-food-list.component';
+import { PreparedFoodFormComponent } from './meal/preparedfood/component/prepared-food-form/prepared-food-form.component';
+import { PreparedFoodDetailComponent } from './meal/preparedfood/component/prepared-food-detail/prepared-food-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo:new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch:'full'},
@@ -26,7 +29,11 @@ const routes: Routes = [
   { path: 'restaurant/list', component: RestaurantListComponent },
   { path: 'restaurant/add', component: RestaurantFormComponent },
   { path: 'restaurant/edit/:id', component: RestaurantFormComponent },
-  { path: 'restaurant/detail/:id', component: RestuarantDetailComponent }
+  { path: 'restaurant/detail/:id', component: RestuarantDetailComponent },
+  { path: 'prepared/list', component: PreparedFoodListComponent },
+  { path: 'prepared/add', component: PreparedFoodFormComponent },
+  { path: 'prepared/edit/:id', component: PreparedFoodFormComponent },
+  { path: 'prepared/detail/:id', component: PreparedFoodDetailComponent }
 
 ];
  

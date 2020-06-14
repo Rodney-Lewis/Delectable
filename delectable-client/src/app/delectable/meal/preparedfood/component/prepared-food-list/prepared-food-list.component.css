@@ -1,0 +1,32 @@
+.card-deck  {
+    margin: 0 -15px 5px 0;
+  }
+
+  .card {
+      margin-top: 10px;
+      margin-right: 0px;
+  }
+
+
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .card-deck .card {
+      -ms-flex: 0 0 38%;
+      flex: 0 0 38%;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .card-deck .card {
+      -ms-flex: 0 0 31%;
+      flex: 0 0 31%;
+    }
+  }
+  
+  @media (min-width: 992px)
+  {
+    .card-deck .card {
+      -ms-flex: 0 0 23%;
+      flex: 0 0 23%;
+    }
+  }
+  

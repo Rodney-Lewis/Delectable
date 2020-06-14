@@ -8,9 +8,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.CascadeType;
 
 import com.delectable.meal.Direction;
 import com.delectable.meal.Meal;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class PreparedFood extends Meal {
@@ -19,6 +21,7 @@ public class PreparedFood extends Meal {
     private String brand;
 
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Direction> directions = new ArrayList<Direction>();
 
     public PreparedFood() {

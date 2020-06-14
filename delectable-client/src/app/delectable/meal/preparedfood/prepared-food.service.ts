@@ -26,8 +26,9 @@ export class PreparedFoodService {
     return this.http.post<PreparedFood>(this.preparedFoodApiEndpoint, preparedFood);
   }
 
-  public update(preparedFood: PreparedFood): Observable<PreparedFood> {
-    return this.http.put<PreparedFood>(this.preparedFoodApiEndpoint, preparedFood);
+  public update(preparedFood: PreparedFood, id: number): Observable<PreparedFood> {
+    const endpointPattern = `${this.preparedFoodApiEndpoint}/${id}`;
+    return this.http.put<PreparedFood>(endpointPattern, preparedFood);
   }
 
   public delete(id: number): Observable<PreparedFood> {
