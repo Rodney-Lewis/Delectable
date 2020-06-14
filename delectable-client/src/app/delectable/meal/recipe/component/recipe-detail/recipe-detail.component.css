@@ -1,24 +1,11 @@
-@media (max-width: 960px) { 
-    .recipetable {
-        justify-content: center;
-    }
-}
-
-.col {
-    text-align: left;
-}
-
-table {
-    width: auto;
-}
-
-.inline {
-    display: inline-block;
-    margin-right: 5px;
-}
-
 .img-fluid {
-    max-width:720px; 
+    max-width:640px;
     height:auto; 
     width:100%;
+}
+
+@media (min-width: 990px) { 
+    .center {
+        justify-content: center;
+    }
 }
