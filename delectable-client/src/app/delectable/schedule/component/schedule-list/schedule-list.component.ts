@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Schedule } from 'app/delectable/schedule/schedule'
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
+import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
+import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
+import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
+import { ScheduleFormComponent } from '../schedule-form/schedule-form.component';
 
 @Component({
   selector: 'app-schedule-list',
@@ -20,9 +24,10 @@ export class ScheduleListComponent implements OnInit {
   numberOfDaysInMonth: number = 0;
   nothingScheduled: boolean;
   schedule: Schedule[];
+  items: any[] = new Array();
   nothingScheduledDate: Date;
 
-  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router) { }
+  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService, private preparedFoodService: PreparedFoodService) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(params => {
@@ -47,6 +52,22 @@ export class ScheduleListComponent implements OnInit {
           for (var i = 0; i < this.schedule.length - 1; i++) {
             if (this.schedule[i].epochDay != this.schedule[i + 1].epochDay) {
               this.schedule[i + 1].uniqueDay = true;
+            }
+          }
+
+          for (let scheduled of this.schedule) {
+            if (scheduled.scheduleType.toLowerCase() == "recipe") {
+              this.recipeService.findById(scheduled.scheduledTypeId).subscribe(data => {
+                this.items.push(data);
+              })
+            } else if (scheduled.scheduleType.toLowerCase() == "restaurant") {
+              this.restaurantService.findById(scheduled.scheduledTypeId).subscribe(data => {
+                this.items.push(data);
+              })
+            } else if (scheduled.scheduleType.toLowerCase() == "prepared food") {
+              this.preparedFoodService.findById(scheduled.scheduledTypeId).subscribe(data => {
+                this.items.push(data);
+              })
             }
           }
         } else {

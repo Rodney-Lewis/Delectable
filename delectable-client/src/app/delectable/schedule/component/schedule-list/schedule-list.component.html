@@ -47,7 +47,15 @@
                     {{ scheduledItem.mealType }}
                 </div>
                 <div class="col-8">
-                    <a [routerLink]="['/recipe/detail', scheduledItem.recipe.id]">{{ scheduledItem.recipe.name }}</a>
+                    <span *ngIf="scheduledItem.scheduleType.toLowerCase() == 'recipe'">
+                        <a [routerLink]="['/recipe/detail', scheduledItem.scheduledTypeId]">{{ items[i]?.name }}</a>
+                    </span>
+                    <span *ngIf="scheduledItem.scheduleType.toLowerCase() == 'prepared food'">
+                        <a [routerLink]="['/prepared/detail', scheduledItem.scheduledTypeId]">{{ items[i]?.name }}</a>
+                    </span>
+                    <span *ngIf="scheduledItem.scheduleType.toLowerCase() == 'restaurant'">
+                        <a [routerLink]="['/restaurant/detail', scheduledItem.scheduledTypeId]">{{ items[i]?.name }}</a>
+                    </span>
                 </div>
                 <div class="col-2">
                     <button type="button" class="btn btn-outline-danger del-key"
