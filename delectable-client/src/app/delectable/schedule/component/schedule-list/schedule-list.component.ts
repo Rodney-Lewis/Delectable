@@ -55,6 +55,7 @@ export class ScheduleListComponent implements OnInit {
             }
           }
 
+          this.items = [];
           for (let scheduled of this.schedule) {
             if (scheduled.scheduleType.toLowerCase() == "recipe") {
               this.recipeService.findById(scheduled.scheduledTypeId).subscribe(data => {
