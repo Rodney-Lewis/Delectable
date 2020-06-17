@@ -49,6 +49,7 @@ export class RecipeFormComponent implements OnInit {
               cookTimeMinute: [data.cookTimeMinute, [Validators.min(0), Validators.max(59)]],
               cookTimeSecond: [data.cookTimeSecond, [Validators.min(0), Validators.max(59)]],
               imageSource: [data.imageSource],
+              description: [data.description],
               ingredients: this.formBuilder.array([]),
               directions: this.formBuilder.array([])
             }),
@@ -77,6 +78,7 @@ export class RecipeFormComponent implements OnInit {
             cookTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
             cookTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
             imageSource: [''],
+            description: [''],
             ingredients: this.formBuilder.array([]),
             directions: this.formBuilder.array([])
           }),
