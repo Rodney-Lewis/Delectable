@@ -1,4 +1,4 @@
-package com.delectable.meal.preparedfood;
+package com.delectable.meal.pantry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,33 +9,33 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/prepared")
-public class PreparedFoodController {
+@RequestMapping(value = "/api/pantry")
+public class PantryController {
 
     @Autowired
-    private PreparedFoodService preparedFoodService;
+    private PantryService pantryService;
 
     @GetMapping
-    public List<PreparedFood> getRecipes() {
-       return (List<PreparedFood>) preparedFoodService.findAllBydeleted(false);
+    public List<Pantry> getRecipes() {
+       return (List<Pantry>) pantryService.findAllBydeleted(false);
     }
 
     @GetMapping("/{id}")
-    public PreparedFood getRecipe(@PathVariable int id) {
-        Optional<PreparedFood> preparedFood = preparedFoodService.findById(id);
+    public Pantry getRecipe(@PathVariable int id) {
+        Optional<Pantry> preparedFood = pantryService.findById(id);
         return preparedFood.get();
     }
 
     @PostMapping
-    PreparedFood addRecipe(@Valid @RequestBody PreparedFood preparedFood) {
-        return (preparedFoodService.save(preparedFood));
+    Pantry addRecipe(@Valid @RequestBody Pantry preparedFood) {
+        return (pantryService.save(preparedFood));
     }
 
     @PutMapping("/{id}")
-    PreparedFood updateRecipe(@Valid @RequestBody PreparedFood newPreparedFood, @PathVariable int id) throws Exception {
-        Optional<PreparedFood> optPreparedFood = preparedFoodService.findById(id);
+    Pantry updateRecipe(@Valid @RequestBody Pantry newPreparedFood, @PathVariable int id) throws Exception {
+        Optional<Pantry> optPreparedFood = pantryService.findById(id);
         if(optPreparedFood.isPresent()) {
-            PreparedFood preparedFoodToUpdate = optPreparedFood.get();
+            Pantry preparedFoodToUpdate = optPreparedFood.get();
             if(!preparedFoodToUpdate.isDeleted()) {
                 preparedFoodToUpdate.setCookTimeHour(newPreparedFood.getCookTimeHour());
                 preparedFoodToUpdate.setCookTimeMinute(newPreparedFood.getCookTimeMinute());
@@ -48,7 +48,7 @@ public class PreparedFoodController {
                 preparedFoodToUpdate.setImageSource(newPreparedFood.getImageSource());
                 preparedFoodToUpdate.setBrand(newPreparedFood.getBrand());
                 preparedFoodToUpdate.setDirections(newPreparedFood.getDirections());
-                return preparedFoodService.save(preparedFoodToUpdate);
+                return pantryService.save(preparedFoodToUpdate);
             } else {
                 throw new Exception("Prepared item has been marked as deleted, it will not be updated.");
             }
@@ -59,10 +59,10 @@ public class PreparedFoodController {
 
     @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable int id) {
-        Optional<PreparedFood> preparedFood = preparedFoodService.findById(id);
-        PreparedFood preparedFoodToDelete = preparedFood.get();
+        Optional<Pantry> preparedFood = pantryService.findById(id);
+        Pantry preparedFoodToDelete = preparedFood.get();
         preparedFoodToDelete.setDeleted(true);
-        preparedFoodService.save(preparedFoodToDelete);
+        pantryService.save(preparedFoodToDelete);
     }
   
 }

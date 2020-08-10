@@ -1,4 +1,4 @@
-package com.delectable.meal.preparedfood;
+package com.delectable.meal.pantry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.delectable.meal.Meal;
 import org.hibernate.annotations.Cascade;
 
 @Entity
-public class PreparedFood extends Meal {
+public class Pantry extends Meal {
 
     @NotNull(message = "Brand cannot be null")
     private String brand;
@@ -24,11 +24,11 @@ public class PreparedFood extends Meal {
     @Cascade(CascadeType.ALL)
     private List<Direction> directions = new ArrayList<Direction>();
 
-    public PreparedFood() {
+    public Pantry() {
         super();
     }
 
-    public PreparedFood(@NotNull(message = "Name cannot be null") String name,
+    public Pantry(@NotNull(message = "Name cannot be null") String name,
             @Min(value = 0, message = "Preparation hours can not be negative.") int prepTimeHour,
             @Max(value = 59, message = "Preparation minutes can not be greater then 59.") @Min(value = 0, message = "Preparation minutes can not be negative") int prepTimeMinute,
             @Max(value = 59, message = "Preparation seconds can not be greater then 59.") @Min(value = 0, message = "Preparation seconds can not be negative") int prepTimeSecond,
@@ -43,7 +43,7 @@ public class PreparedFood extends Meal {
         this.directions = directions;
     }
 
-    public PreparedFood(int id, @NotNull(message = "Name cannot be null") String name,
+    public Pantry(int id, @NotNull(message = "Name cannot be null") String name,
             @Min(value = 0, message = "Preparation hours can not be negative.") int prepTimeHour,
             @Max(value = 59, message = "Preparation minutes can not be greater then 59.") @Min(value = 0, message = "Preparation minutes can not be negative") int prepTimeMinute,
             @Max(value = 59, message = "Preparation seconds can not be greater then 59.") @Min(value = 0, message = "Preparation seconds can not be negative") int prepTimeSecond,
