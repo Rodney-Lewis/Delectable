@@ -1,4 +1,4 @@
-package com.delectable.meal.recipe;
+package com.delectable.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -34,19 +34,16 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe newRecipe) throws Exception {
+    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe newRecipe)
+            throws Exception {
         Optional<Recipe> optRecipe = recipeService.findById(id);
-        if(optRecipe.isPresent()) {
+        if (optRecipe.isPresent()) {
             Recipe recipeToUpdate = optRecipe.get();
-            if(recipeToUpdate.isDeleted())
+            if (recipeToUpdate.isDeleted())
                 throw new Exception("Recipe has been marked as deleted, it will not be updated.");
             else {
-                recipeToUpdate.setCookTimeHour(newRecipe.getCookTimeHour());
-                recipeToUpdate.setCookTimeMinute(newRecipe.getCookTimeMinute());
-                recipeToUpdate.setCookTimeSecond(newRecipe.getCookTimeSecond());
-                recipeToUpdate.setPrepTimeHour(newRecipe.getPrepTimeHour());
-                recipeToUpdate.setPrepTimeMinute(newRecipe.getPrepTimeMinute());
-                recipeToUpdate.setPrepTimeSecond(newRecipe.getPrepTimeSecond());
+                recipeToUpdate.setCookTime(newRecipe.getCookTime());
+                recipeToUpdate.setPrepTime(newRecipe.getPrepTime());
                 recipeToUpdate.setName(newRecipe.getName());
                 recipeToUpdate.setDescription(newRecipe.getDescription());
                 recipeToUpdate.setImageSource(newRecipe.getImageSource());
@@ -67,5 +64,5 @@ public class RecipeController {
         recipeToDelete.setDeleted(true);
         recipeService.save(recipeToDelete);
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package com.delectable.meal.recipe;
+package com.delectable.recipe;
 
 import java.util.List;
 

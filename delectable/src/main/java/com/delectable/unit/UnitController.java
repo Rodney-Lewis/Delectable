@@ -1,4 +1,4 @@
-package com.delectable.meal.unit;
+package com.delectable.unit;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/pantry")
+@RequestMapping(value = "/api/unit")
 public class UnitController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class UnitController {
         return (List<Unit>) unitService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public Unit getUnitOfMeasurementById(@PathVariable int id) {
         Optional<Unit> unit = unitService.findById(id);
         if (unit.isPresent()) {
