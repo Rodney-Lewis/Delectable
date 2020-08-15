@@ -16,7 +16,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping
-    public List<Restaurant> getRestaurantItems() {
+    public List<Restaurant> getRestaurants() {
         return (List<Restaurant>) restaurantService.findAllByDeleted(false);
     }
 
@@ -27,17 +27,19 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public void addRestaurant(@Valid @RequestBody Restaurant RestaurantItem) {
-        restaurantService.save(RestaurantItem);
+    public Restaurant addRestaurant(@Valid @RequestBody Restaurant RestaurantItem) {
+        return(restaurantService.save(RestaurantItem));
     }
 
     @PutMapping("/{id}")
-    void updateRestaurant(@PathVariable int id, @Valid @RequestBody Restaurant newRestaurant) {
+    Restaurant updateRestaurant(@PathVariable int id, @Valid @RequestBody Restaurant newRestaurant) {
         Optional<Restaurant> optRestaurant = restaurantService.findById(id);
         Restaurant restaurantToUpdate = optRestaurant.get();
         if(!restaurantToUpdate.isDeleted()) {
-            restaurantToUpdate.setName(newRestaurant.getName());
-            restaurantService.save(restaurantToUpdate);
+           newRestaurant.setId(restaurantToUpdate.getId());
+            return restaurantService.save(newRestaurant);
+        } else {
+            return null;
         }
     }
 

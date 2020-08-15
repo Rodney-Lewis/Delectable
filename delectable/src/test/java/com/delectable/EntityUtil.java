@@ -7,6 +7,7 @@ import com.delectable.pantry.PantryService;
 import com.delectable.recipe.Direction;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
+import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantService;
 import com.delectable.schedule.ScheduleService;
 import com.delectable.unit.Unit;
@@ -42,21 +43,6 @@ public class EntityUtil {
         return mapper.writeValueAsBytes(object);
     }
 
-    void insertValidPantryItems(int numberOfItemsToInsert, boolean markAsDeleted,
-            boolean markAsSchedulable) {
-        List<PantryItem> pantryItems = new ArrayList<PantryItem>();
-        pantryItems.addAll(
-                createValidPantryItems(numberOfItemsToInsert, markAsDeleted, markAsSchedulable));
-        pantryItemService.saveAll(pantryItems);
-    }
-
-    int insertValidPantryItem(boolean markAsDeleted, boolean markAsSchedulable) {
-        PantryItem pantryItem =
-                (createValidPantryItems(1, markAsDeleted, markAsSchedulable).get(0));
-        pantryItem = pantryItemService.save(pantryItem);
-        return pantryItem.getId();
-    }
-
     List<PantryItem> createValidPantryItems(int numberOfItemsToCreate, boolean markAsDeleted,
             boolean markAsSchedulable) {
         List<PantryItem> pantryItems = new ArrayList<PantryItem>();
@@ -72,6 +58,45 @@ public class EntityUtil {
             }
         }
         return pantryItems;
+    }
+
+    void insertValidPantryItems(int numberOfItemsToInsert, boolean markAsDeleted,
+            boolean markAsSchedulable) {
+        List<PantryItem> pantryItems = new ArrayList<PantryItem>();
+        pantryItems.addAll(
+                createValidPantryItems(numberOfItemsToInsert, markAsDeleted, markAsSchedulable));
+        pantryItemService.saveAll(pantryItems);
+    }
+
+    int insertValidPantryItem(boolean markAsDeleted, boolean markAsSchedulable) {
+        PantryItem pantryItem =
+                (createValidPantryItems(1, markAsDeleted, markAsSchedulable).get(0));
+        pantryItem = pantryItemService.save(pantryItem);
+        return pantryItem.getId();
+    }
+
+    List<Restaurant> createValidRestaurants(int numberOfItemsToCreate, boolean markAsDeleted) {
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        for (int i = 0; i < numberOfItemsToCreate; i++) {
+            restaurants.add(new Restaurant("Name" + i, "123 Main Street", "City", "State", "45678",
+                    "123-456-7890", "http://mysite", "http://mysite/menu", false, false, ""));
+            if (markAsDeleted == true) {
+                restaurants.get(i).setDeleted(true);
+            }
+        }
+        return restaurants;
+    }
+
+    void insertValidRestaurants(int numberOfItemsToCreate, boolean markAsDeleted) {
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.addAll(createValidRestaurants(numberOfItemsToCreate, markAsDeleted));
+        restaurantService.saveAll(restaurants);
+    }
+
+    int insertValidRestaurant(boolean markAsDeleted) {
+        Restaurant restaurant = (createValidRestaurants(1, markAsDeleted).get(0));
+        restaurant = restaurantService.save(restaurant);
+        return restaurant.getId();
     }
 
     Recipe createValidTestRecipe() {
@@ -123,5 +148,4 @@ public class EntityUtil {
             }
         }
     }
-
 }
