@@ -31,19 +31,19 @@ public class PantryItem {
 
     private String imageSource;
     private boolean deleted;
+    private boolean schedulable;
 
-    public PantryItem(@NotNull(message = "Name can not be null") String name, String brand,
-            List<Ingredient> ingredients, String imageSource) {
+    public PantryItem(@NotNull(message = "Name can not be null") String name, String brand) {
         this.name = name;
         this.brand = brand;
-        this.ingredients = ingredients;
-        this.imageSource = imageSource;
         this.deleted = false;
+        this.schedulable = false;
     }
 
     public PantryItem(@NotNull(message = "Name can not be null") String name) {
         this.name = name;
         this.deleted = false;
+        this.schedulable = false;
     }
 
     public PantryItem() {
@@ -97,4 +97,12 @@ public class PantryItem {
         this.deleted = deleted;
     }
 
+    public boolean isSchedulable() {
+        return schedulable;
+    }
+
+    public void setSchedulable(boolean schedulable) {
+        this.schedulable = schedulable;
+    }
+    
 }

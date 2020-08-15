@@ -13,36 +13,41 @@ import javax.validation.Valid;
 public class PantryController {
 
     @Autowired
-    private PantryService pantryService;
+    private PantryService pantryItemService;
 
     @GetMapping
-    public List<PantryItem> getRecipes() {
-        return (List<PantryItem>) pantryService.findAllBydeleted(false);
+    public List<PantryItem> getPantryItems(@RequestParam(required = false) boolean schedulable) {
+        if (schedulable == true) {
+            return (List<PantryItem>) pantryItemService.findAllBydeletedAndSchedulable(false, true);
+
+        } else {
+            return (List<PantryItem>) pantryItemService.findAllBydeleted(false);
+        }
     }
 
     @GetMapping("/{id}")
-    public PantryItem getRecipe(@PathVariable int id) {
-        Optional<PantryItem> preparedFood = pantryService.findById(id);
-        return preparedFood.get();
+    public PantryItem getPantryItem(@PathVariable int id) {
+        Optional<PantryItem> pantryItem = pantryItemService.findById(id);
+        return pantryItem.get();
     }
 
     @PostMapping
-    PantryItem addRecipe(@Valid @RequestBody PantryItem preparedFood) {
-        return (pantryService.save(preparedFood));
+    PantryItem addPantryItem(@Valid @RequestBody PantryItem pantryItem) {
+        return (pantryItemService.save(pantryItem));
     }
 
     @PutMapping("/{id}")
-    PantryItem updateRecipe(@Valid @RequestBody PantryItem newPreparedFood, @PathVariable int id)
+    PantryItem updatePantryItem(@Valid @RequestBody PantryItem newPantryItem, @PathVariable int id)
             throws Exception {
-        Optional<PantryItem> optPreparedFood = pantryService.findById(id);
-        if (optPreparedFood.isPresent()) {
-            PantryItem preparedFoodToUpdate = optPreparedFood.get();
-            if (!preparedFoodToUpdate.isDeleted()) {
-                preparedFoodToUpdate.setName(newPreparedFood.getName());
-                preparedFoodToUpdate.setImageSource(newPreparedFood.getImageSource());
-                preparedFoodToUpdate.setBrand(newPreparedFood.getBrand());
-                preparedFoodToUpdate.setIngredients(newPreparedFood.getIngredients());
-                return pantryService.save(preparedFoodToUpdate);
+        Optional<PantryItem> optPantryItem = pantryItemService.findById(id);
+        if (optPantryItem.isPresent()) {
+            PantryItem pantryItemToUpdate = optPantryItem.get();
+            if (!pantryItemToUpdate.isDeleted()) {
+                pantryItemToUpdate.setName(newPantryItem.getName());
+                pantryItemToUpdate.setImageSource(newPantryItem.getImageSource());
+                pantryItemToUpdate.setBrand(newPantryItem.getBrand());
+                pantryItemToUpdate.setIngredients(newPantryItem.getIngredients());
+                return pantryItemService.save(pantryItemToUpdate);
             } else {
                 throw new Exception(
                         "Pantry item has been marked as deleted, it will not be updated.");
@@ -53,11 +58,11 @@ public class PantryController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteRecipe(@PathVariable int id) {
-        Optional<PantryItem> preparedFood = pantryService.findById(id);
-        PantryItem preparedFoodToDelete = preparedFood.get();
-        preparedFoodToDelete.setDeleted(true);
-        pantryService.save(preparedFoodToDelete);
+    void deletePantryItem(@PathVariable int id) {
+        Optional<PantryItem> pantryItem = pantryItemService.findById(id);
+        PantryItem pantryItemToMarkAsDeleted = pantryItem.get();
+        pantryItemToMarkAsDeleted.setDeleted(true);
+        pantryItemService.save(pantryItemToMarkAsDeleted);
     }
 
 }
