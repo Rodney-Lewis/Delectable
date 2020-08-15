@@ -1,9 +1,9 @@
 package com.delectable;
 
-
 import java.util.Optional;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
+import org.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,64 +25,80 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecipeAPI {
 
 	@Autowired
-    private static RecipeService recipeService;
+	private RecipeService recipeService;
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private EntityUtil entityUtil;
 
 	String[] responseStringArray;
 	MvcResult response;
 
 	@Test
 	public void postValidRecipe() throws Exception {
-		Recipe recipe = EntityUtil.createValidTestRecipe();
+		Recipe recipe = entityUtil.createValidTestRecipe();
 		response = mockMvc
-				.perform(MockMvcRequestBuilders.post("/api/recipe").content(JsonUtil.toJson(recipe))
+				.perform(MockMvcRequestBuilders.post("/api/recipe").content(entityUtil.toJson(recipe))
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
-				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		assert (response.getResponse().getContentAsString() != null);
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(recipe.getName()))
+				.andReturn();
 	}
 
 	@Test
 	public void getRecipeById() throws Exception {
-		int id = EntityUtil.insertValidTestRecipe();
+		int id = entityUtil.insertValidTestRecipe();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.get("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
-				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		assert (response.getResponse().getContentAsString() != null);
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id)).andReturn();
 	}
 
 	@Test
 	public void getAllRecipes() throws Exception {
-		EntityUtil.insertValidTestRecipes(5);
+		JSONArray jsonArr;
+		entityUtil.insertValidTestRecipes(10, false);
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.get("/api/recipe")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		assert (response.getResponse().getContentAsString() != null);
+		jsonArr = new JSONArray(response.getResponse().getContentAsString());
+		assert (jsonArr.length() == 10);
+
+		entityUtil.insertValidTestRecipes(10, true);
+		response = mockMvc
+				.perform(MockMvcRequestBuilders.get("/api/recipe")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+		jsonArr = new JSONArray(response.getResponse().getContentAsString());
+		assert (jsonArr.length() == 10);
 	}
 
 	@Test
 	@Transactional
-	public void updateRecipe() throws Exception {
-		int id = EntityUtil.insertValidTestRecipe();
+	public void putToUpdateRecipe() throws Exception {
+		String nameUpdate = "NoName";
+		int id = entityUtil.insertValidTestRecipe();
 		Optional<Recipe> recipeOpt = recipeService.findById(id);
 		Recipe recipe = recipeOpt.get();
-		recipe.setCookTime(1000);
+		recipe.setName(nameUpdate);
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.put("/api/recipe/" + id)
-						.content(JsonUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		assert (response.getResponse().getContentAsString() != null);
+						.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(nameUpdate)).andReturn();
 	}
 
 	@Test
 	public void deleteRecipe() throws Exception {
-		int id = EntityUtil.insertValidTestRecipe();
+		int id = entityUtil.insertValidTestRecipe();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.delete("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -93,10 +109,10 @@ public class RecipeAPI {
 
 	@Test
 	public void postInvalidRecipe() throws Exception {
-		Recipe recipe = EntityUtil.createValidTestRecipe();
+		Recipe recipe = entityUtil.createValidTestRecipe();
 		recipe.setPrepTime(-1);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe").content(JsonUtil.toJson(recipe))
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe").content(entityUtil.toJson(recipe))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isBadRequest())
 				.andDo(MockMvcResultHandlers.print()).andReturn();

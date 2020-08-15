@@ -7,23 +7,42 @@ import com.delectable.pantry.PantryService;
 import com.delectable.recipe.Direction;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
+import com.delectable.restaurant.RestaurantService;
+import com.delectable.schedule.ScheduleService;
 import com.delectable.unit.Unit;
 import com.delectable.unit.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+
+@Component
 public class EntityUtil {
 
     @Autowired
-    private static PantryService pantryItemService;
+    private PantryService pantryItemService;
 
     @Autowired
-    private static RecipeService recipeService;
+    private RecipeService recipeService;
 
     @Autowired
-    private static UnitService unitService;
+    private UnitService unitService;
 
+    @Autowired
+    private RestaurantService restaurantService;
 
-    static void insertValidPantryItems(int numberOfItemsToInsert, boolean markAsDeleted,
+    @Autowired
+    private ScheduleService scheduleService;
+
+    byte[] toJson(Object object) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper.writeValueAsBytes(object);
+    }
+
+    void insertValidPantryItems(int numberOfItemsToInsert, boolean markAsDeleted,
             boolean markAsSchedulable) {
         List<PantryItem> pantryItems = new ArrayList<PantryItem>();
         pantryItems.addAll(
@@ -31,15 +50,15 @@ public class EntityUtil {
         pantryItemService.saveAll(pantryItems);
     }
 
-    static int insertValidPantryItem(boolean markAsDeleted, boolean markAsSchedulable) {
+    int insertValidPantryItem(boolean markAsDeleted, boolean markAsSchedulable) {
         PantryItem pantryItem =
                 (createValidPantryItems(1, markAsDeleted, markAsSchedulable).get(0));
         pantryItem = pantryItemService.save(pantryItem);
         return pantryItem.getId();
     }
 
-    static List<PantryItem> createValidPantryItems(int numberOfItemsToCreate,
-            boolean markAsDeleted, boolean markAsSchedulable) {
+    List<PantryItem> createValidPantryItems(int numberOfItemsToCreate, boolean markAsDeleted,
+            boolean markAsSchedulable) {
         List<PantryItem> pantryItems = new ArrayList<PantryItem>();
         for (int i = 0; i < numberOfItemsToCreate; i++) {
             pantryItems.add(new PantryItem("Name" + i, "Brand" + i));
@@ -55,50 +74,54 @@ public class EntityUtil {
         return pantryItems;
     }
 
-    static Recipe createValidTestRecipe() {
-		Unit unit1 = new Unit("Pound(s)");
-		Unit unit2 = new Unit("Gram(s)");
-		Unit unit3 = new Unit("Pinch");
-		unit1 = unitService.save(unit1);
-		unit2 = unitService.save(unit2);
-		unit3 = unitService.save(unit3);
+    Recipe createValidTestRecipe() {
+        Unit unit1 = new Unit("Pound(s)");
+        Unit unit2 = new Unit("Gram(s)");
+        Unit unit3 = new Unit("Pinch");
+        unit1 = unitService.save(unit1);
+        unit2 = unitService.save(unit2);
+        unit3 = unitService.save(unit3);
 
-		PantryItem pantryItem1 = new PantryItem("Carrot");
-		PantryItem pantryItem2 = new PantryItem("Onion");
-		PantryItem pantryItem3 = new PantryItem("Apples");
-		pantryItem1 = pantryItemService.save(pantryItem1);
-		pantryItem2 = pantryItemService.save(pantryItem2);
-		pantryItem3 = pantryItemService.save(pantryItem3);
+        PantryItem pantryItem1 = new PantryItem("Carrot");
+        PantryItem pantryItem2 = new PantryItem("Onion");
+        PantryItem pantryItem3 = new PantryItem("Apples");
+        pantryItem1 = pantryItemService.save(pantryItem1);
+        pantryItem2 = pantryItemService.save(pantryItem2);
+        pantryItem3 = pantryItemService.save(pantryItem3);
 
-		List<Direction> instructions = new ArrayList<>();
-		instructions.add(new Direction(1, "Step 1"));
-		instructions.add(new Direction(2, "Step 2"));
-		instructions.add(new Direction(3, "Step 3"));
-		instructions.add(new Direction(4, "Step 4"));
-		instructions.add(new Direction(5, "Step 5"));
+        List<Direction> instructions = new ArrayList<>();
+        instructions.add(new Direction(1, "Step 1"));
+        instructions.add(new Direction(2, "Step 2"));
+        instructions.add(new Direction(3, "Step 3"));
+        instructions.add(new Direction(4, "Step 4"));
+        instructions.add(new Direction(5, "Step 5"));
 
-		Recipe recipe =
-				new Recipe("Recipe1", "Kitchen", "Description", 3600000, 3600000, instructions, "");
-		recipe.addIngredientFromPantry(pantryItem1, "0", unit1);
-		recipe.addIngredientFromPantry(pantryItem2, "1", unit2);
-		recipe.addIngredientFromPantry(pantryItem3, "2", unit3);
-		return recipe;
-	}
+        Recipe recipe =
+                new Recipe("Recipe1", "Kitchen", "Description", 3600000, 3600000, instructions, "");
+        recipe.addIngredientFromPantry(pantryItem1, "0", unit1);
+        recipe.addIngredientFromPantry(pantryItem2, "1", unit2);
+        recipe.addIngredientFromPantry(pantryItem3, "2", unit3);
+        return recipe;
+    }
 
-	static int insertValidTestRecipe() {
-		Recipe recipe = createValidTestRecipe();
-		recipe = recipeService.save(recipe);
-		return recipe.getId();
-	}
+    int insertValidTestRecipe() {
+        Recipe recipe = createValidTestRecipe();
+        recipe = recipeService.save(recipe);
+        return recipe.getId();
+    }
 
-	static void insertValidTestRecipes(int numberOfRecipes) {
-		Recipe recipe;
-		if (numberOfRecipes > 0) {
-			for (int i = 0; i < numberOfRecipes; i++) {
-				recipe = createValidTestRecipe();
-				recipeService.save(recipe);
-			}
-		}
-	}
-    
+    void insertValidTestRecipes(int numberOfRecipes, boolean markAsDeleted) {
+        Recipe recipe;
+        if (numberOfRecipes > 0) {
+            for (int i = 0; i < numberOfRecipes; i++) {
+                recipe = createValidTestRecipe();
+
+                if (markAsDeleted == true) {
+                    recipe.setDeleted(true);
+                }
+                recipeService.save(recipe);
+            }
+        }
+    }
+
 }
