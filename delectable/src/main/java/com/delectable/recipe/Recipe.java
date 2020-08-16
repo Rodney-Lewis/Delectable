@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 
 import com.delectable.ingredient.Ingredient;
 import com.delectable.pantry.PantryItem;
-import com.delectable.unit.Unit;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
@@ -150,7 +149,7 @@ public class Recipe {
 	}
 
 
-	public void addIngredientFromPantry(PantryItem pantryItem, String measurement, Unit unit) {
+	public void addIngredientFromPantry(PantryItem pantryItem, String measurement, String unit) {
 		Ingredient ingredient = new Ingredient(this, pantryItem, measurement, unit);
 		ingredients.add(ingredient);
 		pantryItem.getIngredients().add(ingredient);

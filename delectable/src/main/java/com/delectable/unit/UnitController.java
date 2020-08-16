@@ -21,16 +21,13 @@ public class UnitController {
 
     @GetMapping
     public List<Unit> getUnitOfMeasurementList() {
-        return (List<Unit>) unitService.findAll();
+        return (List<Unit>) unitService.findAllByDeleted(false);
     }
 
     @GetMapping("/{id}")
     public Unit getUnitOfMeasurementById(@PathVariable int id) {
         Optional<Unit> unit = unitService.findById(id);
-        if (unit.isPresent()) {
-            return unit.get();
-        }
-        return null;
+        return unit.get();
     }
 
     @PostMapping
@@ -40,7 +37,10 @@ public class UnitController {
 
     @DeleteMapping("/{id}")
     public void deleteUnitOfMeasurement(@PathVariable int id) {
-        unitService.deleteById(id);
+        Optional<Unit> optUnit = unitService.findById(id);
+        Unit unitToMarkAsDeleted = optUnit.get();
+        unitToMarkAsDeleted.setDeleted(true);
+        unitService.save(unitToMarkAsDeleted);
     }
 
 }

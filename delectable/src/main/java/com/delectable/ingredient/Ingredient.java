@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import com.delectable.pantry.PantryItem;
 import com.delectable.recipe.Recipe;
-import com.delectable.unit.Unit;
 
 @Entity
 public class Ingredient implements Serializable {
@@ -24,11 +23,9 @@ public class Ingredient implements Serializable {
     PantryItem pantry;
 
     String measurement;
+    String unit;
 
-    @ManyToOne
-    Unit unit;
-
-    public Ingredient(Recipe recipe, PantryItem pantry, String measurement, Unit unit) {
+    public Ingredient(Recipe recipe, PantryItem pantry, String measurement, String unit) {
         this.recipe = recipe;
         this.pantry = pantry;
         this.measurement = measurement;
@@ -58,59 +55,115 @@ public class Ingredient implements Serializable {
         return measurement;
     }
 
-    public void setVolume(String measurement) {
+    public void setMeasurement(String measurement) {
         this.measurement = measurement;
     }
 
-    public Unit getUnit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(Unit unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
+    
+    public enum Unit {
+        TEASPOON("Teaspoon", "tsp"),
+        TABLESPOON("Tablespoon", "tbsp"),
+        CUP("Cup", "c"),
+        PINT("Pint", "pt"),
+        QUART("Quart", "qt"),
+        GALLON("Gallon", "gal"),
+        MILLILITER("Milliliter", "ml"),
+        LITER("Liter", "l"),
+        FLUID_OUNCE("Fluid ounce", "fl oz"),
+        OUNCE("Ounce", "oz"),
+        POUND("Pound", "lb"),
+        GRAMS("Gram", "g"),
+        KILOGRAM("Kilogram", "kg"),
+        PACKET("Packet", "Packet"),
+        TOTASTE("To taste", "To taste"),
+        CAN("Can", "Can"),
+        STICK("Stick", "Stick"),
+        BOX("Box", "Box"),
+        PACKAGE("Package", "Package"),
+        JAR("Jar", "Jar"),
+        DROP("Drop", "Drop"),
+        PINCH("Pinch", "Pinch"),
+        DASH("Dash", "Dash"),
+        NONE("None", "None");
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((measurement == null) ? 0 : measurement.hashCode());
-        result = prime * result + ((pantry == null) ? 0 : pantry.hashCode());
-        result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
-        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-        return result;
-    }
+        private final String name;
+        private final String abbreviation;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Ingredient other = (Ingredient) obj;
-        if (measurement == null) {
-            if (other.measurement != null)
-                return false;
-        } else if (!measurement.equals(other.measurement))
-            return false;
-        if (pantry == null) {
-            if (other.pantry != null)
-                return false;
-        } else if (!pantry.equals(other.pantry))
-            return false;
-        if (recipe == null) {
-            if (other.recipe != null)
-                return false;
-        } else if (!recipe.equals(other.recipe))
-            return false;
-        if (unit == null) {
-            if (other.unit != null)
-                return false;
-        } else if (!unit.equals(other.unit))
-            return false;
-        return true;
-    }
+        private Unit(String name, String abbreviation){
+            this.name = name;
+            this.abbreviation = abbreviation;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+        public static String[] namesToStringArray() {
+            String[] stringArray = new String[values().length];
+            for(int i = 0; i < stringArray.length; i++) {
+                stringArray[i] = Unit.values()[i].name;
+            }
+            return stringArray;
+        }
+
+        public static String[] abbreviationsToStringArray() {
+            String[] stringArray = new String[values().length];
+            for(int i = 0; i < stringArray.length; i++) {
+                stringArray[i] = Unit.values()[i].abbreviation;
+            }
+            return stringArray;
+        }
+      }
+
+      @Override
+      public int hashCode() {
+          final int prime = 31;
+          int result = 1;
+          result = prime * result + ((measurement == null) ? 0 : measurement.hashCode());
+          result = prime * result + ((pantry == null) ? 0 : pantry.hashCode());
+          result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
+          result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+          return result;
+      }
+
+      @Override
+      public boolean equals(Object obj) {
+          if (this == obj)
+              return true;
+          if (obj == null)
+              return false;
+          if (getClass() != obj.getClass())
+              return false;
+          Ingredient other = (Ingredient) obj;
+          if (measurement == null) {
+              if (other.measurement != null)
+                  return false;
+          } else if (!measurement.equals(other.measurement))
+              return false;
+          if (pantry == null) {
+              if (other.pantry != null)
+                  return false;
+          } else if (!pantry.equals(other.pantry))
+              return false;
+          if (recipe == null) {
+              if (other.recipe != null)
+                  return false;
+          } else if (!recipe.equals(other.recipe))
+              return false;
+          if (unit == null) {
+              if (other.unit != null)
+                  return false;
+          } else if (!unit.equals(other.unit))
+              return false;
+          return true;
+      }
 
 }

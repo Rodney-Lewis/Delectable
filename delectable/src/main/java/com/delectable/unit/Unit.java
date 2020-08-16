@@ -11,22 +11,19 @@ public class Unit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
     @NotNull
-    String name;
+    private String name;
+
+    private boolean deleted;
 
     public Unit() {
-        super();
     }
 
     public Unit (String name) {
         this.name = name;
-    }
-
-    public Unit(int id, String name) {
-        this.id = id;
-        this.name = name;
+        this.deleted = false;
     }
 
     public int getId() {
@@ -45,6 +42,14 @@ public class Unit {
         this.name = name;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+    
     /*
      * TEASPOONS("Teaspoon"), TABLESPOONS("Tablespoon"), CUPS("Cup"), FLUID_OUNCES("Fluid ounce"),
      * PINTS("Pint"), LITERS("Liter"), QUARTS("Quart"), MILLILITERS("Milliliter"), OUNCES("Ounce"),

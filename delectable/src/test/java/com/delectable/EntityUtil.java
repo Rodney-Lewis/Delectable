@@ -10,8 +10,7 @@ import com.delectable.recipe.RecipeService;
 import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantService;
 import com.delectable.schedule.ScheduleService;
-import com.delectable.unit.Unit;
-import com.delectable.unit.UnitService;
+import com.delectable.ingredient.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,9 +26,6 @@ public class EntityUtil {
 
     @Autowired
     private RecipeService recipeService;
-
-    @Autowired
-    private UnitService unitService;
 
     @Autowired
     private RestaurantService restaurantService;
@@ -100,13 +96,6 @@ public class EntityUtil {
     }
 
     Recipe createValidTestRecipe() {
-        Unit unit1 = new Unit("Pound(s)");
-        Unit unit2 = new Unit("Gram(s)");
-        Unit unit3 = new Unit("Pinch");
-        unit1 = unitService.save(unit1);
-        unit2 = unitService.save(unit2);
-        unit3 = unitService.save(unit3);
-
         PantryItem pantryItem1 = new PantryItem("Carrot");
         PantryItem pantryItem2 = new PantryItem("Onion");
         PantryItem pantryItem3 = new PantryItem("Apples");
@@ -123,9 +112,9 @@ public class EntityUtil {
 
         Recipe recipe =
                 new Recipe("Recipe1", "Kitchen", "Description", 3600000, 3600000, instructions, "");
-        recipe.addIngredientFromPantry(pantryItem1, "0", unit1);
-        recipe.addIngredientFromPantry(pantryItem2, "1", unit2);
-        recipe.addIngredientFromPantry(pantryItem3, "2", unit3);
+        recipe.addIngredientFromPantry(pantryItem1, "0", Ingredient.Unit.TEASPOON.toString());
+        recipe.addIngredientFromPantry(pantryItem2, "1", Ingredient.Unit.TABLESPOON.toString());
+        recipe.addIngredientFromPantry(pantryItem3, "2", Ingredient.Unit.DROP.toString());
         return recipe;
     }
 
