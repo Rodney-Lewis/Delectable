@@ -1,6 +1,5 @@
 import { FormComponent } from './form-component';
 import { Router } from '@angular/router';
-import { FileHandlerService } from '../imagehandler/file-handler.service';
 import { FormBuilder } from '@angular/forms';
 
 export abstract class FormWithImageComponent extends FormComponent {
