@@ -6,7 +6,7 @@ import { Schedule } from 'app/delectable/schedule/schedule';
 import { Recipe } from 'app/delectable/meal/recipe/recipe';
 import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
 import { FormComponent } from 'app/delectable/component/form-component';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
+import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
 
 @Component({

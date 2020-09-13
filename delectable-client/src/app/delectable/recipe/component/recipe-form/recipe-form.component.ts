@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormControl, FormGroup, Form } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FileHandlerService } from 'app/delectable/service/imagehandler/file-handler.service';
-import { RecipeService } from '../../service/recipe.service';
-import { IngredientService } from 'app/delectable/recipe/service/ingredient.service';
-import { Ingredient } from 'app/delectable/recipe/model/ingredient';
 import { Direction } from 'app/delectable/recipe/model/instruction';
+import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { RecipeService } from '../../service/recipe.service';
+import { IngredientService } from '../../service/ingredient.service';
+import { Ingredient } from '../../model/ingredient';
 
 @Component({
   selector: 'app-recipe-form',
@@ -38,20 +38,16 @@ export class RecipeFormComponent implements OnInit {
         this.editRecipe = true;
         this.id = Number.parseInt(params.get('id'));
         this.recipeService.findById(Number(params.get('id'))).subscribe(data => {
-
-          var cookTime = new Date(data.cookTime);
-          var prepTime = new Date(data.prepTime);
-
           this.recipeForm = this.formBuilder.group({
             recipe: this.formBuilder.group({
               name: [data.name, Validators.required],
               source: [data.source, Validators.required],
-              prepTimeHour: [prepTime.getHours(), [Validators.min(0)]],
-              prepTimeMinute: [prepTime.getMinutes(), [Validators.min(0), Validators.max(59)]],
-              prepTimeSecond: [prepTime.getSeconds(), [Validators.min(0), Validators.max(59)]],
-              cookTimeHour: [cookTime.getHours(), [Validators.min(0)]],
-              cookTimeMinute: [cookTime.getMinutes(), [Validators.min(0), Validators.max(59)]],
-              cookTimeSecond: [cookTime.getSeconds(), [Validators.min(0), Validators.max(59)]],
+              prepTimeHour: [data.prepTimeHour, [Validators.min(0)]],
+              prepTimeMinute: [data.prepTimeMinute, [Validators.min(0), Validators.max(59)]],
+              prepTimeSecond: [data.prepTimeSecond, [Validators.min(0), Validators.max(59)]],
+              cookTimeHour: [data.cookTimeHour, [Validators.min(0)]],
+              cookTimeMinute: [data.cookTimeMinute, [Validators.min(0), Validators.max(59)]],
+              cookTimeSecond: [data.cookTimeSecond, [Validators.min(0), Validators.max(59)]],
               imageSource: [data.imageSource],
               description: [data.description],
               ingredients: this.formBuilder.array([]),
@@ -203,7 +199,7 @@ export class RecipeFormComponent implements OnInit {
       }));
     }
   }
-
+  
   addIngredient() {
     this.getFormArrayComponent('recipe.ingredients').push(this.formBuilder.group({
       name: ['', Validators.required],

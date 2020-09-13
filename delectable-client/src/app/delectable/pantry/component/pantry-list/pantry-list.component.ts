@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pantry } from 'app/delectable/pantry/pantry';
-import { PantryService } from 'app/delectable/pantry/pantry.service';
+import { PantryItem } from 'app/delectable/pantry/model/pantry';
+import { PantryService } from 'app/delectable/pantry/service/pantry.service';
 
 @Component({
   selector: 'app-pantry-list',
@@ -9,7 +9,7 @@ import { PantryService } from 'app/delectable/pantry/pantry.service';
 })
 export class PantryListComponent implements OnInit {
 
-  pantryItems: Pantry[];
+  pantryItems: PantryItem[];
   constructor(private pantryService: PantryService) { }
 
   ngOnInit() {

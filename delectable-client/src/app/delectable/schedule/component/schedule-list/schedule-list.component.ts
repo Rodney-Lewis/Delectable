@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Schedule } from 'app/delectable/schedule/schedule'
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
 import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
+import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
 import { ScheduleFormComponent } from '../schedule-form/schedule-form.component';
 
