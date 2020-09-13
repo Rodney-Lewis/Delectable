@@ -25,7 +25,6 @@ public class Recipe {
 	@NotNull(message = "Name can not be null")
 	private String name;
 
-	@NotNull(message = "Source can not be null")
 	private String source;
 
 	private String description;

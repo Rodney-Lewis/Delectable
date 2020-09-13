@@ -70,7 +70,7 @@ export class RecipeFormComponent implements OnInit {
         this.recipeForm = this.formBuilder.group({
           recipe: this.formBuilder.group({
             name: ['', Validators.required],
-            source: ['', Validators.required],
+            source: [''],
             prepTimeHour: [0, [Validators.min(0)]],
             prepTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
             prepTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
