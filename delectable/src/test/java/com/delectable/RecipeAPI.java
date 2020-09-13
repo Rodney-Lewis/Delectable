@@ -110,7 +110,7 @@ public class RecipeAPI {
 	@Test
 	public void postInvalidRecipe() throws Exception {
 		Recipe recipe = entityUtil.createValidTestRecipe();
-		recipe.setPrepTime(-1);
+		recipe.setPrepTimeHour(-1);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe").content(entityUtil.toJson(recipe))
 				.contentType(MediaType.APPLICATION_JSON))

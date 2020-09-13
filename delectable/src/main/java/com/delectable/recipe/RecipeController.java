@@ -34,7 +34,7 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe newRecipe)
+    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe recipeUpdates)
             throws Exception {
         Optional<Recipe> optRecipe = recipeService.findById(id);
         if (optRecipe.isPresent()) {
@@ -42,15 +42,8 @@ public class RecipeController {
             if (recipeToUpdate.isDeleted())
                 throw new Exception("Recipe has been marked as deleted, it will not be updated.");
             else {
-                recipeToUpdate.setCookTime(newRecipe.getCookTime());
-                recipeToUpdate.setPrepTime(newRecipe.getPrepTime());
-                recipeToUpdate.setName(newRecipe.getName());
-                recipeToUpdate.setDescription(newRecipe.getDescription());
-                recipeToUpdate.setImageSource(newRecipe.getImageSource());
-                recipeToUpdate.setSource(newRecipe.getSource());
-                recipeToUpdate.setIngredients(newRecipe.getIngredients());
-                recipeToUpdate.setDirections(newRecipe.getDirections());
-                return recipeService.save(recipeToUpdate);
+                recipeUpdates.setId(recipeToUpdate.getId());
+                return recipeService.save(recipeUpdates);
             }
         } else {
             throw new NotFoundException();

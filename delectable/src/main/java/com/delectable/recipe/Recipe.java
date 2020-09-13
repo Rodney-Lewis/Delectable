@@ -1,5 +1,6 @@
 package com.delectable.recipe;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -29,11 +30,27 @@ public class Recipe {
 
 	private String description;
 
-	@Min(value = 0, message = "Preparation time can not be negative.")
-	private int prepTime;
+	@Min(value = 0, message = "Can not be negative.")
+	private int prepTimeHour;
 
-	@Min(value = 0, message = "Cooking time can not be negative.")
-	private int cookTime;
+	@Max(value = 59, message = "Can not expceed 59")
+	@Min(value = 0, message = "Can not be negative.")
+	private int prepTimeMinute;
+
+	@Max(value = 59, message = "Can not expceed 59")
+	@Min(value = 0, message = "Can not be negative.")
+	private int prepTimeSecond;
+
+	@Min(value = 0, message = "Can not be negative.")
+	private int cookTimeHour;
+
+	@Max(value = 59, message = "Can not expceed 59")
+	@Min(value = 0, message = "Can not be negative.")
+	private int cookTimeMinute;
+
+	@Max(value = 59, message = "Can not expceed 59")
+	@Min(value = 0, message = "Can not be negative.")
+	private int cookTimeSecond;
 
 	@NotNull(message = "Ingredients can not be null")
 	@OneToMany(mappedBy = "recipe")
@@ -48,23 +65,34 @@ public class Recipe {
 	private String imageSource;
 	private boolean deleted;
 
-	public Recipe(@NotNull(message = "Name can not be null") String name,
-			@NotNull(message = "Source can not be null") String source, String description,
-			@Min(value = 0, message = "Preparation time can not be negative.") int prepTime,
-			@Min(value = 0, message = "Cooking time can not be negative.") int cookTime,
+	public Recipe() {
+	}
+
+	public Recipe(@NotNull(message = "Name can not be null") String name, String source,
+			String description, @Min(value = 0, message = "Can not be negative.") int prepTimeHour,
+			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
+					message = "Can not be negative.") int prepTimeMinute,
+			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
+					message = "Can not be negative.") int prepTimeSecond,
+			@Min(value = 0, message = "Can not be negative.") int cookTimeHour,
+			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
+					message = "Can not be negative.") int cookTimeMinute,
+			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
+					message = "Can not be negative.") int cookTimeSecond,
 			@NotNull(message = "Directions can not be null") List<Direction> directions,
-			String imageSource) {
+			String imageSource, boolean deleted) {
 		this.name = name;
 		this.source = source;
 		this.description = description;
-		this.prepTime = prepTime;
-		this.cookTime = cookTime;
+		this.prepTimeHour = prepTimeHour;
+		this.prepTimeMinute = prepTimeMinute;
+		this.prepTimeSecond = prepTimeSecond;
+		this.cookTimeHour = cookTimeHour;
+		this.cookTimeMinute = cookTimeMinute;
+		this.cookTimeSecond = cookTimeSecond;
 		this.directions = directions;
 		this.imageSource = imageSource;
-		this.deleted = false;
-	}
-
-	public Recipe() {
+		this.deleted = deleted;
 	}
 
 	public int getId() {
@@ -99,22 +127,6 @@ public class Recipe {
 		this.description = description;
 	}
 
-	public int getPrepTime() {
-		return prepTime;
-	}
-
-	public void setPrepTime(int prepTime) {
-		this.prepTime = prepTime;
-	}
-
-	public int getCookTime() {
-		return cookTime;
-	}
-
-	public void setCookTime(int cookTime) {
-		this.cookTime = cookTime;
-	}
-
 	public List<Ingredient> getIngredients() {
 		return ingredients;
 	}
@@ -147,6 +159,53 @@ public class Recipe {
 		this.deleted = deleted;
 	}
 
+	public int getPrepTimeHour() {
+		return prepTimeHour;
+	}
+
+	public void setPrepTimeHour(int prepTimeHour) {
+		this.prepTimeHour = prepTimeHour;
+	}
+
+	public int getPrepTimeMinute() {
+		return prepTimeMinute;
+	}
+
+	public void setPrepTimeMinute(int prepTimeMinute) {
+		this.prepTimeMinute = prepTimeMinute;
+	}
+
+	public int getPrepTimeSecond() {
+		return prepTimeSecond;
+	}
+
+	public void setPrepTimeSecond(int prepTimeSecond) {
+		this.prepTimeSecond = prepTimeSecond;
+	}
+
+	public int getCookTimeHour() {
+		return cookTimeHour;
+	}
+
+	public void setCookTimeHour(int cookTimeHour) {
+		this.cookTimeHour = cookTimeHour;
+	}
+
+	public int getCookTimeMinute() {
+		return cookTimeMinute;
+	}
+
+	public void setCookTimeMinute(int cookTimeMinute) {
+		this.cookTimeMinute = cookTimeMinute;
+	}
+
+	public int getCookTimeSecond() {
+		return cookTimeSecond;
+	}
+
+	public void setCookTimeSecond(int cookTimeSecond) {
+		this.cookTimeSecond = cookTimeSecond;
+	}
 
 	public void addIngredientFromPantry(PantryItem pantryItem, String measurement, String unit) {
 		Ingredient ingredient = new Ingredient(this, pantryItem, measurement, unit);

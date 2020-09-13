@@ -110,8 +110,7 @@ public class EntityUtil {
         instructions.add(new Direction(4, "Step 4"));
         instructions.add(new Direction(5, "Step 5"));
 
-        Recipe recipe =
-                new Recipe("Recipe1", "Kitchen", "Description", 3600000, 3600000, instructions, "");
+        Recipe recipe = new Recipe("Recipe1", "Kitchen", "Description", 10, 10, 10, 10, 10, 10, instructions, "", false);
         recipe.addIngredientFromPantry(pantryItem1, "0", Ingredient.Unit.TEASPOON.toString());
         recipe.addIngredientFromPantry(pantryItem2, "1", Ingredient.Unit.TABLESPOON.toString());
         recipe.addIngredientFromPantry(pantryItem3, "2", Ingredient.Unit.DROP.toString());
