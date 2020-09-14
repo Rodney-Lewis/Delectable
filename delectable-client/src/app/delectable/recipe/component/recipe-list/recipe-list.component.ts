@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FileHandlerService } from 'app/delectable//imagehandler/file-handler.service';
 import { Recipe } from '../../model/recipe';
 import { RecipeService } from '../../service/recipe.service';
+import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 
 @Component({
   selector: 'app-recipe-list',

@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
 import { Schedule } from 'app/delectable/schedule/schedule';
-import { Recipe } from 'app/delectable/meal/recipe/recipe';
-import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
-import { FormComponent } from 'app/delectable/component/form-component';
+import { Recipe } from 'app/delectable/recipe/model/recipe';
+import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
 import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
-import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
+import { FormComponent } from 'app/delectable/_component/form-component';
 
 @Component({
   selector: 'app-schedule-form',
@@ -28,7 +27,7 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
   formSubmitted: boolean = false;
 
   constructor(formBuilder: FormBuilder, private scheduleService: ScheduleService,
-    private recipeService: RecipeService, router: Router, private restaurantService: RestaurantService, private preparedFoodService: PreparedFoodService) {
+    private recipeService: RecipeService, router: Router, private restaurantService: RestaurantService) {
     super(router, formBuilder);
   }
 
@@ -52,10 +51,6 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
       })
     } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "recipe")) {
       this.recipeService.findAll().subscribe(data => {
-        this.items = data;
-      })
-    } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "prepared food")) {
-      this.preparedFoodService.findAll().subscribe(data => {
         this.items = data;
       })
     }

@@ -3,10 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Schedule } from 'app/delectable/schedule/schedule'
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
 import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
-import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
-import { ScheduleFormComponent } from '../schedule-form/schedule-form.component';
+import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
 
 @Component({
   selector: 'app-schedule-list',
@@ -27,7 +25,7 @@ export class ScheduleListComponent implements OnInit {
   items: any[] = new Array();
   nothingScheduledDate: Date;
 
-  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService, private preparedFoodService: PreparedFoodService) { }
+  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(params => {
@@ -65,11 +63,7 @@ export class ScheduleListComponent implements OnInit {
               this.restaurantService.findById(scheduled.scheduledTypeId).subscribe(data => {
                 this.items.push(data);
               })
-            } else if (scheduled.scheduleType.toLowerCase() == "prepared food") {
-              this.preparedFoodService.findById(scheduled.scheduledTypeId).subscribe(data => {
-                this.items.push(data);
-              })
-            }
+            } 
           }
         } else {
           this.nothingScheduled = true;
