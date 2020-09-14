@@ -1,6 +1,6 @@
 import { FormComponent } from './form-component';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 export abstract class FormWithImageComponent extends FormComponent {
     invalidImageType: boolean;
@@ -10,9 +10,19 @@ export abstract class FormWithImageComponent extends FormComponent {
 
     constructor(router: Router, formBuilder: FormBuilder) {
         super(router, formBuilder);
+        let image = this.formBuilder.group({
+            imageSourceFile: [''],
+            imageMultipartFile: []
+        });
+        this.form.addControl('image', image);
     }
 
-    abstract patchFormImageValues(file: File);
+    patchFormImageValues(file: File) {
+        this.form.patchValue({
+            element: { imageSource: file.name },
+            image: { imageMultipartFile: file }
+        });
+    }
 
     clickElementById(elementId: string) {
         document.getElementById(elementId).click();

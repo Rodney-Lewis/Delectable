@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 export abstract class FormComponent {
 
@@ -8,17 +8,25 @@ export abstract class FormComponent {
 	id: number;
 	form: FormGroup;
 
-	constructor(protected router: Router, protected formBuilder) { 
+	constructor(protected router: Router, protected formBuilder: FormBuilder) {
 		this.formSubmitted = false;
 		this.edit = false;
+
+		this.form = this.formBuilder.group({});
+		let elementStarterForm = this.formBuilder.group({});
+		this.form.addControl('element', elementStarterForm);
 	}
 
 	abstract buildFormforEdit(id: number);
 	abstract buildFormforCreate();
 	abstract submitForm();
-	
+
 	getFormComponent(component: string) {
 		return this.form.get(component);
+	}
+
+	getFormGroupComponent(component: string) {
+		return this.form.get(component) as FormGroup;
 	}
 
 	getFormArrayComponent(component: string) {

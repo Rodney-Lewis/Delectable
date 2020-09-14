@@ -1,1 +1,24 @@
-<p>pantry-detail works!</p>
+<div class="row mt-2">
+    <div class="col-lg">
+        <img class="img-fluid" src="{{ pantryItem.imageSource }}" alt="image">
+    </div>
+    <div class="col-lg">
+        <div class="row mt-1">
+            <div class="col">
+                <h2>{{ pantryItem.name }}</h2>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col">
+                <b>Brand: </b>
+                <span>{{ pantryItem.brand }}</span>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col">
+                <b>Schedulable: </b>
+                <span>{{ pantryItem.schedulable }}</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,52 @@
-<form [formGroup]="pantryForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h3 *ngIf=!edit>Create pantry item</h3>
+  <h3 *ngIf=edit>Create pantry item</h3>
+  <div class="row">
+    <div class="col-lg">
+      <div formGroupName="image" class="form-group">
+        <label for="thumbnail">Thumbnail</label>
+        <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSourceFile"
+          accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)" hidden>
+        <img [src]="previewImage" (click)="clickElementById('thumbnail')" class="img-fluid">
+        <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
+        <div *ngIf=invalidImageType class="validator">
+          Invalid image type.
+        </div>
+        <div *ngIf=invalidImageSize class="validator">
+          10Mb size exceeded, upload a lower resolution image.
+        </div>
+      </div>
+    </div>
+    <div class="col-lg">
+      <div formGroupName="element">
+        <input class="form-control" id="imageSource" formControlName="imageSource" type="text" hidden>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <span *ngIf="formFieldRequired('element.name')" class="validator">
+            (Required)
+          </span>
+          <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name"
+            [ngClass]="{'is-invalid': formFieldRequired('element.name')}">
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <span *ngIf="formFieldRequired('element.brand')" class="validator">
+            (Required)
+          </span>
+          <input type="text" class="form-control" id="brand" formControlName="brand" placeholder="Brand"
+            [ngClass]="{'is-invalid': formFieldRequired('element.brand')}">
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="schedulable" formControlName="schedulable">
+          <label class="form-check-label" for="schedulable">Allow scheduling</label>
+        </div>
+      </div>
+    </div>
   </div>
-  <button type="submit">Submit</button>
+  <div class="row mt-3 mb-3">
+    <div class="col d-flex justify-content-end">
+      <button *ngIf=edit class="btn btn-outline-primary" type="submit">Confirm edit</button>
+      <button *ngIf=!edit class="btn btn-outline-primary" type="submit">Create pantry item</button>
+    </div>
+  </div>
 </form>
-<p>
-Form Value: {{ pantryForm.value | json }}
-</p>

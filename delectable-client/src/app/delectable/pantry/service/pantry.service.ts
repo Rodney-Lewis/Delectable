@@ -24,7 +24,8 @@ export class PantryService {
     return this.http.post<PantryItem>(this.pantryApiEndpoint, pantry);
   }
 
-  public update(pantry: PantryItem): Observable<PantryItem> {
+  public update(pantry: PantryItem, id: number): Observable<PantryItem> {
+    const endpointPattern = `${this.pantryApiEndpoint}/${id}`;
     return this.http.put<PantryItem>(this.pantryApiEndpoint, pantry);
   }
 

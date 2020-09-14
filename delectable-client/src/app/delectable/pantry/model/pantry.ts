@@ -1,11 +1,11 @@
 import { Ingredient } from 'app/delectable/recipe/model/ingredient';
 
 export class PantryItem {
-    id: Number;
-    name: String;
-    brand: String;
+    id: number;
+    name: string;
+    brand: string;
     ingreidnets: Ingredient[];
-    imageSource: String;
+    imageSource: string;
     deleted: boolean;
     schedulable: boolean;
 }

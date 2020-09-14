@@ -13,8 +13,8 @@ export class PantryListComponent implements OnInit {
   constructor(private pantryService: PantryService) { }
 
   ngOnInit() {
-    this.pantryService.findAll().subscribe(data => {
-      this.pantryItems = data;
+    this.pantryService.findAll().subscribe(pantryItems => {
+      this.pantryItems = pantryItems;
     })
   }
 }
