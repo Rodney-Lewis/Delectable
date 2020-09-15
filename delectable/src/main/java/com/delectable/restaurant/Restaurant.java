@@ -17,15 +17,15 @@ public class Restaurant {
     @NotNull(message = "Name can not be null")
     private String name;
     private String address;
+    private String addressNumber;
     private String city;
     private String state;
-    private String zipCode;
+    private String postalCode;
     private String phoneNumber;
     private String website;
-    private String menu;
     private boolean carryOut;
     private boolean delivery;
-    private String imageDir;
+    private String imageSource;
     private boolean deleted;
 
     public Restaurant() {
@@ -37,19 +37,19 @@ public class Restaurant {
     }
 
     public Restaurant(@NotNull(message = "Name can not be null") String name, String address,
-            String city, String state, String zipCode, String phoneNumber, String website,
-            String menu, boolean carryOut, boolean delivery, String imageDir) {
+            String addressNumber, String city, String state, String postalCode, String phoneNumber,
+            String website, boolean carryOut, boolean delivery, String imageDir) {
         this.name = name;
         this.address = address;
+        this.addressNumber = addressNumber;
         this.city = city;
         this.state = state;
-        this.zipCode = zipCode;
+        this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.website = website;
-        this.menu = menu;
         this.carryOut = carryOut;
         this.delivery = delivery;
-        this.imageDir = imageDir;
+        this.imageSource = imageDir;
         this.deleted = false;
     }
 
@@ -93,14 +93,6 @@ public class Restaurant {
         this.state = state;
     }
 
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -134,11 +126,11 @@ public class Restaurant {
     }
 
     public String getImageDir() {
-        return imageDir;
+        return imageSource;
     }
 
     public void setImageDir(String imageDir) {
-        this.imageDir = imageDir;
+        this.imageSource = imageDir;
     }
 
     public boolean isDeleted() {
@@ -149,12 +141,28 @@ public class Restaurant {
         this.deleted = deleted;
     }
 
-    public String getMenu() {
-        return menu;
+    public String getAddressNumber() {
+        return addressNumber;
     }
 
-    public void setMenu(String menu) {
-        this.menu = menu;
+    public void setAddressNumber(String addressNumber) {
+        this.addressNumber = addressNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(String imageSource) {
+        this.imageSource = imageSource;
     }
 
 }

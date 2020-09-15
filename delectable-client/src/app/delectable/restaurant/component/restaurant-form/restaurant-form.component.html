@@ -1,22 +1,87 @@
-<form *ngIf="restaurantForm" [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
-    <div formGroupName="restaurant" class="form-group">
-        <h3 *ngIf=!editRestaurant>Create restaurant</h3>
-        <h3 *ngIf=editRestaurant>Edit restaurant</h3>
-        <div class="row">
-            <div class="col">
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h3 *ngIf=!edit>Create restaurant</h3>
+    <h3 *ngIf=edit>Edit restaurant</h3>
+
+    <div formGroupName="image">
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="thumbnail">Thumbnail</label>
+                <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSourceFile"
+                    accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)" hidden>
+                <img [src]="previewImage" (click)="triggerFileUpdload()" class="img-fluid">
+                <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
+                <div *ngIf=invalidImageType class="validator">
+                    Invalid image type.
+                </div>
+                <div *ngIf=invalidImageSize class="validator">
+                    10Mb size exceeded, upload a lower resolution image.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div formGroupName="element">
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label for="name">Name</label>
-                <span *ngIf="formFieldRequired('restaurant.name')" class="validator">
+                <span *ngIf="formFieldRequired('element.name')" class="validator">
                     (Required)
                 </span>
                 <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name"
-                    [ngClass]="{'is-invalid': formFieldRequired('restaurant.name')}">
+                    [ngClass]="{'is-invalid': formFieldRequired('element.name')}">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="phoneNumber">Phone number</label>
+                <span *ngIf="formFieldRequired('element.phoneNumber')" class="validator">
+                    (Required)
+                </span>
+                <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber"
+                    placeholder="1-234-567-8910" [ngClass]="{'is-invalid': formFieldRequired('element.phoneNumber')}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="inputAddress" formControlName="address"
+                placeholder="1234 Main St">
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" formControlName="addressNumber"
+                placeholder="Apartment, suite, unit, building, floor, etc.">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="City">City</label>
+                <input type="text" class="form-control" formControlName="city" id="City">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="state">State</label>
+                <input type="text" class="form-control" formControlName="state" id="state">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="postalCode">Postal code</label>
+                <input type="text" class="form-control" formControlName="postalCode" id="postalCode">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="website">Website link</label>
+            <input type="text" class="form-control" id="website" formControlName="website">
+        </div>
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" formControlName="carryOut" id="carryOut">
+                <label class="form-check-label" for="carryOut">Carry out</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" formControlName="delivery" id="delivery">
+                <label class="form-check-label" for="delivery">Delivery</label>
             </div>
         </div>
     </div>
     <div class="row mt-3 mb-3">
         <div class="col d-flex justify-content-end">
-            <button *ngIf=editRestaurant class="btn btn-outline-primary" type="submit">Confirm edit</button>
-            <button *ngIf=!editRestaurant class="btn btn-outline-primary" type="submit">Create restaurant</button>
+            <button *ngIf=edit class="btn btn-outline-primary" type="submit">Confirm edit</button>
+            <button *ngIf=!edit class="btn btn-outline-primary" type="submit">Create restaurant</button>
         </div>
     </div>
 </form>
