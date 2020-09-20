@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from '../../service/restaurant.service';
 import { Restaurant } from '../../model/restaurant';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -11,12 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RestuarantDetailComponent implements OnInit {
 
   restaurant: Restaurant = new Restaurant();
-  constructor(private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router) { }
+  constructor(private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
       this.restaurantService.findById(Number(params.get('id'))).subscribe(data => {
         this.restaurant = data;
+        this.restaurant.imageSource = this.fileHandlerService.getNamedImageUrl(this.restaurant.imageSource);
       })
     })
   }

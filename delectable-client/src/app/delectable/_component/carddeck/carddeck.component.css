@@ -1,0 +1,42 @@
+.card-deck {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.card {
+ 
+  height: 275px;
+  margin-bottom: 5px;
+  margin-right: 2.5px;
+  margin-left: 2.5px;
+}
+
+@media screen and (min-width: 992px) {
+  .card {
+  -ms-flex: 0 1 24.4%;
+  flex: 0 1 24.4%;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .card {
+  -ms-flex: 0 1 32.4%;
+  flex: 0 1 32.4%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+  -ms-flex: 0 1 49%;
+  flex: 0 1 49%;
+  }
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+.card-img-top {
+  height: 150px;
+  object-fit: cover;
+}

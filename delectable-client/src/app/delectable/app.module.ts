@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +19,11 @@ import { RecipeService } from './recipe/service/recipe.service';
 import { RestaurantFormComponent } from './restaurant/component/restaurant-form/restaurant-form.component';
 import { RestaurantListComponent } from './restaurant/component/restaurant-list/restaurant-list.component';
 import { RestuarantDetailComponent } from './restaurant/component/restaurant-detail/restaurant-detail.component';
+import { PaginationComponent } from './_component/pagination/pagination.component';
+import { CarddeckComponent } from './_component/carddeck/carddeck.component';
+import { ListToolbarComponent } from './_component/list-toolbar/list-toolbar.component';
+import { RestaurantCardInfoComponent } from './restaurant/_component/restaurant-card-info/restaurant-card-info.component';
+import { ListHeaderComponent } from './_component/list-header/list-header.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,12 @@ import { RestuarantDetailComponent } from './restaurant/component/restaurant-det
     PantryDetailComponent,
     RestaurantFormComponent,
     RestaurantListComponent,
-    RestuarantDetailComponent
+    RestuarantDetailComponent,
+    PaginationComponent,
+    CarddeckComponent,
+    ListToolbarComponent,
+    RestaurantCardInfoComponent,
+    ListHeaderComponent,
   ],
   imports: [
     BrowserModule,

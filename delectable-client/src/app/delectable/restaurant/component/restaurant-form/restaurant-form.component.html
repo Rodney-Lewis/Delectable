@@ -1,6 +1,11 @@
-<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <h3 *ngIf=!edit>Create restaurant</h3>
-    <h3 *ngIf=edit>Edit restaurant</h3>
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="submitForm()">
+
+    <div class="form-row justify-content-center">
+        <div class="form-group-col-md-6">
+            <h3 *ngIf=!edit>Create restaurant</h3>
+            <h3 *ngIf=edit>Edit restaurant</h3>
+        </div>
+    </div>
 
     <div formGroupName="image">
         <div class="form-row justify-content-center">
@@ -8,7 +13,7 @@
                 <label for="thumbnail">Thumbnail</label>
                 <input type="file" class="form-control-file" id="thumbnail" formControlName="imageSourceFile"
                     accept="image/png, image/jpeg, image/jpg" (change)="onFileChange($event)" hidden>
-                <img [src]="previewImage" (click)="triggerFileUpdload()" class="img-fluid">
+                <img [src]="previewImage" (click)="clickElementById('thumbnail')" class="img-fluid">
                 <small id="thumbnailHelp" class="form-text text-muted">Accepted formats: png, jpeg and jpg</small>
                 <div *ngIf=invalidImageType class="validator">
                     Invalid image type.
@@ -32,39 +37,60 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="phoneNumber">Phone number</label>
-                <span *ngIf="formFieldRequired('element.phoneNumber')" class="validator">
-                    (Required)
-                </span>
+                <small class="text-muted">
+                    Optional
+                  </small>
                 <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                    placeholder="1-234-567-8910" [ngClass]="{'is-invalid': formFieldRequired('element.phoneNumber')}">
+                    placeholder="1-234-567-8910">
             </div>
         </div>
         <div class="form-group">
             <label for="inputAddress">Address</label>
+            <span *ngIf="formFieldRequired('element.address')" class="validator">
+                (Required)
+            </span>
             <input type="text" class="form-control" id="inputAddress" formControlName="address"
-                placeholder="1234 Main St">
+                placeholder="1234 Main St" [ngClass]="{'is-invalid': formFieldRequired('element.address')}">
         </div>
         <div class="form-group">
             <label for="inputAddress2">Address 2</label>
+            <small class="text-muted">
+                Optional
+              </small>
             <input type="text" class="form-control" id="inputAddress2" formControlName="addressNumber"
                 placeholder="Apartment, suite, unit, building, floor, etc.">
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="City">City</label>
-                <input type="text" class="form-control" formControlName="city" id="City">
+                <span *ngIf="formFieldRequired('element.city')" class="validator">
+                    (Required)
+                </span>
+                <input type="text" class="form-control" formControlName="city" id="City"
+                    [ngClass]="{'is-invalid': formFieldRequired('element.city')}">
             </div>
             <div class="form-group col-md-4">
                 <label for="state">State</label>
-                <input type="text" class="form-control" formControlName="state" id="state">
+                <span *ngIf="formFieldRequired('element.state')" class="validator">
+                    (Required)
+                </span>
+                <input type="text" class="form-control" formControlName="state" id="state"
+                    [ngClass]="{'is-invalid': formFieldRequired('element.state')}">
             </div>
             <div class="form-group col-md-2">
                 <label for="postalCode">Postal code</label>
-                <input type="text" class="form-control" formControlName="postalCode" id="postalCode">
+                <span *ngIf="formFieldRequired('element.postalCode')" class="validator">
+                    (Required)
+                </span>
+                <input type="text" class="form-control" formControlName="postalCode" id="postalCode"
+                    [ngClass]="{'is-invalid': formFieldRequired('element.postalCode')}">
             </div>
         </div>
         <div class="form-group">
             <label for="website">Website link</label>
+            <small class="text-muted">
+                Optional
+              </small>
             <input type="text" class="form-control" id="website" formControlName="website">
         </div>
         <div class="form-group">

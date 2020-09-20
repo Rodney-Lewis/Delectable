@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col">
+        <form class="form-inline" name="searchForm" (ngSubmit)="onSubmit()">
+            <input type="search" class="form-control mr-2" name="search" [(ngModel)]="searchForm.query" required
+                #query="ngModel" placeholder="Search" aria-label="Search" />
+            <button class="btn btn-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>

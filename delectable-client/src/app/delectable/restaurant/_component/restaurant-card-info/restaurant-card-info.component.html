@@ -1,0 +1,9 @@
+<a routerLink="{{ detailItemRoute }}/{{ item.id }}">
+    <img class="card-img-top" src="{{ item.imageSource }}" alt="Card image cap">
+</a>
+<div class="card-body">
+    <a routerLink="{{ detailItemRoute }}/{{ item.id }}">
+        <h5 class="card-title">{{ item.name }} </h5>
+    </a>
+    <p>{{ item.city }}, {{ item.state }}</p>
+</div>

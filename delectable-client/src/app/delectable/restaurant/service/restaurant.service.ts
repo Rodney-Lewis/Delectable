@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Restaurant } from '../model/restaurant';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+const restaurantApiURL: string = "/api/restaurant";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestaurantService {
 
-  private restaurantApiEndpoint: string = "/api/restaurant";
 
   constructor(private http: HttpClient) {
   }
 
-  public findAll(): Observable<Restaurant[]> {
-    return this.http.get<Restaurant[]>(this.restaurantApiEndpoint);
+  public findAll(page: number = 1, size: number = 12, query?: string): Observable<any> {
+    page = page - 1;
+    const params = new HttpParams().set("page", page.toString()).set("size", size.toString()).set("query", query);
+    return this.http.get(restaurantApiURL, { params, responseType: 'text' });
   }
 
   public findById(id: number): Observable<Restaurant> {
-    const endpointPattern = `${this.restaurantApiEndpoint}/${id}`;
+    const endpointPattern = restaurantApiURL + `/${id}`;
     return this.http.get<Restaurant>(endpointPattern);
   }
 
   public add(restaurant: Restaurant): Observable<Restaurant> {
-    return this.http.post<Restaurant>(this.restaurantApiEndpoint, restaurant);
+    return this.http.post<Restaurant>(restaurantApiURL, restaurant);
   }
 
   public update(restaurant: Restaurant, id: Number): Observable<Restaurant> {
-    const endpointPattern = `${this.restaurantApiEndpoint}/${id}`;
+    const endpointPattern = restaurantApiURL + `/${id}`;
     return this.http.put<Restaurant>(endpointPattern, restaurant);
   }
 
   public delete(id: number): Observable<Restaurant> {
-    const endpointPattern = `${this.restaurantApiEndpoint}/${id}`;
+    const endpointPattern = restaurantApiURL + `/${id}`;
     return this.http.delete<Restaurant>(endpointPattern);
   }
 }

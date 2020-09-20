@@ -1,0 +1,39 @@
+table, th, td {
+    padding: .1rem;
+    vertical-align: top;
+  }
+  
+  .center {
+    justify-content: center;
+    display: flex;
+  }
+  
+  .table {
+    margin-top: 1.5rem;
+  }
+  
+  @media (min-width: 769px) { 
+    .img-fluid {
+      max-height: 300px;
+    }
+    .container {
+      width: 74%;
+    }
+  }
+  
+  @media (max-width: 768px) { 
+    .img-fluid {
+      max-height: 175px;
+    }
+  }
+  
+/*
+<div class="container">
+  <div class="row mt-2 center">
+    <img class="img-fluid" src="{{ restaurant.imageSource }}" alt="image">
+    <table class="table">
+      <tbody>
+       </tbody>
+    </table>
+  </div>
+*/
