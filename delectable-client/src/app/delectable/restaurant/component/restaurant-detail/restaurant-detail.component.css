@@ -14,7 +14,7 @@ table, th, td {
   
   @media (min-width: 769px) { 
     .img-fluid {
-      max-height: 300px;
+      max-height: 250px;
     }
     .container {
       width: 74%;

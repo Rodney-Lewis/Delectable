@@ -1,15 +1,17 @@
-<div class="row mt-3 mb-3">
-  <div class="col d-flex justify-content-end">
-    <a routerLink="/pantry/add" class="btn btn-outline-primary" role="button">Add pantry item</a>
+<div class="container">
+  <div class="row mt-3 mb-3">
+    <div class="col d-flex justify-content-end">
+      <a routerLink="/pantry/add" class="btn btn-outline-primary" role="button">Add pantry item</a>
+    </div>
   </div>
-</div>
-<div class="card-deck mr-auto">
-  <div class="card" *ngFor="let pantryItem of pantryItems">
-    <a [routerLink]="['/pantry/detail', pantryItem.id]">
-      <img class="card-img-top img-fluid" src="{{ pantryItem.imageSource }}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{ pantryItem.name }} </h5>
-      </div>
-    </a>
+  <div class="card-deck mr-auto">
+    <div class="card" *ngFor="let pantryItem of pantryItems">
+      <a [routerLink]="['/pantry/detail', pantryItem.id]">
+        <img class="card-img-top img-fluid" src="{{ pantryItem.imageSource }}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{ pantryItem.name }} </h5>
+        </div>
+      </a>
+    </div>
   </div>
 </div>

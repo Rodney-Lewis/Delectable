@@ -1,89 +1,91 @@
-<div class="row mt-2">
-	<div class="col-lg">
-		<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
+<div class="container">
+	<div class="row mt-2">
+		<div class="col-lg">
+			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
+		</div>
+		<div class="col-lg">
+			<div class="row mt-1">
+				<div class="col">
+					<h2>{{ recipe.name }}</h2>
+				</div>
+			</div>
+			<div class="row mt-1">
+				<div class="col">
+					<b>Source: </b>
+					<span>{{ recipe.source }}</span>
+				</div>
+			</div>
+			<div class="row mt-1">
+				<div class="col">
+					<b>Prep time: </b>
+					{{recipe.prepTimeHour}}h
+					{{recipe.prepTimeMinute}}m
+					{{recipe.prepTimeSecond}}s
+				</div>
+			</div>
+			<div class="row mt-1">
+				<div class="col">
+					<b>Cook time: </b>
+					{{recipe.cookTimeHour}}h
+					{{recipe.cookTimeMinute}}m
+					{{recipe.cookTimeSecond}}s
+				</div>
+			</div>
+			<div class="row mt-1">
+				<div class="col">
+					<b>Total time: </b>
+					{{totalTimeHour}}h
+					{{totalTimeMinute}}m
+					{{totalTimeSecond}}s
+				</div>
+			</div>
+			<div class="row mt-1">
+				<div class="col">
+					<b>Description: </b>
+					<span>{{ recipe.description }}</span>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="col-lg">
-		<div class="row mt-1">
-			<div class="col">
-				<h2>{{ recipe.name }}</h2>
-			</div>
-		</div>
-		<div class="row mt-1">
-			<div class="col">
-				<b>Source: </b>
-				<span>{{ recipe.source }}</span>
-			</div>
-		</div>
-		<div class="row mt-1">
-			<div class="col">
-				<b>Prep time: </b>
-				{{recipe.prepTimeHour}}h
-				{{recipe.prepTimeMinute}}m
-				{{recipe.prepTimeSecond}}s
-			</div>
-		</div>
-		<div class="row mt-1">
-			<div class="col">
-				<b>Cook time: </b>
-				{{recipe.cookTimeHour}}h
-				{{recipe.cookTimeMinute}}m
-				{{recipe.cookTimeSecond}}s
-			</div>
-		</div>
-		<div class="row mt-1">
-			<div class="col">
-				<b>Total time: </b>
-				{{totalTimeHour}}h
-				{{totalTimeMinute}}m
-				{{totalTimeSecond}}s
-			</div>
-		</div>
-		<div class="row mt-1">
-			<div class="col">
-				<b>Description: </b>
-				<span>{{ recipe.description }}</span>
-			</div>
-		</div>
-	</div>
-</div>
 
-<div class="row mt-2">
-	<div class="col-md">
-		<div class="row mt-2">
-			<div class="col">
-				<h4>Ingredients</h4>
+	<div class="row mt-2">
+		<div class="col-md">
+			<div class="row mt-2">
+				<div class="col">
+					<h4>Ingredients</h4>
+				</div>
+			</div>
+			<div class="row" *ngFor="let ingredient of recipe.ingredients">
+				<div class="col">
+					{{ ingredient.measurement }} {{ ingredient.unit }} {{ ingredient.name }}
+				</div>
 			</div>
 		</div>
-		<div class="row" *ngFor="let ingredient of recipe.ingredients">
-			<div class="col">
-				{{ ingredient.measurement }} {{ ingredient.unit }} {{ ingredient.name }}
+		<div class="col-md">
+			<div class="row mt-2">
+				<div class="col">
+					<h4>Directions</h4>
+				</div>
+			</div>
+			<div class="row" *ngFor="let direction of recipe.directions">
+				<div class="col">
+					<b>Step {{ direction.step }}: </b>
+					<span>{{ direction.instruction }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md">
-		<div class="row mt-2">
-			<div class="col">
-				<h4>Directions</h4>
-			</div>
-		</div>
-		<div class="row" *ngFor="let direction of recipe.directions">
-			<div class="col">
-				<b>Step {{ direction.step }}: </b>
-				<span>{{ direction.instruction }}</span>
-			</div>
-		</div>
-	</div>
-</div>
 
-<div class="row justify-content-end mt-2" *ngIf="displayDeleteButton()">
-	<div class="col-auto">
-		<button type="button" class="btn btn-outline-primary" [routerLink]="['/recipe/edit', recipe.id]">Edit
-			recipe</button>
+	<div class="row justify-content-end mt-2" *ngIf="displayDeleteButton()">
+		<div class="col-auto">
+			<button type="button" class="btn btn-outline-primary" [routerLink]="['/recipe/edit', recipe.id]">Edit
+				recipe</button>
+		</div>
 	</div>
-</div>
 
-<div class="row justify-content-end mt-2 mb-2" *ngIf="displayDeleteButton()">
-	<div class="col-auto">
-		<button type="button" class="btn btn-outline-danger" (click)="delete(recipe.id)">Remove recipe</button>
+	<div class="row justify-content-end mt-2 mb-2" *ngIf="displayDeleteButton()">
+		<div class="col-auto">
+			<button type="button" class="btn btn-outline-danger" (click)="delete(recipe.id)">Remove recipe</button>
+		</div>
 	</div>
 </div>

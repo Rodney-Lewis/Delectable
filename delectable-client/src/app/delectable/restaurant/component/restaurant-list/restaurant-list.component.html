@@ -1,22 +1,24 @@
-<div class="mt-2 mr-2">
-    <app-list-header addItemRoute="/restaurant/add" addButtonText="Add new" headerText="Restaurants">
-    </app-list-header>
-</div>
-<div class="mt-2 mr-2 d-flex justify-content-end">
-    <app-list-toolbar listItemRoute="/restaurant/list">
-    </app-list-toolbar>
-</div>
-<div class="mt-2">
-    <app-carddeck *ngIf="jsonResponse" [items]="jsonResponse.content">
-        <ng-template #item let-item="item">
-            <app-restaurant-card-info [item]="item" detailItemRoute="/restaurant/detail">
-            </app-restaurant-card-info>
-        </ng-template>
-    </app-carddeck>
-</div>
-<div class="mt-2 d-flex justify-content-center">
-    <app-pagination *ngIf="jsonResponse" [logicalCurrentPage]="jsonResponse.page" [pageSize]="jsonResponse.size"
-        [totalPages]="jsonResponse.totalPages" [totalElements]="jsonResponse.totalElements"
-        listItemRoute="/restaurant/list">
-    </app-pagination>
+<div class="container">
+    <div class="mr-2">
+        <app-list-header addItemRoute="/restaurant/add" addButtonText="Add new" headerText="Restaurants">
+        </app-list-header>
+    </div>
+    <div class="mt-2 mr-2 d-flex justify-content-end">
+        <app-list-toolbar listItemRoute="/restaurant/list">
+        </app-list-toolbar>
+    </div>
+    <div class="mt-2">
+        <app-carddeck *ngIf="jsonResponse" [items]="jsonResponse.content">
+            <ng-template #item let-item="item">
+                <app-restaurant-card-info [item]="item" detailItemRoute="/restaurant/detail">
+                </app-restaurant-card-info>
+            </ng-template>
+        </app-carddeck>
+    </div>
+    <div class="mt-2 d-flex justify-content-center">
+        <app-pagination *ngIf="jsonResponse" [logicalCurrentPage]="jsonResponse.page" [pageSize]="jsonResponse.size"
+            [totalPages]="jsonResponse.totalPages" [totalElements]="jsonResponse.totalElements"
+            listItemRoute="/restaurant/list">
+        </app-pagination>
+    </div>
 </div>
