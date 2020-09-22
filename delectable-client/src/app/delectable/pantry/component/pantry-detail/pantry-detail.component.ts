@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PantryItem } from '../../model/pantry';
 import { PantryService } from '../../service/pantry.service';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pantry-detail',
@@ -11,9 +11,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PantryDetailComponent implements OnInit {
 
-  pantryItem: PantryItem;
+  pantryItem: PantryItem = new PantryItem();
 
-  constructor(private pantryService: PantryService, private fileHandlerService: FileHandlerService, private activeRouter: ActivatedRoute) { }
+  constructor(private pantryService: PantryService, private fileHandlerService: FileHandlerService, private activeRouter: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.activeRouter.paramMap.subscribe(params => {
@@ -22,6 +22,16 @@ export class PantryDetailComponent implements OnInit {
         this.pantryItem.imageSource = this.fileHandlerService.getNamedImageUrl(this.pantryItem.imageSource);
       })
     })
+  }
+
+  delete(id) {
+    this.pantryService.delete(id).subscribe(() => {
+      this.router.navigate(['/pantry/list']);
+    })
+  }
+
+  displayDeleteButton() {
+    return !this.pantryItem.deleted;
   }
 
 }

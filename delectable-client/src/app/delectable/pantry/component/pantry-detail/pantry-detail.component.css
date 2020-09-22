@@ -1,0 +1,25 @@
+.table {
+  vertical-align: top;
+}
+
+@media(min-width: 1200px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 769px) { 
+  .img-fluid {
+    max-height: 250px;
+  }
+}
+
+@media (max-width: 768px) { 
+  .img-fluid {
+    max-height: 175px;
+  }
+
+  .table {
+    margin-top: 1.5rem;
+  }  
+}

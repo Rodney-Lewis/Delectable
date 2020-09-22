@@ -2,10 +2,19 @@ package com.delectable.pantry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import javax.validation.Valid;
 
 @RestController
@@ -16,13 +25,35 @@ public class PantryController {
     private PantryService pantryItemService;
 
     @GetMapping
-    public List<PantryItem> getPantryItems(@RequestParam(required = false) boolean schedulable) {
-        if (schedulable == true) {
-            return (List<PantryItem>) pantryItemService.findAllBydeletedAndSchedulable(false, true);
+    public ResponseEntity<Map<String, Object>> getPantryItems(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(required = false) boolean schedulable) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.ASC, "name"));
+        List<PantryItem> contentList = new ArrayList<>();
+        Page<PantryItem> pantryItemPages;
 
+        if (query.equals("undefined") || query.equals("")) {
+            pantryItemPages =
+                    pantryItemService.findAllByDeletedAndSchedulable(pageable, false, schedulable);
         } else {
-            return (List<PantryItem>) pantryItemService.findAllBydeleted(false);
+            pantryItemPages = pantryItemService.findAllByDeletedAndSchedulableAndNameStartingWith(
+                    pageable, false, schedulable, query);
         }
+
+        contentList = pantryItemPages.getContent();
+        if (contentList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", pantryItemPages.getContent());
+        response.put("page", pantryItemPages.getNumber());
+        response.put("size", pantryItemPages.getSize());
+        response.put("totalPages", pantryItemPages.getTotalPages());
+        response.put("totalElements", pantryItemPages.getTotalElements());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -1,26 +1,35 @@
 <div class="container">
-    <div class="row mt-2">
-        <div class="col-lg">
+    <div class="row">
+        <div class="col-lg d-flex justify-content-center">
             <img class="img-fluid" src="{{ pantryItem.imageSource }}" alt="image">
         </div>
         <div class="col-lg">
-            <div class="row mt-1">
-                <div class="col">
-                    <h2>{{ pantryItem.name }}</h2>
-                </div>
-            </div>
-            <div class="row mt-1">
-                <div class="col">
-                    <b>Brand: </b>
-                    <span>{{ pantryItem.brand }}</span>
-                </div>
-            </div>
-            <div class="row mt-1">
-                <div class="col">
-                    <b>Schedulable: </b>
-                    <span>{{ pantryItem.schedulable }}</span>
-                </div>
-            </div>
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                        <td class="table-active">Name</td>
+                        <td class="table-light">{{ pantryItem.name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Brand</td>
+                        <td class="table-light">{{ pantryItem.brand }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Schedulable</td>
+                        <td class="table-light">{{ pantryItem.schedulable }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="displayDeleteButton()">
+        <div class="col d-flex justify-content-begin">
+            <button type="button" class="btn btn-link" (click)="delete(pantryItem.id)">
+                Delete</button>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" [routerLink]="['/pantry/edit', pantryItem.id]">Edit</button>
         </div>
     </div>
 </div>

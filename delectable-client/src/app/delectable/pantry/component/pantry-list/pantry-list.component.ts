@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PantryItem } from 'app/delectable/pantry/model/pantry';
 import { PantryService } from 'app/delectable/pantry/service/pantry.service';
+import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pantry-list',
@@ -9,12 +11,22 @@ import { PantryService } from 'app/delectable/pantry/service/pantry.service';
 })
 export class PantryListComponent implements OnInit {
 
-  pantryItems: PantryItem[];
-  constructor(private pantryService: PantryService) { }
+  jsonResponse: any;
+  constructor(private pantryService: PantryService, private filehandler: FileHandlerService, private activatedRoute: ActivatedRoute) { }
+
 
   ngOnInit() {
-    this.pantryService.findAll().subscribe(pantryItems => {
-      this.pantryItems = pantryItems;
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.pantryService.findAll(params.cp, params.ps, params.s).subscribe(data => {
+        this.jsonResponse = JSON.parse(data);
+        this.jsonResponse.content.forEach(pantryItem => {
+          pantryItem.imageSource = this.filehandler.getNamedImageUrl(pantryItem.imageSource);
+        });
+      },
+        err => {
+          this.jsonResponse = JSON.parse(err.error).message;
+        }
+      );
     })
   }
 }

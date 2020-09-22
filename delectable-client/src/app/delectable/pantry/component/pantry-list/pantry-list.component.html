@@ -1,17 +1,24 @@
 <div class="container">
-  <div class="row mt-3 mb-3">
-    <div class="col d-flex justify-content-end">
-      <a routerLink="/pantry/add" class="btn btn-outline-primary" role="button">Add pantry item</a>
-    </div>
+  <div class="mr-2">
+      <app-list-header addItemRoute="/pantry/add" addButtonText="Add new" headerText="Pantry items">
+      </app-list-header>
   </div>
-  <div class="card-deck mr-auto">
-    <div class="card" *ngFor="let pantryItem of pantryItems">
-      <a [routerLink]="['/pantry/detail', pantryItem.id]">
-        <img class="card-img-top img-fluid" src="{{ pantryItem.imageSource }}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{ pantryItem.name }} </h5>
-        </div>
-      </a>
-    </div>
+  <div class="mt-2 mr-2 d-flex justify-content-end">
+      <app-list-toolbar listItemRoute="/pantry/list">
+      </app-list-toolbar>
+  </div>
+  <div class="mt-2">
+      <app-carddeck *ngIf="jsonResponse" [items]="jsonResponse.content">
+          <ng-template #item let-item="item">
+              <app-pantry-card-info [item]="item" detailItemRoute="/pantry/detail">
+              </app-pantry-card-info>
+          </ng-template>
+      </app-carddeck>
+  </div>
+  <div class="mt-2 d-flex justify-content-center">
+      <app-pagination *ngIf="jsonResponse" [logicalCurrentPage]="jsonResponse.page" [pageSize]="jsonResponse.size"
+          [totalPages]="jsonResponse.totalPages" [totalElements]="jsonResponse.totalElements"
+          listItemRoute="/pantry/list">
+      </app-pagination>
   </div>
 </div>

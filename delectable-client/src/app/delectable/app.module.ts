@@ -24,6 +24,7 @@ import { CarddeckComponent } from './_component/carddeck/carddeck.component';
 import { ListToolbarComponent } from './_component/list-toolbar/list-toolbar.component';
 import { RestaurantCardInfoComponent } from './restaurant/_component/restaurant-card-info/restaurant-card-info.component';
 import { ListHeaderComponent } from './_component/list-header/list-header.component';
+import { PantryCardInfoComponent } from './pantry/_component/pantry-card-info/pantry-card-info.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ListHeaderComponent } from './_component/list-header/list-header.compon
     ListToolbarComponent,
     RestaurantCardInfoComponent,
     ListHeaderComponent,
+    PantryCardInfoComponent,
   ],
   imports: [
     BrowserModule,
