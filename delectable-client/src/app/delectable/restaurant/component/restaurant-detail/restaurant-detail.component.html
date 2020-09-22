@@ -1,48 +1,51 @@
 <div class="container">
-
-
-  <div class="row mt-2 center">
-    <img class="img-fluid" src="{{ restaurant.imageSource }}" alt="image">
-    <table class="table">
-      <tbody>
-        <tr>
-          <td colspan="2">
-            <h3>Name: {{ restaurant.name }}</h3>
-          </td>
-        </tr>
-        <tr>
-          <td>Address:</td>
-          <td>{{ restaurant.address }} {{ restaurant.addressNumber }}, {{ restaurant.city }}, {{ restaurant.state }}
-            {{ restaurant.postalCode }}</td>
-        </tr>
-        <tr>
-          <td>Phone number:</td>
-          <td><a href="tel:{{ restaurant.website }}'">{{ restaurant.phoneNumber }}</a></td>
-        </tr>
-        <tr>
-          <td>Website:</td>
-          <td><a href="{{ restaurant.website }}">{{ restaurant.website }}</a></td>
-        </tr>
-        <tr>
-          <td>Carry out:</td>
-          <td>{{ restaurant.carryOut}}</td>
-        </tr>
-        <tr>
-          <td>Delivery:</td>
-          <td> {{ restaurant.delivery }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-
-  <div class="row mt-2" *ngIf="displayDeleteButton()">
-    <div class="col d-flex justify-content-begin">
-      <button type="button" class="btn btn-link" (click)="delete(restaurant.id)">
-        Delete</button>
+    <div class="row">
+        <div class="col-lg d-flex justify-content-center">
+            <img class="img-fluid" src="{{ restaurant.imageSource }}" alt="image">
+        </div>
+        <div class="col-lg">
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="table-active">Name</td>
+                        <td class="table-light">{{ restaurant.name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Address</td>
+                        <td class="table-light">{{ restaurant.address }} {{ restaurant.addressNumber }},
+                            {{ restaurant.city }},
+                            {{ restaurant.state }}
+                            {{ restaurant.postalCode }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Phone number</td>
+                        <td class="table-light"><a href="tel:{{ restaurant.website }}'">{{ restaurant.phoneNumber }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Website</td>
+                        <td class="table-light"><a href="{{ restaurant.website }}">{{ restaurant.website }}</a></td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Carry out</td>
+                        <td class="table-light">{{ restaurant.carryOut}}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">Delivery</td>
+                        <td class="table-light">{{ restaurant.delivery }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col d-flex justify-content-end">
-      <button type="button" class="btn btn-primary" [routerLink]="['/restaurant/edit', restaurant.id]">Edit</button>
+    <div class="row mt-2" *ngIf="displayDeleteButton()">
+        <div class="col d-flex justify-content-begin">
+            <button type="button" class="btn btn-link" (click)="delete(restaurant.id)">
+                Delete</button>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <button type="button" class="btn btn-primary"
+                [routerLink]="['/restaurant/edit', restaurant.id]">Edit</button>
+        </div>
     </div>
-  </div>
 </div>
