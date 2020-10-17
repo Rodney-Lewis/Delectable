@@ -1,55 +1,57 @@
 <div class="container">
-	<div class="row mt-2">
-		<div class="col-lg">
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
 			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
 		</div>
-		<div class="col-lg">
-			<div class="row mt-1">
-				<div class="col">
-					<h2>{{ recipe.name }}</h2>
-				</div>
-			</div>
-			<div class="row mt-1">
-				<div class="col">
-					<b>Source: </b>
-					<span>{{ recipe.source }}</span>
-				</div>
-			</div>
-			<div class="row mt-1">
-				<div class="col">
-					<b>Prep time: </b>
-					{{recipe.prepTimeHour}}h
-					{{recipe.prepTimeMinute}}m
-					{{recipe.prepTimeSecond}}s
-				</div>
-			</div>
-			<div class="row mt-1">
-				<div class="col">
-					<b>Cook time: </b>
-					{{recipe.cookTimeHour}}h
-					{{recipe.cookTimeMinute}}m
-					{{recipe.cookTimeSecond}}s
-				</div>
-			</div>
-			<div class="row mt-1">
-				<div class="col">
-					<b>Total time: </b>
-					{{totalTimeHour}}h
-					{{totalTimeMinute}}m
-					{{totalTimeSecond}}s
-				</div>
-			</div>
-			<div class="row mt-1">
-				<div class="col">
-					<b>Description: </b>
-					<span>{{ recipe.description }}</span>
-				</div>
-			</div>
+	</div>
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<h2>{{ recipe.name }}</h2>
+		</div>
+	</div>
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<span>{{ recipe.source }}</span>
+		</div>
+	</div>
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<span>{{ recipe.description }}</span>
+		</div>
+	</div>
+	<div class="row mt-2 justify-content-center">
+		<div class="col">
+			<table class="table">
+				<tr>
+					<td class="table-active">Prep time</td>
+					<td class="table-light">
+						{{recipe.prepTimeHour}}h
+						{{recipe.prepTimeMinute}}m
+						{{recipe.prepTimeSecond}}s
+					</td>
+				</tr>
+				<tr>
+					<td class="table-active">Cook time</td>
+					<td class="table-light">
+						{{recipe.cookTimeHour}}h
+						{{recipe.cookTimeMinute}}m
+						{{recipe.cookTimeSecond}}s
+					</td>
+				</tr>
+				<tr>
+					<td class="table-active">Total time</td>
+					<td class="table-light">
+						{{totalTimeHour}}h
+						{{totalTimeMinute}}m
+						{{totalTimeSecond}}s
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 
 	<div class="row mt-2">
-		<div class="col-md">
+		<div class="col-md-4">
 			<div class="row mt-2">
 				<div class="col">
 					<h4>Ingredients</h4>
@@ -57,11 +59,11 @@
 			</div>
 			<div class="row" *ngFor="let ingredient of recipe.ingredients">
 				<div class="col">
-					{{ ingredient.measurement }} {{ ingredient.unit }} {{ ingredient.name }}
+					{{ ingredient.measurement }} {{ ingredient.unit }} {{ ingredient.pantry.name }}
 				</div>
 			</div>
 		</div>
-		<div class="col-md">
+		<div class="col-md-8">
 			<div class="row mt-2">
 				<div class="col">
 					<h4>Directions</h4>
@@ -76,16 +78,12 @@
 		</div>
 	</div>
 
-	<div class="row justify-content-end mt-2" *ngIf="displayDeleteButton()">
-		<div class="col-auto">
-			<button type="button" class="btn btn-outline-primary" [routerLink]="['/recipe/edit', recipe.id]">Edit
-				recipe</button>
+	<div class="row mt-2" *ngIf="displayDeleteButton()">
+		<div class="col d-flex justify-content-begin">
+			<button type="button" class="btn btn-link" (click)="delete(recipe.id)">Delete</button>
 		</div>
-	</div>
-
-	<div class="row justify-content-end mt-2 mb-2" *ngIf="displayDeleteButton()">
-		<div class="col-auto">
-			<button type="button" class="btn btn-outline-danger" (click)="delete(recipe.id)">Remove recipe</button>
+		<div class="col d-flex justify-content-end">
+			<button type="button" class="btn btn-primary" [routerLink]="['/recipe/edit', recipe.id]">Edit</button>
 		</div>
 	</div>
 </div>

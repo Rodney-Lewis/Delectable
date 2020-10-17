@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PantryItem } from '../model/pantry';
 
@@ -11,10 +11,10 @@ export class PantryService {
   constructor(private http: HttpClient) {
   }
 
-  public findAll(page: number = 1, size: number = 12, query?: string): Observable<any> {
+  public findAll(page: number = 1, size: number = 12, query?: string): Observable<HttpResponse<any>> {
     page = page - 1;
     const params = new HttpParams().set("page", page.toString()).set("size", size.toString()).set("query", query);
-    return this.http.get(this.pantryApiEndpoint, {params, responseType: 'text'});
+    return this.http.get(this.pantryApiEndpoint, {params, responseType: 'text', observe: 'response'});
   }
 
   public findById(id: number): Observable<PantryItem> {

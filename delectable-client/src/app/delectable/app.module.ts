@@ -25,6 +25,8 @@ import { ListToolbarComponent } from './_component/list-toolbar/list-toolbar.com
 import { RestaurantCardInfoComponent } from './restaurant/_component/restaurant-card-info/restaurant-card-info.component';
 import { ListHeaderComponent } from './_component/list-header/list-header.component';
 import { PantryCardInfoComponent } from './pantry/_component/pantry-card-info/pantry-card-info.component';
+import { RecipeCardInfoComponent } from './recipe/_templates/recipe-card-info/recipe-card-info.component';
+import { PantryDirective } from './recipe/component/pantry.directive';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { PantryCardInfoComponent } from './pantry/_component/pantry-card-info/pa
     RestaurantCardInfoComponent,
     ListHeaderComponent,
     PantryCardInfoComponent,
+    RecipeCardInfoComponent,
+    PantryDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Recipe } from '../../model/recipe';
 import { RecipeService } from '../../service/recipe.service';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -11,15 +10,19 @@ import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-ha
 })
 export class RecipeListComponent implements OnInit {
 
-  recipes: Recipe[];
-  constructor(private recipeService: RecipeService, private fileHandlerService: FileHandlerService) { }
+  constructor(private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedRoute: ActivatedRoute) { }
+
+  responseBody: any;
 
   ngOnInit() {
-    this.recipeService.findAll().subscribe(data => {
-      this.recipes = data;
-      for (let recipe of this.recipes) {
-        recipe.imageSource = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
-      }
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.recipeService.findAll(params.cp, params.ps, params.s).subscribe(responseFull => {
+        this.responseBody = responseFull.body;
+        this.responseBody.content.forEach(recipe => {
+          recipe.imageSource = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
+        });
+      },
+      );
     })
   }
 }

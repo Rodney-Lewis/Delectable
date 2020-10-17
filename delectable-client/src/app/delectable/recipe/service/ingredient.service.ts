@@ -13,7 +13,7 @@ export class IngredientService {
   }
 
   public getUnits(): Observable<string[]> {
-    const endpointPattern = `${this.ingredientApiEndpoint}/measurements`
+    const endpointPattern = `${this.ingredientApiEndpoint}//units`
     return this.http.get<string[]>(endpointPattern);
   }
 }

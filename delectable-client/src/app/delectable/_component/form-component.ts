@@ -22,7 +22,8 @@ export abstract class FormComponent {
 	abstract submitForm();
 
 	getFormComponent(component: string) {
-		return this.form.get(component);
+		if (this.form.get('element'))
+			return this.form.get(component);
 	}
 
 	getFormGroupComponent(component: string) {
@@ -34,7 +35,9 @@ export abstract class FormComponent {
 	}
 
 	formFieldInvalid(component: string) {
-		return this.getFormComponent(component).invalid && (this.getFormComponent(component).dirty || this.getFormComponent(component).touched || this.formSubmitted)
+		if (this.getFormComponent(component)) {
+			return this.getFormComponent(component).invalid && (this.getFormComponent(component).dirty || this.getFormComponent(component).touched || this.formSubmitted)
+		}
 	}
 
 	formFieldRequired(component: string) {
@@ -51,4 +54,10 @@ export abstract class FormComponent {
 		if (this.formFieldInvalid(component))
 			return this.getFormComponent(component).errors?.max;
 	}
+
+	formFieldRegex(component: string) {
+		if (this.formFieldInvalid(component))
+			return this.getFormComponent(component).errors?.pattern;
+	}
+
 }

@@ -24,14 +24,28 @@ public class PantryController {
     @Autowired
     private PantryService pantryItemService;
 
+    @GetMapping("/list")
+    public ResponseEntity<Map<String, Object>> getPantryItemsList(
+            @RequestParam(defaultValue = "false") boolean deleted,
+            @RequestParam(defaultValue = "") String query) {
+
+        List<PantryItem> pantryItems = new ArrayList<>();
+        pantryItems = pantryItemService.findAllByDeletedAndNameStartingWith(deleted, query,
+                Sort.by(Direction.ASC, "name"));
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", pantryItems);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getPantryItems(
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+    public ResponseEntity<Map<String, Object>> getPageablePantryItemsList(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "") String query,
             @RequestParam(required = false) boolean schedulable) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.ASC, "name"));
         List<PantryItem> contentList = new ArrayList<>();
         Page<PantryItem> pantryItemPages;
+        Map<String, Object> response = new HashMap<>();
 
         if (query.equals("undefined") || query.equals("")) {
             pantryItemPages =
@@ -42,18 +56,18 @@ public class PantryController {
         }
 
         contentList = pantryItemPages.getContent();
-        if (contentList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        Map<String, Object> response = new HashMap<>();
         response.put("content", pantryItemPages.getContent());
         response.put("page", pantryItemPages.getNumber());
         response.put("size", pantryItemPages.getSize());
         response.put("totalPages", pantryItemPages.getTotalPages());
         response.put("totalElements", pantryItemPages.getTotalElements());
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        if (contentList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }
     }
 
     @GetMapping("/{id}")

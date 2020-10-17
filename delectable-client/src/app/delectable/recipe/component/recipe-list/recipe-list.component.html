@@ -1,17 +1,23 @@
 <div class="container">
-  <div class="row mt-3 mb-3">
-    <div class="col d-flex justify-content-end">
-      <a routerLink="/recipe/add" class="btn btn-outline-primary" role="button">Add recipe</a>
-    </div>
+  <div class="mr-2">
+    <app-list-header addItemRoute="/recipe/add" addButtonText="Add new" headerText="Recipes">
+    </app-list-header>
   </div>
-  <div class="card-deck mr-auto">
-    <div class="card" *ngFor="let recipe of recipes">
-      <a [routerLink]="['/recipe/detail', recipe.id]">
-        <img class="card-img-top img-fluid" src="{{ recipe.imageSource }}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{ recipe.name }} </h5>
-        </div>
-      </a>
-    </div>
+  <div class="mt-2 mr-2 d-flex justify-content-end">
+    <app-list-toolbar listItemRoute="/recipe/list">
+    </app-list-toolbar>
+  </div>
+  <div class="mt-2">
+    <app-carddeck *ngIf="responseBody" [items]="responseBody.content">
+      <ng-template #item let-item="item">
+        <app-recipe-card-info [item]="item" detailItemRoute="/recipe/detail">
+        </app-recipe-card-info>
+      </ng-template>
+    </app-carddeck>
+  </div>
+  <div class="mt-2 d-flex justify-content-center">
+    <app-pagination *ngIf="responseBody" [logicalCurrentPage]="responseBody.page" [pageSize]="responseBody.size"
+      [totalPages]="responseBody.totalPages" [totalElements]="responseBody.totalElements" listItemRoute="/recipe/list">
+    </app-pagination>
   </div>
 </div>

@@ -9,7 +9,7 @@
 }
 
 .img-fluid {
-    max-width:640px; 
+    max-width:400px; 
     height:auto; 
     width:100%; 
     margin-left:auto; 
@@ -34,3 +34,48 @@
     padding-left: 0%;
     margin-left: 0;
 }
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.autocomplete-items {
+  max-height: 225px;
+  overflow: scroll;
+  position: absolute;
+  border: 1px solid #000000;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  width: 100%;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #050404;
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #c7c7c7;
+}
+
+.autocomplete-items p {
+  margin-bottom: 0px;
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+.container {
+  max-width: 740px;
+}
+

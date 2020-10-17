@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class Recipe {
 
 	private String source;
 
+	@Column(columnDefinition = "text")
 	private String description;
 
 	@Min(value = 0, message = "Can not be negative.")
@@ -215,8 +215,7 @@ public class Recipe {
 
 	public void removeIngredient(PantryItem pantryItem) {
 		ingredients.removeIf(n -> pantryItem.equals(n.getPantry()) && this.equals((n.getRecipe())));
-		pantryItem.getIngredients()
-				.removeIf(n -> pantryItem.equals(n.getPantry()) && this.equals((n.getRecipe())));
+		pantryItem.getIngredients().removeIf(n -> pantryItem.equals(n.getPantry()) && this.equals((n.getRecipe())));
 	}
 
 	public void setIngredientsFromPantryList(List<Ingredient> ingredients) {

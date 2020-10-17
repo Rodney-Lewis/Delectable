@@ -4,7 +4,7 @@ export class PantryItem {
     id: number;
     name: string;
     brand: string;
-    ingreidnets: Ingredient[];
+    ingredients: Ingredient[];
     imageSource: string;
     deleted: boolean;
     schedulable: boolean;

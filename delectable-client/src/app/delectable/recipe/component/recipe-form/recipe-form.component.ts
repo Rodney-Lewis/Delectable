@@ -1,112 +1,100 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators, FormControl, FormGroup, Form } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Direction } from 'app/delectable/recipe/model/instruction';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 import { RecipeService } from '../../service/recipe.service';
 import { IngredientService } from '../../service/ingredient.service';
 import { Ingredient } from '../../model/ingredient';
+import { PantryService } from 'app/delectable/pantry/service/pantry.service';
+import { PantryItem } from 'app/delectable/pantry/model/pantry';
+import { FormWithImageComponent } from 'app/delectable/_component/form-with-image-component';
 
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
-  styleUrls: ['./recipe-form.component.css']
+  styleUrls: ['./recipe-form.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class RecipeFormComponent implements OnInit {
+export class RecipeFormComponent extends FormWithImageComponent implements OnInit {
 
-  invalidImageType: boolean;
-  invalidImageSize: boolean;
-  formSubmitted: boolean;
-  editRecipe: boolean;
-  recipeForm: FormGroup;
-  previewImage: String;
-  units: String[];
-  id: number;
+  units: String[] = new Array();
+  pantryItemList: PantryItem[] = new Array();
+  pantryItemDisplayList: String[] = new Array();
+  ngInited: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService, private ingredientService: IngredientService,
-    private fileHandlerService: FileHandlerService, private router: Router, private activatedroute: ActivatedRoute) {
+  constructor(formBuilder: FormBuilder, private recipeService: RecipeService, private ingredientService: IngredientService,
+    private fileHandlerService: FileHandlerService, router: Router, private activatedroute: ActivatedRoute, private pantryService: PantryService) {
+    super(router, formBuilder);
   }
 
-  ngOnInit() {
-    this.invalidImageSize = false;
-    this.invalidImageType = false;
-    this.formSubmitted = false;
-    this.editRecipe = false;
+  async ngOnInit() {
+    await this.ingredientService.getUnits().toPromise().then(res => {
+      this.units = res;
+    })
 
-    this.activatedroute.paramMap.subscribe(params => {
-      if (params.get('id') != null) {
-        this.editRecipe = true;
+    await this.activatedroute.paramMap.subscribe(params => {
+      if (params.has('id')) {
+        this.edit = true;
         this.id = Number.parseInt(params.get('id'));
-        this.recipeService.findById(Number(params.get('id'))).subscribe(data => {
-          this.recipeForm = this.formBuilder.group({
-            recipe: this.formBuilder.group({
-              name: [data.name, Validators.required],
-              source: [data.source, Validators.required],
-              prepTimeHour: [data.prepTimeHour, [Validators.min(0)]],
-              prepTimeMinute: [data.prepTimeMinute, [Validators.min(0), Validators.max(59)]],
-              prepTimeSecond: [data.prepTimeSecond, [Validators.min(0), Validators.max(59)]],
-              cookTimeHour: [data.cookTimeHour, [Validators.min(0)]],
-              cookTimeMinute: [data.cookTimeMinute, [Validators.min(0), Validators.max(59)]],
-              cookTimeSecond: [data.cookTimeSecond, [Validators.min(0), Validators.max(59)]],
-              imageSource: [data.imageSource],
-              description: [data.description],
-              ingredients: this.formBuilder.array([]),
-              directions: this.formBuilder.array([])
-            }),
-            image: this.formBuilder.group({
-              imageSourceFile: [''],
-              imageMultipartFile: []
-            }),
-          });
-          this.previewImage = this.fileHandlerService.getNamedImageUrl(data.imageSource);
-          this.populateDirections(data.directions);
-          this.ingredientService.getUnits().subscribe(units => {
-            this.units = units;
-            this.populateIngredients(data.ingredients);
-          })
-        })
+        this.buildFormforEdit(this.id);
       } else {
-        this.editRecipe = false;
-        this.recipeForm = this.formBuilder.group({
-          recipe: this.formBuilder.group({
-            name: ['', Validators.required],
-            source: [''],
-            prepTimeHour: [0, [Validators.min(0)]],
-            prepTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
-            prepTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
-            cookTimeHour: [0, [Validators.min(0)]],
-            cookTimeMinute: [0, [Validators.min(0), Validators.max(59)]],
-            cookTimeSecond: [0, [Validators.min(0), Validators.max(59)]],
-            imageSource: [''],
-            description: [''],
-            ingredients: this.formBuilder.array([]),
-            directions: this.formBuilder.array([])
-          }),
-          image: this.formBuilder.group({
-            imageSourceFile: [''],
-            imageMultipartFile: []
-          }),
-        });
-        this.previewImage = this.fileHandlerService.getNamedImageUrl("");
-        this.addDirection();
-        this.ingredientService.getUnits().subscribe(data => {
-          this.units = data;
-          this.addIngredient();
-        })
+        this.edit = false;
+        this.buildFormforCreate();
       }
+    })
+
+    this.ngInited = true;
+  }
+
+  buildFormforEdit(id: number) {
+    this.recipeService.findById(id).subscribe(recipe => {
+      this.getFormGroupComponent('element').addControl('name', new FormControl(recipe.name, Validators.required));
+      this.getFormGroupComponent('element').addControl('source', new FormControl(recipe.source, Validators.required));
+      this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(recipe.prepTimeHour, [Validators.min(0)]));
+      this.getFormGroupComponent('element').addControl('prepTimeMinute', new FormControl(recipe.prepTimeMinute, [Validators.min(0), Validators.max(59)]));
+      this.getFormGroupComponent('element').addControl('prepTimeSecond', new FormControl(recipe.prepTimeSecond, [Validators.min(0), Validators.max(59)]));
+      this.getFormGroupComponent('element').addControl('cookTimeHour', new FormControl(recipe.cookTimeHour, [Validators.min(0)]));
+      this.getFormGroupComponent('element').addControl('cookTimeMinute', new FormControl(recipe.cookTimeMinute, [Validators.min(0), Validators.max(59)]));
+      this.getFormGroupComponent('element').addControl('cookTimeSecond', new FormControl(recipe.cookTimeSecond, [Validators.min(0), Validators.max(59)]));
+      this.getFormGroupComponent('element').addControl('imageSource', new FormControl(recipe.imageSource));
+      this.getFormGroupComponent('element').addControl('description', new FormControl(recipe.description, Validators.required));
+      this.getFormGroupComponent('element').addControl('ingredients', new FormControl(recipe.ingredients));
+      this.getFormGroupComponent('element').addControl('directions', new FormControl(recipe.directions));
+      this.previewImage = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
+      this.populateDirections(recipe.directions);
+      this.populateIngredients(recipe.ingredients);
     })
   }
 
-  onSubmit() {
+  buildFormforCreate() {
+    this.getFormGroupComponent('element').addControl('name', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('source', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(0, Validators.min(0)));
+    this.getFormGroupComponent('element').addControl('prepTimeMinute', new FormControl(0, [Validators.min(0), Validators.max(59)]));
+    this.getFormGroupComponent('element').addControl('prepTimeSecond', new FormControl(0, [Validators.min(0), Validators.max(59)]));
+    this.getFormGroupComponent('element').addControl('cookTimeHour', new FormControl(0, [Validators.min(0)]));
+    this.getFormGroupComponent('element').addControl('cookTimeMinute', new FormControl(0, [Validators.min(0), Validators.max(59)]));
+    this.getFormGroupComponent('element').addControl('cookTimeSecond', new FormControl(0, [Validators.min(0), Validators.max(59)]));
+    this.getFormGroupComponent('element').addControl('imageSource', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('description', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('ingredients', new FormArray([]));
+    this.getFormGroupComponent('element').addControl('directions', new FormArray([]));
+    this.previewImage = this.fileHandlerService.getNamedImageUrl("");
+    this.addDirection();
+    this.addIngredient();
+  }
+
+  submitForm() {
     this.formSubmitted = true;
-    if (this.recipeForm.invalid) {
+    if (this.form.invalid) {
       return;
     } else {
       if (this.getFormComponent("image.imageSourceFile").value != "") {
-        if (this.editRecipe) {
-          this.recipeService.update(this.getFormComponent("recipe").value, this.id).subscribe();
+        if (this.edit) {
+          this.recipeService.update(this.getFormComponent("element").value, this.id).subscribe();
         } else {
-          this.recipeService.add(this.getFormComponent("recipe").value).subscribe();
+          this.recipeService.add(this.getFormComponent("element").value).subscribe();
         }
         const imageFormData = new FormData();
         imageFormData.append('imageMultipartFile', this.getFormComponent('image.imageMultipartFile').value);
@@ -114,12 +102,12 @@ export class RecipeFormComponent implements OnInit {
           this.router.navigate(['/recipe/list']);
         });
       } else {
-        if (this.editRecipe) {
-          this.recipeService.update(this.getFormComponent("recipe").value, this.id).subscribe(() => {
+        if (this.edit) {
+          this.recipeService.update(this.getFormComponent("element").value, this.id).subscribe(() => {
             this.router.navigate(['/recipe/detail', this.id]);
           });
         } else {
-          this.recipeService.add(this.getFormComponent("recipe").value).subscribe(() => {
+          this.recipeService.add(this.getFormComponent("element").value).subscribe(() => {
             this.router.navigate(['/recipe/list']);
           });
         }
@@ -127,94 +115,27 @@ export class RecipeFormComponent implements OnInit {
     }
   }
 
-  //File handler
-  triggerFileUpdload() {
-    document.getElementById("thumbnail").click();
-  }
-
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      if (event.target.files[0].type == "image/jpeg" || event.target.files[0].type == "image/png") {
-        this.invalidImageType = false;
-        if (event.target.files[0].size < 10000000) {
-          this.invalidImageSize = false;
-          const file = event.target.files[0];
-          this.recipeForm.patchValue({
-            recipe: { imageSource: file.name },
-            image: { imageMultipartFile: file }
-          });
-          this.previewFile(file);
-        }
-        else {
-          this.invalidImageSize = true;
-        }
-      } else {
-        this.invalidImageType = true;
-      }
-    }
-  }
-
-  previewFile(file: File) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.previewImage = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  //Form manipulation and validation
-  getFormComponent(component: string) {
-    return this.recipeForm.get(component);
-  }
-
-  getFormArrayComponent(component: string) {
-    return this.recipeForm.get(component) as FormArray;
-  }
-
-  formFieldInvalid(component: string) {
-    return this.getFormComponent(component).invalid && (this.getFormComponent(component).dirty || this.getFormComponent(component).touched || this.formSubmitted)
-  }
-
-  formFieldRequired(component: string) {
-    if (this.formFieldInvalid(component))
-      return this.getFormComponent(component).errors?.required;
-  }
-
-  formFieldMin(component: string) {
-    if (this.formFieldInvalid(component))
-      return this.getFormComponent(component).errors?.min;
-  }
-
-  formFieldMax(component: string) {
-    if (this.formFieldInvalid(component))
-      return this.getFormComponent(component).errors?.max;
-  }
-
   populateIngredients(ingredients: Ingredient[]) {
     for (let ingredient of ingredients) {
-      this.getFormArrayComponent('recipe.ingredients').push(this.formBuilder.group({
-        name: [ingredient.name, Validators.required],
-        measurement: [ingredient.measurement, [Validators.required, Validators.maxLength(8), Validators.minLength(1)]],
-        unit: [ingredient.unit, Validators.required]
+      this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
+        ingredient: [ingredient.name, Validators.required],
       }));
     }
   }
-  
+
   addIngredient() {
-    this.getFormArrayComponent('recipe.ingredients').push(this.formBuilder.group({
-      name: ['', Validators.required],
-      measurement: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(1)]],
-      unit: [this.units[0], Validators.required]
+    this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
+      ingredient: [null, Validators.required],
     }));
   }
 
   removeIngredient(numberToRemove: number) {
-    this.getFormArrayComponent('recipe.ingredients').removeAt(numberToRemove);
+    this.getFormArrayComponent('element.ingredients').removeAt(numberToRemove);
   }
 
   populateDirections(directions: Direction[]) {
     for (let direction of directions) {
-      this.getFormArrayComponent('recipe.directions').push(this.formBuilder.group({
+      this.getFormArrayComponent('element.directions').push(this.formBuilder.group({
         step: [direction.step],
         instruction: [direction.instruction, Validators.required]
       }));
@@ -222,19 +143,19 @@ export class RecipeFormComponent implements OnInit {
   }
 
   addDirection() {
-    this.getFormArrayComponent('recipe.directions').push(this.formBuilder.group({
-      step: [this.getFormArrayComponent('recipe.directions').length + 1],
+    this.getFormArrayComponent('element.directions').push(this.formBuilder.group({
+      step: [this.getFormArrayComponent('element.directions').length + 1],
       instruction: ['', Validators.required]
     }));
   }
 
   removeDirection(numberToRemove: number) {
-    this.getFormArrayComponent('recipe.directions').removeAt(numberToRemove);
+    this.getFormArrayComponent('element.directions').removeAt(numberToRemove);
     this.reorderSteps();
   }
 
   reorderSteps() {
-    this.getFormArrayComponent('recipe.directions').controls.forEach((item, index) => {
+    this.getFormArrayComponent('element.directions').controls.forEach((item, index) => {
       item.patchValue({ step: index + 1 });
     });
   }

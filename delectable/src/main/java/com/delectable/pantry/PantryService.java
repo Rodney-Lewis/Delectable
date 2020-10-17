@@ -1,17 +1,24 @@
 package com.delectable.pantry;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PantryService extends CrudRepository<PantryItem, Integer> {
-    Page<PantryItem> findAllByDeleted(Pageable pageable, boolean deleted);
+        List<PantryItem> findAllByDeleted(boolean deleted);
 
-    Page<PantryItem> findAllByDeletedAndSchedulableAndNameStartingWith(Pageable pageable,
-            boolean deleted, boolean schedulable, String query);
+        List<PantryItem> findTop10ByDeletedAndNameStartingWith(boolean deleted, String name, Sort sort);
 
-    Page<PantryItem> findAllByDeletedAndSchedulable(Pageable pageable, boolean deleted,
-            boolean schedulable);
+        List<PantryItem> findAllByDeletedAndNameStartingWith(boolean deleted, String query, Sort by);
+
+        Page<PantryItem> findAllByDeletedAndSchedulableAndNameStartingWith(Pageable pageable,
+                        boolean deleted, boolean schedulable, String query);
+
+        Page<PantryItem> findAllByDeletedAndSchedulable(Pageable pageable, boolean deleted,
+                        boolean schedulable);
+
 }

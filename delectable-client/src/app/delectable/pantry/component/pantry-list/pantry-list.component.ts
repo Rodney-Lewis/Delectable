@@ -18,7 +18,7 @@ export class PantryListComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.pantryService.findAll(params.cp, params.ps, params.s).subscribe(data => {
-        this.jsonResponse = JSON.parse(data);
+        this.jsonResponse = JSON.parse(data.body);
         this.jsonResponse.content.forEach(pantryItem => {
           pantryItem.imageSource = this.filehandler.getNamedImageUrl(pantryItem.imageSource);
         });
