@@ -38,7 +38,7 @@ public class Restaurant {
 
     public Restaurant(@NotNull(message = "Name can not be null") String name, String address,
             String addressNumber, String city, String state, String postalCode, String phoneNumber,
-            String website, boolean carryOut, boolean delivery, String imageDir) {
+            String website, boolean carryOut, boolean delivery, String imageSource) {
         this.name = name;
         this.address = address;
         this.addressNumber = addressNumber;
@@ -49,7 +49,7 @@ public class Restaurant {
         this.website = website;
         this.carryOut = carryOut;
         this.delivery = delivery;
-        this.imageSource = imageDir;
+        this.imageSource = imageSource;
         this.deleted = false;
     }
 
@@ -123,14 +123,6 @@ public class Restaurant {
 
     public void setDelivery(boolean delivery) {
         this.delivery = delivery;
-    }
-
-    public String getImageDir() {
-        return imageSource;
-    }
-
-    public void setImageDir(String imageDir) {
-        this.imageSource = imageDir;
     }
 
     public boolean isDeleted() {
