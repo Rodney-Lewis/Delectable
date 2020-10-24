@@ -6,6 +6,7 @@ export class Recipe {
     name: string;
     source: string;
     description: string;
+    servings: number;
     prepTimeHour: number;
     prepTimeMinute: number;
     prepTimeSecond: number;

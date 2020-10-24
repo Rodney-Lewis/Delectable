@@ -27,6 +27,9 @@ import { ListHeaderComponent } from './_component/list-header/list-header.compon
 import { PantryCardInfoComponent } from './pantry/_component/pantry-card-info/pantry-card-info.component';
 import { RecipeCardInfoComponent } from './recipe/_templates/recipe-card-info/recipe-card-info.component';
 import { PantryDirective } from './recipe/component/pantry.directive';
+import { AutoAddInput } from './recipe/_templates/auto-add/autoAddInput';
+import { AutoRemoveInput } from './recipe/_templates/auto-remove/autoRemoveInput';
+import { AutoResizeTextfieldDirective } from './recipe/_templates/auto-resize-textfield/auto-resize-textfield.directive'
 
 @NgModule({
   declarations: [
@@ -50,6 +53,9 @@ import { PantryDirective } from './recipe/component/pantry.directive';
     PantryCardInfoComponent,
     RecipeCardInfoComponent,
     PantryDirective,
+    AutoAddInput,
+    AutoRemoveInput,
+    AutoResizeTextfieldDirective
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Direction } from 'app/delectable/recipe/model/instruction';
@@ -14,7 +14,6 @@ import { FormWithImageComponent } from 'app/delectable/_component/form-with-imag
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 export class RecipeFormComponent extends FormWithImageComponent implements OnInit {
 
@@ -22,9 +21,10 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   pantryItemList: PantryItem[] = new Array();
   pantryItemDisplayList: String[] = new Array();
   ngInited: boolean = false;
+  debugJson: boolean = false;
 
   constructor(formBuilder: FormBuilder, private recipeService: RecipeService, private ingredientService: IngredientService,
-    private fileHandlerService: FileHandlerService, router: Router, private activatedroute: ActivatedRoute, private pantryService: PantryService) {
+    private fileHandlerService: FileHandlerService, router: Router, private activatedroute: ActivatedRoute, private pantryService: PantryService, private change: ChangeDetectorRef) {
     super(router, formBuilder);
   }
 
@@ -50,15 +50,16 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   buildFormforEdit(id: number) {
     this.recipeService.findById(id).subscribe(recipe => {
       this.getFormGroupComponent('element').addControl('name', new FormControl(recipe.name, Validators.required));
-      this.getFormGroupComponent('element').addControl('source', new FormControl(recipe.source, Validators.required));
-      this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(recipe.prepTimeHour, [Validators.min(0)]));
+      this.getFormGroupComponent('element').addControl('source', new FormControl(recipe.source));
+      this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(recipe.prepTimeHour, [Validators.min(0), Validators.max(72)]));
       this.getFormGroupComponent('element').addControl('prepTimeMinute', new FormControl(recipe.prepTimeMinute, [Validators.min(0), Validators.max(59)]));
       this.getFormGroupComponent('element').addControl('prepTimeSecond', new FormControl(recipe.prepTimeSecond, [Validators.min(0), Validators.max(59)]));
       this.getFormGroupComponent('element').addControl('cookTimeHour', new FormControl(recipe.cookTimeHour, [Validators.min(0)]));
       this.getFormGroupComponent('element').addControl('cookTimeMinute', new FormControl(recipe.cookTimeMinute, [Validators.min(0), Validators.max(59)]));
       this.getFormGroupComponent('element').addControl('cookTimeSecond', new FormControl(recipe.cookTimeSecond, [Validators.min(0), Validators.max(59)]));
       this.getFormGroupComponent('element').addControl('imageSource', new FormControl(recipe.imageSource));
-      this.getFormGroupComponent('element').addControl('description', new FormControl(recipe.description, Validators.required));
+      this.getFormGroupComponent('element').addControl('description', new FormControl(recipe.description));
+      this.getFormGroupComponent('element').addControl('servings', new FormControl(recipe.servings, [Validators.min(0), Validators.max(99)]));
       this.getFormGroupComponent('element').addControl('ingredients', new FormControl(recipe.ingredients));
       this.getFormGroupComponent('element').addControl('directions', new FormControl(recipe.directions));
       this.previewImage = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
@@ -70,7 +71,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   buildFormforCreate() {
     this.getFormGroupComponent('element').addControl('name', new FormControl('', Validators.required));
     this.getFormGroupComponent('element').addControl('source', new FormControl(''));
-    this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(0, Validators.min(0)));
+    this.getFormGroupComponent('element').addControl('prepTimeHour', new FormControl(0, [Validators.min(0), Validators.max(72)]));
     this.getFormGroupComponent('element').addControl('prepTimeMinute', new FormControl(0, [Validators.min(0), Validators.max(59)]));
     this.getFormGroupComponent('element').addControl('prepTimeSecond', new FormControl(0, [Validators.min(0), Validators.max(59)]));
     this.getFormGroupComponent('element').addControl('cookTimeHour', new FormControl(0, [Validators.min(0)]));
@@ -78,11 +79,9 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
     this.getFormGroupComponent('element').addControl('cookTimeSecond', new FormControl(0, [Validators.min(0), Validators.max(59)]));
     this.getFormGroupComponent('element').addControl('imageSource', new FormControl(''));
     this.getFormGroupComponent('element').addControl('description', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('servings', new FormControl(1, [Validators.min(0), Validators.max(99)]));
     this.getFormGroupComponent('element').addControl('ingredients', new FormArray([]));
     this.getFormGroupComponent('element').addControl('directions', new FormArray([]));
-    this.previewImage = this.fileHandlerService.getNamedImageUrl("");
-    this.addDirection();
-    this.addIngredient();
   }
 
   submitForm() {
@@ -127,6 +126,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
     this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
       ingredient: [null, Validators.required],
     }));
+    this.change.detectChanges();
   }
 
   removeIngredient(numberToRemove: number) {
@@ -145,8 +145,9 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   addDirection() {
     this.getFormArrayComponent('element.directions').push(this.formBuilder.group({
       step: [this.getFormArrayComponent('element.directions').length + 1],
-      instruction: ['', Validators.required]
+      instruction: ['']
     }));
+    this.change.detectChanges();
   }
 
   removeDirection(numberToRemove: number) {

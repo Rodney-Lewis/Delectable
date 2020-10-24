@@ -4,8 +4,25 @@
     padding:0px;
 }
 
+.thumbnailNoPreview {
+  background-color: #e9ecef;
+  cursor:pointer;
+  height: 175px;
+}
+
 .validator {
     color: red;
+}
+
+/* https://www.w3schools.com/howto/howto_css_center-vertical.asp  */
+.center {
+  width:100px;
+  margin: 0;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .img-fluid {
@@ -18,64 +35,14 @@
     cursor:pointer;
 }
 
-.begin-col-sm-gutter {
-    padding-right: 0%;
-    margin-right: 0;
-}
-
-.mid-col-sm-gutter {
-    padding-right: 1%;
-    padding-left: 1%;
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.end-col-sm-gutter {
-    padding-left: 0%;
-    margin-left: 0;
-}
-
-.autocomplete {
-  /*the container must be positioned relative:*/
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.autocomplete-items {
-  max-height: 225px;
-  overflow: scroll;
-  position: absolute;
-  border: 1px solid #000000;
-  border-bottom: none;
-  border-top: none;
-  z-index: 99;
-  width: 100%;
-}
-
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #050404;
-}
-
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #c7c7c7;
-}
-
-.autocomplete-items p {
-  margin-bottom: 0px;
-}
-
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important;
-  color: #ffffff;
+.instructionInputs{
+  overflow: hidden;
 }
 
 .container {
   max-width: 740px;
 }
 
+label {
+  font-weight: bold;
+}
