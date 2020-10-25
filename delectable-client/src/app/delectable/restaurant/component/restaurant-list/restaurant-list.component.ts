@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantService } from '../../service/restaurant.service';
 import { ActivatedRoute } from '@angular/router';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { RestaurantService } from '../../restaurant.service';
 
 @Component({
   selector: 'app-restaurant-list',

@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
 import { Schedule } from 'app/delectable/schedule/schedule';
-import { Recipe } from 'app/delectable/recipe/model/recipe';
-import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
-import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { FormComponent } from 'app/delectable/_component/form/base-form/form-component';
+import { Recipe } from 'app/delectable/meal/recipe/recipe';
+import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
+import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-schedule-form',

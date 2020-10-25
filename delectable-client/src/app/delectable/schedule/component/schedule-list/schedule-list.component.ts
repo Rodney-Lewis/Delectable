@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Schedule } from 'app/delectable/schedule/schedule'
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
-import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
+import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
+import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-schedule-list',
@@ -63,7 +63,7 @@ export class ScheduleListComponent implements OnInit {
               this.restaurantService.findById(scheduled.scheduledTypeId).subscribe(data => {
                 this.items.push(data);
               })
-            } 
+            }
           }
         } else {
           this.nothingScheduled = true;
