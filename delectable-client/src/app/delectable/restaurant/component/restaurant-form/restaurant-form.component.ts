@@ -61,7 +61,6 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
     this.getFormGroupComponent('element').addControl('carryOut', new FormControl());
     this.getFormGroupComponent('element').addControl('delivery', new FormControl());
     this.getFormGroupComponent('element').addControl('imageSource', new FormControl(''));
-    this.previewImage = this.fileHandlerService.getNamedImageUrl("");
   }
 
   submitForm() {

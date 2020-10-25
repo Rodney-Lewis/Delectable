@@ -1,11 +1,9 @@
-import { Ingredient } from 'app/delectable/recipe/model/ingredient';
+import { Direction } from 'app/delectable/recipe/model/instruction';
 
 export class PantryItem {
     id: number;
     name: string;
-    brand: string;
-    ingredients: Ingredient[];
+    directions: Direction[];
     imageSource: string;
     deleted: boolean;
-    schedulable: boolean;
 }

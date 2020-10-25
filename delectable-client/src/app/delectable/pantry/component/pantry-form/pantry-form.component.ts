@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PantryService } from 'app/delectable/pantry/service/pantry.service';
 import { PantryItem } from 'app/delectable/pantry/model/pantry';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -60,28 +60,19 @@ export class PantryFormComponent extends FormWithImageComponent implements OnIni
     }
   }
 
-  patchFormImageValues(file: File) {
-    this.form.patchValue({
-      prepared: { imageSource: file.name },
-      image: { imageMultipartFile: file }
-    });
-  }
-
   buildFormforEdit(id: number) {
     this.pantryService.findById(id).subscribe(pantryItem => {
       let formGroup = this.getFormGroupComponent('element');
       formGroup.addControl('name', new FormControl(pantryItem.name, Validators.required));
-      formGroup.addControl('brand', new FormControl(pantryItem.brand, Validators.required));
-      formGroup.addControl('schedulable', new FormControl(pantryItem.schedulable, Validators.required));
-      formGroup.addControl('imageSource', new FormControl(pantryItem.imageSource, Validators.required));
+      formGroup.addControl('directions', new FormControl(pantryItem.directions))
+      formGroup.addControl('imageSource', new FormControl(pantryItem.imageSource));
     })
   }
 
   buildFormforCreate() {
     let formGroup = this.getFormGroupComponent('element');
     formGroup.addControl('name', new FormControl('', Validators.required));
-    formGroup.addControl('brand', new FormControl('', Validators.required));
-    formGroup.addControl('schedulable', new FormControl(false, Validators.required));
+    formGroup.addControl('directions', new FormArray([]));
     formGroup.addControl('imageSource', new FormControl(''));
   }
 
