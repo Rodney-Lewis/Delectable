@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators, FormControl, FormGroup, Form } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from '../../service/restaurant.service';
-import { FormWithImageComponent } from 'app/delectable/_component/form-with-image-component';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
 
 
 @Component({

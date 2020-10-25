@@ -1,6 +1,6 @@
-import { FormComponent } from './form-component';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { FormComponent } from '../base-form/form-component';
 
 export abstract class FormWithImageComponent extends FormComponent {
     invalidImageType: boolean;

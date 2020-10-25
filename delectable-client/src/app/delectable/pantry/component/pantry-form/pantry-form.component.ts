@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PantryService } from 'app/delectable/pantry/service/pantry.service';
-import { PantryItem } from 'app/delectable/pantry/model/pantry';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormWithImageComponent } from 'app/delectable/_component/form-with-image-component';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
+import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
 
 @Component({
   selector: 'app-pantry-form',

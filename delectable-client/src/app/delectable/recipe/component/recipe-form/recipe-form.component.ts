@@ -8,7 +8,7 @@ import { IngredientService } from '../../service/ingredient.service';
 import { Ingredient } from '../../model/ingredient';
 import { PantryService } from 'app/delectable/pantry/service/pantry.service';
 import { PantryItem } from 'app/delectable/pantry/model/pantry';
-import { FormWithImageComponent } from 'app/delectable/_component/form-with-image-component';
+import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
 
 @Component({
   selector: 'app-recipe-form',

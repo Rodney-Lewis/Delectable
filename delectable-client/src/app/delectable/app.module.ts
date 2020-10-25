@@ -29,7 +29,11 @@ import { RecipeCardInfoComponent } from './recipe/_templates/recipe-card-info/re
 import { PantryDirective } from './recipe/component/pantry.directive';
 import { AutoAddInput } from './recipe/_templates/auto-add/autoAddInput';
 import { AutoRemoveInput } from './recipe/_templates/auto-remove/autoRemoveInput';
-import { AutoResizeTextfieldDirective } from './recipe/_templates/auto-resize-textfield/auto-resize-textfield.directive'
+import { AutoResizeTextfieldDirective } from './recipe/_templates/auto-resize-textfield/auto-resize-textfield.directive';
+import { AutoAddIngredientDirective } from './_directive/auto-add-ingredient/auto-add-ingredient.directive';
+import { AutoAddDirectionDirective } from './_directive/auto-add-direction/auto-add-direction.directive';
+import { AutoRemoveIngredientDirective } from './_directive/auto-remove-ingredient/auto-remove-ingredient.directive';
+import { AutoRemoveDirectionDirective } from './_directive/auto-remove-direction/auto-remove-direction.directive'
 
 @NgModule({
   declarations: [
@@ -55,7 +59,11 @@ import { AutoResizeTextfieldDirective } from './recipe/_templates/auto-resize-te
     PantryDirective,
     AutoAddInput,
     AutoRemoveInput,
-    AutoResizeTextfieldDirective
+    AutoResizeTextfieldDirective,
+    AutoAddIngredientDirective,
+    AutoAddDirectionDirective,
+    AutoRemoveIngredientDirective,
+    AutoRemoveDirectionDirective
   ],
   imports: [
     BrowserModule,
