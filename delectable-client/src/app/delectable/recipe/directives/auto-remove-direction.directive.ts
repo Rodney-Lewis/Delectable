@@ -1,5 +1,4 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { MealForm } from '../_shared/meal-form';
 
 @Directive({
   selector: '[appAutoRemoveDirection]'

@@ -2,21 +2,23 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { MealForm } from 'app/delectable/meal/_shared/meal-form';
 import { RecipeService } from '../../recipe.service';
+import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
+import { Ingredient } from '../../ingredient';
+import { Direction } from '../../direction';
 
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.css'],
 })
-export class RecipeFormComponent extends MealForm implements OnInit {
+export class RecipeFormComponent extends FormWithImageComponent implements OnInit {
 
   debugJson: boolean = false;
 
-  constructor(formBuilder: FormBuilder, router: Router, change: ChangeDetectorRef, private recipeService: RecipeService,
+  constructor(formBuilder: FormBuilder, router: Router, private change: ChangeDetectorRef, private recipeService: RecipeService,
     private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute) {
-    super(router, formBuilder, change);
+    super(router, formBuilder);
   }
 
   ngOnInit() {
@@ -99,5 +101,52 @@ export class RecipeFormComponent extends MealForm implements OnInit {
         }
       }
     }
+  }
+
+  populateIngredients(ingredients: Ingredient[]) {
+    for (let ingredient of ingredients) {
+      this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
+        ingredient: [ingredient.displayValue, Validators.required],
+      }));
+    }
+  }
+
+  addIngredient() {
+    this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
+      ingredient: [null, Validators.required],
+    }));
+    this.change.detectChanges();
+  }
+
+  removeIngredient(numberToRemove: number) {
+    this.getFormArrayComponent('element.ingredients').removeAt(numberToRemove);
+  }
+
+  populateDirections(directions: Direction[]) {
+    for (let direction of directions) {
+      this.getFormArrayComponent('element.directions').push(this.formBuilder.group({
+        step: [direction.step],
+        instruction: [direction.instruction, Validators.required]
+      }));
+    }
+  }
+
+  addDirection() {
+    this.getFormArrayComponent('element.directions').push(this.formBuilder.group({
+      step: [this.getFormArrayComponent('element.directions').length + 1],
+      instruction: ['']
+    }));
+    this.change.detectChanges();
+  }
+
+  removeDirection(numberToRemove: number) {
+    this.getFormArrayComponent('element.directions').removeAt(numberToRemove);
+    this.reorderSteps();
+  }
+
+  reorderSteps() {
+    this.getFormArrayComponent('element.directions').controls.forEach((item, index) => {
+      item.patchValue({ step: index + 1 });
+    });
   }
 }

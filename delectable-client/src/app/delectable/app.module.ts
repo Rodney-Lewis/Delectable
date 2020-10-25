@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ChangeDetectorRef, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,22 +15,17 @@ import { PaginationComponent } from './_component/pagination/pagination.componen
 import { CarddeckComponent } from './_component/carddeck/carddeck.component';
 import { ListToolbarComponent } from './_component/list-toolbar/list-toolbar.component';
 import { ListHeaderComponent } from './_component/list-header/list-header.component';
-import { RecipeListComponent } from './meal/recipe/component/recipe-list/recipe-list.component';
-import { PantryDetailComponent } from './meal/pantry/component/pantry-detail/pantry-detail.component';
-import { PantryFormComponent } from './meal/pantry/component/pantry-form/pantry-form.component';
-import { PantryListComponent } from './meal/pantry/component/pantry-list/pantry-list.component';
-import { PantryService } from './meal/pantry/pantry.service';
-import { PantryCardInfoComponent } from './meal/pantry/templates/pantry-card-info/pantry-card-info.component';
-import { RecipeDetailComponent } from './meal/recipe/component/recipe-detail/recipe-detail.component';
-import { RecipeFormComponent } from './meal/recipe/component/recipe-form/recipe-form.component';
-import { RecipeService } from './meal/recipe/recipe.service';
-import { RecipeCardInfoComponent } from './meal/recipe/templates/recipe-card-info/recipe-card-info.component';
-import { AutoAddDirectionDirective } from './meal/_directives/auto-add-direction.directive';
-import { AutoAddIngredientDirective } from './meal/_directives/auto-add-ingredient.directive';
-import { AutoRemoveDirectionDirective } from './meal/_directives/auto-remove-direction.directive';
-import { AutoRemoveIngredientDirective } from './meal/_directives/auto-remove-ingredient.directive';
+import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.component';
+import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-detail.component';
+import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
+import { RecipeService } from './recipe/recipe.service';
+import { RecipeCardInfoComponent } from './recipe/templates/recipe-card-info/recipe-card-info.component';
 import { AutoResizeTextfieldDirective } from './_directives/auto-resize-textfield/auto-resize-textfield.directive';
 import { RestaurantCardInfoComponent } from './restaurant/templates/restaurant-card-info/restaurant-card-info.component';
+import { AutoAddDirectionDirective } from './recipe/directives/auto-add-direction.directive';
+import { AutoAddIngredientDirective } from './recipe/directives/auto-add-ingredient.directive';
+import { AutoRemoveDirectionDirective } from './recipe/directives/auto-remove-direction.directive';
+import { AutoRemoveIngredientDirective } from './recipe/directives/auto-remove-ingredient.directive';
 
 @NgModule({
   declarations: [
@@ -38,11 +33,8 @@ import { RestaurantCardInfoComponent } from './restaurant/templates/restaurant-c
     RecipeListComponent,
     RecipeFormComponent,
     RecipeDetailComponent,
-    PantryFormComponent,
-    PantryListComponent,
     ScheduleListComponent,
     ScheduleFormComponent,
-    PantryDetailComponent,
     RestaurantFormComponent,
     RestaurantListComponent,
     RestuarantDetailComponent,
@@ -51,7 +43,6 @@ import { RestaurantCardInfoComponent } from './restaurant/templates/restaurant-c
     ListToolbarComponent,
     RestaurantCardInfoComponent,
     ListHeaderComponent,
-    PantryCardInfoComponent,
     RecipeCardInfoComponent,
     AutoResizeTextfieldDirective,
     AutoAddIngredientDirective,
@@ -67,7 +58,7 @@ import { RestaurantCardInfoComponent } from './restaurant/templates/restaurant-c
     FormsModule,
     CommonModule,
   ],
-  providers: [RecipeService, PantryService, ScheduleService],
+  providers: [RecipeService, ScheduleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

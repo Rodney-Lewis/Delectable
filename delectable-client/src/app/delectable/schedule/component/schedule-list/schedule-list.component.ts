@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Schedule } from 'app/delectable/schedule/schedule'
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
+import { RecipeService } from 'app/delectable/recipe/recipe.service';
 import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
 
 @Component({
