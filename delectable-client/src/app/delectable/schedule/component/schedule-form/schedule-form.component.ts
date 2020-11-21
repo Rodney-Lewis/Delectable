@@ -46,12 +46,12 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
   onScheduleTypeChange(event) {
     this.items = [];
     if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "restaurant")) {
-      this.restaurantService.findAll().subscribe(data => {
-        this.items = data;
+      this.restaurantService.findAll(1, 1000).subscribe(data => {
+        this.items = JSON.parse(data).content;
       })
     } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "recipe")) {
-      this.recipeService.findAll().subscribe(data => {
-        this.items = data;
+      this.recipeService.findAll(1, 1000).subscribe(data => {
+        this.items = data.body.content;
       })
     }
   }
@@ -67,9 +67,9 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
       this.schedule.epoch = this.date.getTime();
       this.schedule.mealType = this.form.get("mealType").value;
       this.schedule.scheduleType = this.form.get("scheduleType").value;
-      this.schedule.scheduledTypeId = this.form.get("scheduleTypeId").value;
-      this.scheduleService.add(this.schedule).subscribe(data => {
-        this.router.navigate(['', this.date.getTime()]);
+      this.schedule.scheduledItemId = this.form.get("scheduleTypeId").value;
+      this.scheduleService.add(this.schedule).subscribe(() => {
+        this.router.navigate(['']);
       })
     }
   }

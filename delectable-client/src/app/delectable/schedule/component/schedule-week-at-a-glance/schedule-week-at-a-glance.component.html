@@ -1,0 +1,55 @@
+<div class="container mb-2">
+    <div class="row">
+        <div class="col">
+            <div class="row no-gutters">
+                <div class="col-auto mr-2">
+                    <h4>{{ MONTHS[week[0].getMonth()].fullName }} {{ week[0].getDate() }} -
+                    </h4>
+                </div>
+                <div class="col-auto">
+                    <h4>{{ MONTHS[week[6].getMonth()].fullName }} {{ week[6].getDate() }}
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row">
+                <div class="col d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-primary" (click)="previousWeek()">&lt;</button>
+                    <button type="button" class="btn btn-outline-primary ml-2" (click)="today()">&bull;</button>
+                    <button type="button" class="btn btn-outline-primary ml-2" (click)="nextWeek()"> &gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let itemArr of items; let i = index" class="mt-2 ml-4">
+        <div class="row no-gutters">
+            <div class="col">
+                <h6>{{ WEEKDAYS[i].fullName }}, {{ MONTHS[week[i].getMonth()].abbreviatedName }} {{ week[i].getDate() }}
+                </h6>
+            </div>
+        </div>
+        <div *ngFor="let item of itemArr; let j = index" class="row ml-4 mt-1">
+            <div class="col-3 col-sm-2">
+                {{ itemsScheduled[i][j].mealType }}
+            </div>
+            <div class="col">
+                <span *ngIf="itemsScheduled[i][j].scheduleType.toLowerCase() == 'recipe'">
+                    <a [routerLink]="['/recipe/detail', itemsScheduled[i][j].scheduledTypeId]">{{ item.name }}</a>
+                </span>
+                <span *ngIf="itemsScheduled[i][j].scheduleType.toLowerCase() == 'restaurant'">
+                    <a [routerLink]="['/restaurant/detail', itemsScheduled[i][j].scheduledTypeId]">{{ item.name }}</a>
+                </span>
+            </div>
+            <div class="col-auto">
+                <button type="button" (click)="delete(itemsScheduled[i][j].id)"
+                    class="btn btn-outline-secondary btn-sm">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-end mt-2">
+            <a routerLink="/schedule/add" class="btn btn-outline-primary" role="button">Schedule</a>
+        </div>
+    </div>
+</div>

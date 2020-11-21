@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -23,22 +24,27 @@ public class Schedule {
     String scheduleType;
 
     @NotNull
-    int scheduledTypeId;
+    int scheduledItemId;
+
+    @Transient
+    String scheduledItemName;
 
     public Schedule() {
     }
 
-    public Schedule(long epoch, String mealType, String scheduleType) {
+    public Schedule(long epoch, String mealType, String scheduleType, int scheduledItemId) {
         this.epoch = epoch;
         setMealType(mealType);
         setScheduleType(scheduleType);
+        this.scheduledItemId = scheduledItemId;
     }
 
-    public Schedule(int id, long epoch, String mealType, String scheduleType) {
+    public Schedule(int id, long epoch, String mealType, String scheduleType, int scheduledItemId) {
         this.id = id;
         this.epoch = epoch;
         setMealType(mealType);
         setScheduleType(scheduleType);
+        this.scheduledItemId = scheduledItemId;
     }
 
     public int getId() {
@@ -53,20 +59,28 @@ public class Schedule {
         return mealType;
     }
 
+    public String getScheduleType() {
+        return this.scheduleType;
+    }
+
+    public int getScheduledItemId() {
+        return scheduledItemId;
+    }
+
+    public String getScheduledItemName() {
+        return scheduledItemName;
+    }
+
+    public void setScheduledItemName(String scheduledItemName) {
+        this.scheduledItemName = scheduledItemName;
+    }
+
     private void setMealType(String mealType) {
         for (MealTypes type : MealTypes.values()) {
             if (type.toString().equals(mealType)) {
                 this.mealType = mealType;
             }
         }
-    }
-
-    public String getScheduleType() {
-        return this.scheduleType;
-    }
-
-    public int getScheduledTypeId() {
-        return this.scheduledTypeId;
     }
 
     private void setScheduleType(String scheduleType) {
@@ -78,7 +92,7 @@ public class Schedule {
     }
 
     public enum ScheduleType {
-        RESTAURANT("Restaurant"), RECIPE("Recipe"), PREPAREDFOOD("Prepared food");
+        RESTAURANT("Restaurant"), RECIPE("Recipe");
 
         private final String name;
 
@@ -101,7 +115,7 @@ public class Schedule {
     }
 
     public enum MealTypes {
-        BREAKFAST("Breakfast"), LUNCH("Lunch"), DINNER("Dinner"), SNACK("Snack");
+        BREAKFAST("Breakfast"), BRUNCH("Brunch"), LUNCH("Lunch"), DINNER("Dinner"), SNACK("Snack");
 
         private final String name;
 

@@ -2,11 +2,7 @@ export class Schedule {
     id:number;
     epoch:number;
     mealType:String;
-    scheduledTypeId: number;
+    scheduledItemId: number;
     scheduleType: String;
-
-    //UI 
-    epochDay:String;
-    epochTime:String;
-    uniqueDay:Boolean;
+    scheduledItemName: String;
 }

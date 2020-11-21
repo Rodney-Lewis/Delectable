@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Schedule } from './schedule';
 
@@ -8,7 +8,13 @@ export class ScheduleService {
 
   private scheduleApiEndpoint: string = "/api/schedule";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  public findAllBetweenEpochs(begin: number, end: number): Observable<any> {
+    const params = new HttpParams().set("begin", begin.toString()).set("end", end.toString());
+    const endpointPattern = `${this.scheduleApiEndpoint}/epochBetween`;
+    return this.http.get(endpointPattern, { params, responseType: 'text' });
+  }
 
   public findAllScheduled(): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(this.scheduleApiEndpoint)

@@ -8,6 +8,6 @@ import java.util.List;
 public interface ScheduleService extends CrudRepository<Schedule, Integer> {    
     List<Schedule> findByEpochGreaterThanEqual(Long start);
     List<Schedule> findByEpoch(Long start);
-    List<Schedule> findByEpochBetween(Long start, Long end);
+    List<Schedule> findByEpochBetweenOrderByEpochAsc(Long start, Long end);
     void deleteById(int Id);
 }

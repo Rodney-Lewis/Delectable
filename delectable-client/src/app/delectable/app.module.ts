@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { ScheduleListComponent } from './schedule/component/schedule-list/schedule-list.component';
 import { ScheduleFormComponent } from './schedule/component/schedule-form/schedule-form.component';
 import { ScheduleService } from './schedule/schedule.service';
 import { RestaurantFormComponent } from './restaurant/component/restaurant-form/restaurant-form.component';
@@ -26,6 +25,10 @@ import { AutoAddDirectionDirective } from './recipe/directives/auto-add-directio
 import { AutoAddIngredientDirective } from './recipe/directives/auto-add-ingredient.directive';
 import { AutoRemoveDirectionDirective } from './recipe/directives/auto-remove-direction.directive';
 import { AutoRemoveIngredientDirective } from './recipe/directives/auto-remove-ingredient.directive';
+import { ScheduleCalendarComponent } from './schedule/component/schedule-calendar/schedule-calendar.component';
+import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
+import { CalendarMultiDateSelectDirective } from './schedule/directives/calendar-multi-date-select.directive';
+import { FixedButtonToContainerDirective } from './recipe/directives/fixed-button-to-container.directive';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,7 @@ import { AutoRemoveIngredientDirective } from './recipe/directives/auto-remove-i
     RecipeListComponent,
     RecipeFormComponent,
     RecipeDetailComponent,
-    ScheduleListComponent,
+    ScheduleCalendarComponent,
     ScheduleFormComponent,
     RestaurantFormComponent,
     RestaurantListComponent,
@@ -49,6 +52,9 @@ import { AutoRemoveIngredientDirective } from './recipe/directives/auto-remove-i
     AutoAddDirectionDirective,
     AutoRemoveIngredientDirective,
     AutoRemoveDirectionDirective,
+    ScheduleWeekAtAGlanceComponent,
+    CalendarMultiDateSelectDirective,
+    FixedButtonToContainerDirective,
   ],
   imports: [
     BrowserModule,

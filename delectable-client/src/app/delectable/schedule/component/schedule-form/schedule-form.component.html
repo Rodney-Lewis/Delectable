@@ -1,42 +1,40 @@
 <div class="container">
   <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm">
-          <label for="Date">Date</label>
-          <input type="date" class="form-control" id="epochDay" formControlName="epochDay" placeholder="Name">
-          <div *ngIf="formFieldRequired('epochDay')" class="validator">
-            Date is a required field.
-          </div>
-        </div>
-        <div class="col-sm">
-          <label for="mealType">Meal</label>
-          <select class="form-control" formControlName="mealType">
-            <option *ngFor="let mealType of mealTypes" [ngValue]=mealType>{{mealType}}</option>
-          </select>
-          <div *ngIf="formFieldRequired('mealType')" class="validator">
-            Meal type is a required field.
-          </div>
+    <div class="form-group form-row">
+      <div class="col-sm">
+        <label for="Date">Date</label>
+        <input type="date" class="form-control" id="epochDay" formControlName="epochDay" placeholder="Name">
+        <div *ngIf="formFieldRequired('epochDay')" class="validator">
+          Date is a required field.
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <label for="scheduleType">Schedule options</label>
-          <select class="form-control" id="scheduleType" formControlName="scheduleType"
-            (change)="onScheduleTypeChange($event)">
-            <option *ngFor="let scheduleType of scheduleTypes" [value]=scheduleType>{{scheduleType}}</option>
-          </select>
+      <div class="col-sm">
+        <label for="mealType">Meal</label>
+        <select class="form-control" formControlName="mealType">
+          <option *ngFor="let mealType of mealTypes" [ngValue]=mealType>{{mealType}}</option>
+        </select>
+        <div *ngIf="formFieldRequired('mealType')" class="validator">
+          Meal type is a required field.
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <label for="items">Schedule items</label>
-          <select class="form-control" formControlName="scheduleTypeId">
-            <option *ngFor="let item of items" [value]=item.id>{{item.name}}</option>
-          </select>
-          <div *ngIf="formFieldRequired('scheduleTypeId')" class="validator">
-            Item is a required field.
-          </div>
+    </div>
+    <div class="form-group form-row">
+      <div class="col">
+        <label for="scheduleType">Schedule options</label>
+        <select class="form-control" id="scheduleType" formControlName="scheduleType"
+          (change)="onScheduleTypeChange($event)">
+          <option *ngFor="let scheduleType of scheduleTypes" [value]=scheduleType>{{scheduleType}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <div class="col">
+        <label for="items">Schedule items</label>
+        <select class="form-control" formControlName="scheduleTypeId">
+          <option *ngFor="let item of items" [value]=item.id>{{item.name}}</option>
+        </select>
+        <div *ngIf="formFieldRequired('scheduleTypeId')" class="validator">
+          Item is a required field.
         </div>
       </div>
     </div>
@@ -45,6 +43,5 @@
         <button class="btn btn-outline-primary" type="submit">Schedule</button>
       </div>
     </div>
-    {{form.value | json}}
   </form>
 </div>

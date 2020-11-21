@@ -1,0 +1,50 @@
+.daysInWeek {
+    font-size: 20px;
+    text-align: center;
+}
+
+.active {
+    background-color: rgb(0, 110, 255);
+    color: white;
+  } 
+  
+.betweenactive {
+    background-color: rgb(0, 160, 255);
+    color: white;
+  }  
+
+.month {
+    font-size: 24px;
+}
+
+.max {
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 225px;
+    height: calc(100vh - 550px);
+}
+
+.add {
+    height: 50px;
+    width: 50px;
+    font-size: 1.25rem;
+}
+
+td div {
+    display: block;
+    width: 100%;
+}
+
+@media (max-width: 400px) {  
+    td div {
+        padding: 0;
+    }
+
+    td {
+        padding: 0;
+    }
+
+    th {
+        padding: 0;
+    }
+}

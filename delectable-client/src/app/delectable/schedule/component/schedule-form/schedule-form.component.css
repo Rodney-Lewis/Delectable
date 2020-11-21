@@ -1,3 +1,7 @@
 .validator {
     color: red;
 }
+
+.container {
+    max-width: 740px;
+}
