@@ -5,6 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UnitService extends CrudRepository<Unit, Integer> {
-    List<Unit> findAllByDeleted(boolean deleted);
-}
+public interface UnitService extends CrudRepository<Unit, Integer> {}

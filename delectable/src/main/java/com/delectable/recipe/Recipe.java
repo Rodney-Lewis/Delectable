@@ -4,8 +4,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.delectable.ingredient.Ingredient;
-import com.delectable.pantry.PantryItem;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
@@ -205,24 +203,6 @@ public class Recipe {
 
 	public void setCookTimeSecond(int cookTimeSecond) {
 		this.cookTimeSecond = cookTimeSecond;
-	}
-
-	public void addIngredientFromPantry(PantryItem pantryItem, String measurement, String unit) {
-		Ingredient ingredient = new Ingredient(this, pantryItem, measurement, unit);
-		ingredients.add(ingredient);
-		pantryItem.getIngredients().add(ingredient);
-	}
-
-	public void removeIngredient(PantryItem pantryItem) {
-		ingredients.removeIf(n -> pantryItem.equals(n.getPantry()) && this.equals((n.getRecipe())));
-		pantryItem.getIngredients().removeIf(n -> pantryItem.equals(n.getPantry()) && this.equals((n.getRecipe())));
-	}
-
-	public void setIngredientsFromPantryList(List<Ingredient> ingredients) {
-		for (Ingredient ingredient : ingredients) {
-			addIngredientFromPantry(ingredient.getPantry(), ingredient.getMeasurement(),
-					ingredient.getUnit());
-		}
 	}
 
 }

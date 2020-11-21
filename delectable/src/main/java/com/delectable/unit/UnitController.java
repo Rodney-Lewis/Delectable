@@ -21,7 +21,7 @@ public class UnitController {
 
     @GetMapping
     public List<Unit> getUnitOfMeasurementList() {
-        return (List<Unit>) unitService.findAllByDeleted(false);
+        return (List<Unit>) unitService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -37,10 +37,7 @@ public class UnitController {
 
     @DeleteMapping("/{id}")
     public void deleteUnitOfMeasurement(@PathVariable int id) {
-        Optional<Unit> optUnit = unitService.findById(id);
-        Unit unitToMarkAsDeleted = optUnit.get();
-        unitToMarkAsDeleted.setDeleted(true);
-        unitService.save(unitToMarkAsDeleted);
+        unitService.deleteById(id);
     }
 
 }

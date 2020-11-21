@@ -2,15 +2,12 @@ package com.delectable;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.delectable.pantry.PantryItem;
-import com.delectable.pantry.PantryService;
 import com.delectable.recipe.Direction;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
 import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantService;
 import com.delectable.schedule.ScheduleService;
-import com.delectable.ingredient.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,9 +17,6 @@ import java.io.IOException;
 
 @Component
 public class EntityUtil {
-
-    @Autowired
-    private PantryService pantryItemService;
 
     @Autowired
     private RecipeService recipeService;

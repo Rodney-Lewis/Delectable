@@ -15,15 +15,11 @@ public class Unit {
 
     @NotNull
     private String name;
+    private String abbreviation;
 
-    private boolean deleted;
-
-    public Unit() {
-    }
-
-    public Unit (String name) {
+    private Unit(String name, String abbreviation) {
         this.name = name;
-        this.deleted = false;
+        this.abbreviation = abbreviation;
     }
 
     public int getId() {
@@ -42,18 +38,12 @@ public class Unit {
         this.name = name;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
-    
-    /*
-     * TEASPOONS("Teaspoon"), TABLESPOONS("Tablespoon"), CUPS("Cup"), FLUID_OUNCES("Fluid ounce"),
-     * PINTS("Pint"), LITERS("Liter"), QUARTS("Quart"), MILLILITERS("Milliliter"), OUNCES("Ounce"),
-     * POUNDS("Pound"), GRAMS("Gram"), KILOGRAMS("Kilogram"), PACKET("Packet"), TOTASTE("To taste");
-     */
 
 }
