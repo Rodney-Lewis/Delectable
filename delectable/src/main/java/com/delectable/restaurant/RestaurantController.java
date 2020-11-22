@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
+import com.delectable.schedule.Schedule;
+import com.delectable.schedule.ScheduleService;
 
 @RestController
 @RequestMapping(value = "/api/restaurant")
@@ -23,6 +25,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getRestaurants(
@@ -55,32 +60,41 @@ public class RestaurantController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public List<Restaurant> getAllRestaurants() {
+        return (List<Restaurant>) restaurantService.findAllByDeleted(false);
+    }
+
     @GetMapping("/{id}")
-    public Restaurant getRestaurantById(@PathVariable int id) {
+    public Restaurant getRestaurantById(@PathVariable Long id) {
         Optional<Restaurant> RestaurantItem = restaurantService.findById(id);
         return RestaurantItem.get();
     }
 
     @PostMapping
-    public Restaurant addRestaurant(@Valid @RequestBody Restaurant RestaurantItem) {
-        return (restaurantService.save(RestaurantItem));
+    public Restaurant addRestaurant(@Valid @RequestBody Restaurant newRestaurant) {
+        return (restaurantService.save(newRestaurant));
     }
 
     @PutMapping("/{id}")
-    Restaurant updateRestaurant(@PathVariable int id,
+    Restaurant updateRestaurant(@PathVariable Long id,
             @Valid @RequestBody Restaurant newRestaurant) {
         Optional<Restaurant> optRestaurant = restaurantService.findById(id);
         Restaurant restaurantToUpdate = optRestaurant.get();
-        if (!restaurantToUpdate.isDeleted()) {
-            newRestaurant.setId(restaurantToUpdate.getId());
-            return restaurantService.save(newRestaurant);
-        } else {
-            return null;
+        newRestaurant.setId(restaurantToUpdate.getId());
+        List<Schedule> scheduled =
+                scheduleService.findAllByscheduledItemId(restaurantToUpdate.getId());
+
+        for (Schedule schedule : scheduled) {
+            schedule.setScheduledItemName(newRestaurant.getName());
+            scheduleService.save(schedule);
         }
+
+        return restaurantService.save(newRestaurant);
     }
 
     @DeleteMapping("/{id}")
-    void deleteRestaurantItemById(@PathVariable int id) {
+    void deleteRestaurantItemById(@PathVariable Long id) {
         Optional<Restaurant> optRestaurant = restaurantService.findById(id);
         Restaurant restaurantToMarkAsDeleted = optRestaurant.get();
         restaurantToMarkAsDeleted.setDeleted(true);

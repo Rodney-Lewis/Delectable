@@ -10,21 +10,14 @@ public class Direction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+    Long id;
     int step;
     String instruction;
 
     public Direction() {
-        super();
     }
 
     public Direction(int step, String instruction) {
-        this.step = step;
-        this.instruction = instruction;
-    }
-
-    public Direction(int id, int step, String instruction) {
-        this.id = id;
         this.step = step;
         this.instruction = instruction;
     }
@@ -45,11 +38,11 @@ public class Direction {
         this.instruction = instruction;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

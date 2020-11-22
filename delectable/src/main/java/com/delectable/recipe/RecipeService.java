@@ -7,10 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RecipeService extends PagingAndSortingRepository<Recipe, Integer> {
-    List<Recipe> findAllBydeleted(boolean deleted);
-
+public interface RecipeService extends PagingAndSortingRepository<Recipe, Long> {
+    List<Recipe> findAllByDeleted(boolean deleted);
     Page<Recipe> findAllByDeleted(Pageable pageable, boolean deleted);
-
     Page<Recipe> findAllByDeletedAndNameStartingWith(Pageable pageable, boolean deleted, String query);
 }

@@ -40,8 +40,8 @@ public class RecipeAPI {
 	public void postValidRecipe() throws Exception {
 		Recipe recipe = entityUtil.createValidTestRecipe();
 		response = mockMvc
-				.perform(MockMvcRequestBuilders.post("/api/recipe").content(entityUtil.toJson(recipe))
-						.contentType(MediaType.APPLICATION_JSON))
+				.perform(MockMvcRequestBuilders.post("/api/recipe")
+						.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(recipe.getName()))
@@ -50,7 +50,7 @@ public class RecipeAPI {
 
 	@Test
 	public void getRecipeById() throws Exception {
-		int id = entityUtil.insertValidTestRecipe();
+		Long id = entityUtil.insertValidTestRecipe();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.get("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +85,7 @@ public class RecipeAPI {
 	@Transactional
 	public void putToUpdateRecipe() throws Exception {
 		String nameUpdate = "NoName";
-		int id = entityUtil.insertValidTestRecipe();
+		Long id = entityUtil.insertValidTestRecipe();
 		Optional<Recipe> recipeOpt = recipeService.findById(id);
 		Recipe recipe = recipeOpt.get();
 		recipe.setName(nameUpdate);
@@ -98,7 +98,7 @@ public class RecipeAPI {
 
 	@Test
 	public void deleteRecipe() throws Exception {
-		int id = entityUtil.insertValidTestRecipe();
+		Long id = entityUtil.insertValidTestRecipe();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.delete("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -110,10 +110,11 @@ public class RecipeAPI {
 	@Test
 	public void postInvalidRecipe() throws Exception {
 		Recipe recipe = entityUtil.createValidTestRecipe();
-		recipe.setPrepTimeHour(-1);
+		recipe.setPrepTimeHour((short) -1);
+		recipe.setPrepTimeSecond((byte) -1);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe").content(entityUtil.toJson(recipe))
-				.contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe")
+				.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isBadRequest())
 				.andDo(MockMvcResultHandlers.print()).andReturn();
 	}

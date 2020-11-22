@@ -3,9 +3,7 @@ package com.delectable.recipe;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.delectable.schedule.Schedule;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
@@ -13,12 +11,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Recipe {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@NotNull(message = "Name can not be null")
 	private String name;
@@ -29,75 +26,54 @@ public class Recipe {
 	private String description;
 
 	@Min(value = 0, message = "Can not be negative.")
-	private int prepTimeHour;
+	private short prepTimeHour;
 
 	@Max(value = 59, message = "Can not expceed 59")
 	@Min(value = 0, message = "Can not be negative.")
-	private int prepTimeMinute;
+	private byte prepTimeMinute;
 
 	@Max(value = 59, message = "Can not expceed 59")
 	@Min(value = 0, message = "Can not be negative.")
-	private int prepTimeSecond;
+	private byte prepTimeSecond;
 
 	@Min(value = 0, message = "Can not be negative.")
-	private int cookTimeHour;
+	private short cookTimeHour;
 
 	@Max(value = 59, message = "Can not expceed 59")
 	@Min(value = 0, message = "Can not be negative.")
-	private int cookTimeMinute;
+	private byte cookTimeMinute;
 
 	@Max(value = 59, message = "Can not expceed 59")
 	@Min(value = 0, message = "Can not be negative.")
-	private int cookTimeSecond;
+	private byte cookTimeSecond;
 
-	@NotNull(message = "Ingredients can not be null")
-	@OneToMany(mappedBy = "recipe")
+	@OneToMany
 	@Cascade(CascadeType.ALL)
 	private List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-	@NotNull(message = "Directions can not be null")
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	private List<Direction> directions = new ArrayList<Direction>();
+
+	@OneToMany
+	@Cascade(CascadeType.ALL)
+	private List<Schedule> schedule = new ArrayList<Schedule>();
+
+	@ElementCollection
+	private List<String> tags = new ArrayList<String>();
 
 	private String imageSource;
 	private boolean deleted;
 
 	public Recipe() {
+		this.deleted = false;
 	}
 
-	public Recipe(@NotNull(message = "Name can not be null") String name, String source,
-			String description, @Min(value = 0, message = "Can not be negative.") int prepTimeHour,
-			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
-					message = "Can not be negative.") int prepTimeMinute,
-			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
-					message = "Can not be negative.") int prepTimeSecond,
-			@Min(value = 0, message = "Can not be negative.") int cookTimeHour,
-			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
-					message = "Can not be negative.") int cookTimeMinute,
-			@Max(value = 59, message = "Can not expceed 59") @Min(value = 0,
-					message = "Can not be negative.") int cookTimeSecond,
-			@NotNull(message = "Directions can not be null") List<Direction> directions,
-			String imageSource, boolean deleted) {
-		this.name = name;
-		this.source = source;
-		this.description = description;
-		this.prepTimeHour = prepTimeHour;
-		this.prepTimeMinute = prepTimeMinute;
-		this.prepTimeSecond = prepTimeSecond;
-		this.cookTimeHour = cookTimeHour;
-		this.cookTimeMinute = cookTimeMinute;
-		this.cookTimeSecond = cookTimeSecond;
-		this.directions = directions;
-		this.imageSource = imageSource;
-		this.deleted = deleted;
-	}
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -125,6 +101,54 @@ public class Recipe {
 		this.description = description;
 	}
 
+	public short getPrepTimeHour() {
+		return prepTimeHour;
+	}
+
+	public void setPrepTimeHour(short prepTimeHour) {
+		this.prepTimeHour = prepTimeHour;
+	}
+
+	public byte getPrepTimeMinute() {
+		return prepTimeMinute;
+	}
+
+	public void setPrepTimeMinute(byte prepTimeMinute) {
+		this.prepTimeMinute = prepTimeMinute;
+	}
+
+	public byte getPrepTimeSecond() {
+		return prepTimeSecond;
+	}
+
+	public void setPrepTimeSecond(byte prepTimeSecond) {
+		this.prepTimeSecond = prepTimeSecond;
+	}
+
+	public short getCookTimeHour() {
+		return cookTimeHour;
+	}
+
+	public void setCookTimeHour(short cookTimeHour) {
+		this.cookTimeHour = cookTimeHour;
+	}
+
+	public byte getCookTimeMinute() {
+		return cookTimeMinute;
+	}
+
+	public void setCookTimeMinute(byte cookTimeMinute) {
+		this.cookTimeMinute = cookTimeMinute;
+	}
+
+	public byte getCookTimeSecond() {
+		return cookTimeSecond;
+	}
+
+	public void setCookTimeSecond(byte cookTimeSecond) {
+		this.cookTimeSecond = cookTimeSecond;
+	}
+
 	public List<Ingredient> getIngredients() {
 		return ingredients;
 	}
@@ -141,6 +165,22 @@ public class Recipe {
 		this.directions = directions;
 	}
 
+	public List<Schedule> getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(List<Schedule> schedule) {
+		this.schedule = schedule;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
 	public String getImageSource() {
 		return imageSource;
 	}
@@ -155,54 +195,6 @@ public class Recipe {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
-	}
-
-	public int getPrepTimeHour() {
-		return prepTimeHour;
-	}
-
-	public void setPrepTimeHour(int prepTimeHour) {
-		this.prepTimeHour = prepTimeHour;
-	}
-
-	public int getPrepTimeMinute() {
-		return prepTimeMinute;
-	}
-
-	public void setPrepTimeMinute(int prepTimeMinute) {
-		this.prepTimeMinute = prepTimeMinute;
-	}
-
-	public int getPrepTimeSecond() {
-		return prepTimeSecond;
-	}
-
-	public void setPrepTimeSecond(int prepTimeSecond) {
-		this.prepTimeSecond = prepTimeSecond;
-	}
-
-	public int getCookTimeHour() {
-		return cookTimeHour;
-	}
-
-	public void setCookTimeHour(int cookTimeHour) {
-		this.cookTimeHour = cookTimeHour;
-	}
-
-	public int getCookTimeMinute() {
-		return cookTimeMinute;
-	}
-
-	public void setCookTimeMinute(int cookTimeMinute) {
-		this.cookTimeMinute = cookTimeMinute;
-	}
-
-	public int getCookTimeSecond() {
-		return cookTimeSecond;
-	}
-
-	public void setCookTimeSecond(int cookTimeSecond) {
-		this.cookTimeSecond = cookTimeSecond;
 	}
 
 }

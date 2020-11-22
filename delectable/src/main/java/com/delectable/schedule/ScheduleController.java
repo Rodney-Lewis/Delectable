@@ -8,12 +8,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.delectable.conf.UUIDHelper;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
 import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantService;
-import com.delectable.schedule.Schedule.MealTypes;
-import com.delectable.schedule.Schedule.ScheduleType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +35,6 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @Autowired
-    private RestaurantService restaurantService;
-
-    @Autowired
-    private RecipeService recipeService;
-
     @GetMapping
     List<Schedule> getScheduled() {
         Calendar calendar = Calendar.getInstance();
@@ -62,17 +55,6 @@ public class ScheduleController {
         scheduled.addAll(scheduleService.findByEpochBetweenOrderByEpochAsc(Long.parseLong(begin),
                 Long.parseLong(end)));
         Map<String, Object> response = new HashMap<>();
-
-        for (Schedule schedule : scheduled) {
-            if (schedule.scheduleType.equals(ScheduleType.RECIPE.toString())) {
-                schedule.setScheduledItemName(
-                        recipeService.findById(schedule.scheduledItemId).get().getName());
-            } else if (schedule.scheduleType.equals(ScheduleType.RESTAURANT.toString())) {
-                Restaurant res = restaurantService.findById(schedule.scheduledItemId).get();
-                schedule.setScheduledItemName(res.getName());
-            }
-        }
-
         List<List<Schedule>> scheduledByDate = new ArrayList<List<Schedule>>();
 
         Calendar date1 = Calendar.getInstance();
@@ -112,7 +94,7 @@ public class ScheduleController {
 
     @GetMapping("/mealtypes")
     String[] getMealtypes() {
-        return MealTypes.toStringArray();
+        return MealTime.toStringArray();
     }
 
     @GetMapping("/scheduletypes")
@@ -121,12 +103,12 @@ public class ScheduleController {
     }
 
     @PostMapping
-    Schedule addSchedule(@RequestBody Schedule schedule) {
-        return (scheduleService.save(schedule));
+    Schedule addSchedule(@RequestBody Schedule newSchedule) {
+        return (scheduleService.save(newSchedule));
     }
 
     @DeleteMapping("/{Id}")
-    void deleteSchedule(@PathVariable int Id) {
+    void deleteSchedule(@PathVariable Long Id) {
         scheduleService.deleteById(Id);
     }
 }

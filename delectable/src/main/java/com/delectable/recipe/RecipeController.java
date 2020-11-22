@@ -1,6 +1,5 @@
 package com.delectable.recipe;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
+import com.delectable.schedule.Schedule;
+import com.delectable.schedule.ScheduleService;
 
 @RestController
 @RequestMapping(value = "/api/recipe")
@@ -24,6 +25,9 @@ public class RecipeController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getRestaurants(
@@ -56,12 +60,12 @@ public class RecipeController {
     }
 
     @GetMapping("/all")
-    public List<Recipe> getRecipes() {
-        return (List<Recipe>) recipeService.findAllBydeleted(false);
+    public List<Recipe> getAllRecipes() {
+        return (List<Recipe>) recipeService.findAllByDeleted(false);
     }
 
     @GetMapping("/{id}")
-    public Recipe getRecipe(@PathVariable int id) {
+    public Recipe getRecipe(@PathVariable Long id) {
         Optional<Recipe> recipe = recipeService.findById(id);
         return recipe.get();
     }
@@ -72,24 +76,23 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    Recipe updateRecipe(@Valid @PathVariable int id, @RequestBody Recipe recipeUpdates)
-            throws Exception {
+    Recipe updateRecipe(@Valid @PathVariable Long id, @Valid @RequestBody Recipe newRecipe) {
         Optional<Recipe> optRecipe = recipeService.findById(id);
-        if (optRecipe.isPresent()) {
-            Recipe recipeToUpdate = optRecipe.get();
-            if (recipeToUpdate.isDeleted())
-                throw new Exception("Recipe has been marked as deleted, it will not be updated.");
-            else {
-                recipeUpdates.setId(recipeToUpdate.getId());
-                return recipeService.save(recipeUpdates);
-            }
-        } else {
-            throw new NotFoundException();
+        Recipe recipeToUpdate = optRecipe.get();
+        newRecipe.setId(recipeToUpdate.getId());
+
+        List<Schedule> scheduled = scheduleService.findAllByscheduledItemId(recipeToUpdate.getId());
+
+        for (Schedule schedule : scheduled) {
+            schedule.setScheduledItemName(newRecipe.getName());
+            scheduleService.save(schedule);
         }
+
+        return recipeService.save(newRecipe);
     }
 
     @DeleteMapping("/{id}")
-    void deleteRecipe(@PathVariable int id) {
+    void deleteRecipe(@PathVariable Long id) {
         Optional<Recipe> recipe = recipeService.findById(id);
         Recipe recipeToDelete = recipe.get();
         recipeToDelete.setDeleted(true);

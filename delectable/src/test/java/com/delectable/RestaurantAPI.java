@@ -24,84 +24,87 @@ import org.junit.Test;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class RestaurantAPI {
 
-    @Autowired
-    private RestaurantService restaurantService;
+        @Autowired
+        private RestaurantService restaurantService;
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private EntityUtil entityUtil;
+        @Autowired
+        private EntityUtil entityUtil;
 
-    private static final String apiEndpoint = "/api/restaurant/";
+        private static final String apiEndpoint = "/api/restaurant/";
 
-    String[] responseStringArray;
-    MvcResult response;
+        String[] responseStringArray;
+        MvcResult response;
 
-    @Test
-    public void postValidRestaurant() throws Exception {
-        Restaurant restaurant = entityUtil.createValidRestaurants(1, false).get(0);
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.post(apiEndpoint)
-                        .content(entityUtil.toJson(restaurant))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(restaurant.getName()))
-                .andReturn();
-    }
+        @Test
+        public void postValidRestaurant() throws Exception {
+                Restaurant restaurant = entityUtil.createValidRestaurants(1, false).get(0);
+                response = mockMvc
+                                .perform(MockMvcRequestBuilders.post(apiEndpoint)
+                                                .content(entityUtil.toJson(restaurant))
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print())
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.name")
+                                                .value(restaurant.getName()))
+                                .andReturn();
+        }
 
-    @Test
-    @Transactional
-    public void putRestaurant() throws Exception {
-        String stringUpdate = "NoName";
-        int id = entityUtil.insertValidRestaurant(false);
-        Optional<Restaurant> restaurantOpt = restaurantService.findById(id);
-        Restaurant restaurant = restaurantOpt.get();
-        restaurant.setName(stringUpdate);
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.put(apiEndpoint + id)
-                        .content(entityUtil.toJson(restaurant))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(stringUpdate))
-                .andReturn();
-    }
+        @Test
+        @Transactional
+        public void putRestaurant() throws Exception {
+                String stringUpdate = "NoName";
+                Long id = entityUtil.insertValidRestaurant(false);
+                Optional<Restaurant> restaurantOpt = restaurantService.findById(id);
+                Restaurant restaurant = restaurantOpt.get();
+                restaurant.setName(stringUpdate);
+                response = mockMvc
+                                .perform(MockMvcRequestBuilders.put(apiEndpoint + id)
+                                                .content(entityUtil.toJson(restaurant))
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print())
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.name")
+                                                .value(stringUpdate))
+                                .andReturn();
+        }
 
-    @Test
-    public void deleteRestaurant() throws Exception {
-        int id = entityUtil.insertValidRestaurant(false);
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.delete(apiEndpoint + id)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-    }
+        @Test
+        public void deleteRestaurant() throws Exception {
+                Long id = entityUtil.insertValidRestaurant(false);
+                response = mockMvc
+                                .perform(MockMvcRequestBuilders.delete(apiEndpoint + id)
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print())
+                                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        }
 
-    @Test
-    public void getRestaurant() throws Exception {
-        int id = entityUtil.insertValidRestaurant(false);
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.get(apiEndpoint + id)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id)).andReturn();
-    }
+        @Test
+        public void getRestaurant() throws Exception {
+                Long id = entityUtil.insertValidRestaurant(false);
+                response = mockMvc
+                                .perform(MockMvcRequestBuilders.get(apiEndpoint + id)
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print())
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
+                                .andReturn();
+        }
 
-    @Test
-    public void getAllRestaurants() throws Exception {
-        JSONArray jsonArr;
-        entityUtil.insertValidRestaurants(10, false);
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.get(apiEndpoint)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-        jsonArr = new JSONArray(response.getResponse().getContentAsString());
-        assert (jsonArr.length() >= 10);
-    }
+        @Test
+        public void getAllRestaurants() throws Exception {
+                JSONArray jsonArr;
+                entityUtil.insertValidRestaurants(10, false);
+                response = mockMvc
+                                .perform(MockMvcRequestBuilders.get(apiEndpoint)
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print())
+                                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+                jsonArr = new JSONArray(response.getResponse().getContentAsString());
+                assert (jsonArr.length() >= 10);
+        }
 
 
 }

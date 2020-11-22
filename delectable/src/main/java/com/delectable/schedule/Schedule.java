@@ -12,58 +12,67 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
 
     @NotNull
-    long epoch;
+    Long epoch;
 
     @NotNull
-    String mealType;
+    String mealTime;
 
     @NotNull
     String scheduleType;
 
     @NotNull
-    int scheduledItemId;
+    Long scheduledItemId;
 
-    @Transient
+    @NotNull
     String scheduledItemName;
 
     public Schedule() {
     }
 
-    public Schedule(long epoch, String mealType, String scheduleType, int scheduledItemId) {
-        this.epoch = epoch;
-        setMealType(mealType);
-        setScheduleType(scheduleType);
-        this.scheduledItemId = scheduledItemId;
-    }
-
-    public Schedule(int id, long epoch, String mealType, String scheduleType, int scheduledItemId) {
-        this.id = id;
-        this.epoch = epoch;
-        setMealType(mealType);
-        setScheduleType(scheduleType);
-        this.scheduledItemId = scheduledItemId;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public long getEpoch() {
         return epoch;
     }
 
-    public String getMealType() {
-        return mealType;
+    public void setEpoch(Long epoch) {
+        this.epoch = epoch;
+    }
+
+    public String getMealTime() {
+        return mealTime;
+    }
+
+    public void setMealType(String mealTime) {
+        for (MealTime type : MealTime.values()) {
+            if (type.toString().equals(mealTime)) {
+                this.mealTime = mealTime;
+            }
+        }
     }
 
     public String getScheduleType() {
         return this.scheduleType;
     }
 
-    public int getScheduledItemId() {
+    public void setScheduleType(String scheduleType) {
+        for (ScheduleType type : ScheduleType.values()) {
+            if (type.toString().equals(scheduleType)) {
+                this.scheduleType = scheduleType;
+            }
+        }
+    }
+
+    public Long getScheduledItemId() {
         return scheduledItemId;
     }
 
@@ -75,66 +84,8 @@ public class Schedule {
         this.scheduledItemName = scheduledItemName;
     }
 
-    private void setMealType(String mealType) {
-        for (MealTypes type : MealTypes.values()) {
-            if (type.toString().equals(mealType)) {
-                this.mealType = mealType;
-            }
-        }
-    }
-
-    private void setScheduleType(String scheduleType) {
-        for (ScheduleType type : ScheduleType.values()) {
-            if (type.toString().equals(scheduleType)) {
-                this.scheduleType = scheduleType;
-            }
-        }
-    }
-
-    public enum ScheduleType {
-        RESTAURANT("Restaurant"), RECIPE("Recipe");
-
-        private final String name;
-
-        private ScheduleType(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        public static String[] toStringArray() {
-            String[] stringArray = new String[values().length];
-            for (int i = 0; i < stringArray.length; i++) {
-                stringArray[i] = ScheduleType.values()[i].name;
-            }
-            return stringArray;
-        }
-    }
-
-    public enum MealTypes {
-        BREAKFAST("Breakfast"), BRUNCH("Brunch"), LUNCH("Lunch"), DINNER("Dinner"), SNACK("Snack");
-
-        private final String name;
-
-        private MealTypes(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        public static String[] toStringArray() {
-            String[] stringArray = new String[values().length];
-            for (int i = 0; i < stringArray.length; i++) {
-                stringArray[i] = MealTypes.values()[i].name;
-            }
-            return stringArray;
-        }
+    public void setScheduledItemId(Long scheduledItemId) {
+        this.scheduledItemId = scheduledItemId;
     }
 
 }

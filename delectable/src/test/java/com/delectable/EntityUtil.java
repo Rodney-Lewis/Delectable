@@ -33,43 +33,10 @@ public class EntityUtil {
         return mapper.writeValueAsBytes(object);
     }
 
-    List<PantryItem> createValidPantryItems(int numberOfItemsToCreate, boolean markAsDeleted,
-            boolean markAsSchedulable) {
-        List<PantryItem> pantryItems = new ArrayList<PantryItem>();
-        for (int i = 0; i < numberOfItemsToCreate; i++) {
-            pantryItems.add(new PantryItem("Name" + i, "Brand" + i));
-
-            if (markAsDeleted == true) {
-                pantryItems.get(i).setDeleted(true);
-            }
-
-            if (markAsSchedulable == true) {
-                pantryItems.get(i).setSchedulable(true);
-            }
-        }
-        return pantryItems;
-    }
-
-    void insertValidPantryItems(int numberOfItemsToInsert, boolean markAsDeleted,
-            boolean markAsSchedulable) {
-        List<PantryItem> pantryItems = new ArrayList<PantryItem>();
-        pantryItems.addAll(
-                createValidPantryItems(numberOfItemsToInsert, markAsDeleted, markAsSchedulable));
-        pantryItemService.saveAll(pantryItems);
-    }
-
-    int insertValidPantryItem(boolean markAsDeleted, boolean markAsSchedulable) {
-        PantryItem pantryItem =
-                (createValidPantryItems(1, markAsDeleted, markAsSchedulable).get(0));
-        pantryItem = pantryItemService.save(pantryItem);
-        return pantryItem.getId();
-    }
-
     List<Restaurant> createValidRestaurants(int numberOfItemsToCreate, boolean markAsDeleted) {
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         for (int i = 0; i < numberOfItemsToCreate; i++) {
-            restaurants.add(new Restaurant("Name" + i, "123 Main Street", "City", "State", "45678",
-                    "123-456-7890", "http://mysite", "http://mysite/menu", false, false, ""));
+            restaurants.add(new Restaurant());
             if (markAsDeleted == true) {
                 restaurants.get(i).setDeleted(true);
             }
@@ -83,20 +50,13 @@ public class EntityUtil {
         restaurantService.saveAll(restaurants);
     }
 
-    int insertValidRestaurant(boolean markAsDeleted) {
+    Long insertValidRestaurant(boolean markAsDeleted) {
         Restaurant restaurant = (createValidRestaurants(1, markAsDeleted).get(0));
         restaurant = restaurantService.save(restaurant);
         return restaurant.getId();
     }
 
     Recipe createValidTestRecipe() {
-        PantryItem pantryItem1 = new PantryItem("Carrot");
-        PantryItem pantryItem2 = new PantryItem("Onion");
-        PantryItem pantryItem3 = new PantryItem("Apples");
-        pantryItem1 = pantryItemService.save(pantryItem1);
-        pantryItem2 = pantryItemService.save(pantryItem2);
-        pantryItem3 = pantryItemService.save(pantryItem3);
-
         List<Direction> instructions = new ArrayList<>();
         instructions.add(new Direction(1, "Step 1"));
         instructions.add(new Direction(2, "Step 2"));
@@ -104,15 +64,11 @@ public class EntityUtil {
         instructions.add(new Direction(4, "Step 4"));
         instructions.add(new Direction(5, "Step 5"));
 
-        Recipe recipe = new Recipe("Recipe1", "Kitchen", "Description", 10, 10, 10, 10, 10, 10,
-                instructions, "", false);
-        recipe.addIngredientFromPantry(pantryItem1, "0", Ingredient.Unit.TEASPOON.toString());
-        recipe.addIngredientFromPantry(pantryItem2, "1", Ingredient.Unit.TABLESPOON.toString());
-        recipe.addIngredientFromPantry(pantryItem3, "2", Ingredient.Unit.DROP.toString());
+        Recipe recipe = new Recipe();
         return recipe;
     }
 
-    int insertValidTestRecipe() {
+    Long insertValidTestRecipe() {
         Recipe recipe = createValidTestRecipe();
         recipe = recipeService.save(recipe);
         return recipe.getId();

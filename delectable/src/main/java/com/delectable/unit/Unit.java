@@ -1,8 +1,6 @@
 package com.delectable.unit;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -10,23 +8,22 @@ import javax.validation.constraints.NotNull;
 public class Unit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @NotNull
     private String name;
+
+    @NotNull
     private String abbreviation;
 
-    private Unit(String name, String abbreviation) {
-        this.name = name;
-        this.abbreviation = abbreviation;
+    public Unit() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

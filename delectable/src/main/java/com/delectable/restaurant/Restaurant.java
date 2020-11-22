@@ -1,18 +1,21 @@
 package com.delectable.restaurant;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import com.delectable.schedule.Schedule;
 import javax.persistence.*;
-
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull(message = "Name can not be null")
     private String name;
@@ -28,36 +31,22 @@ public class Restaurant {
     private String imageSource;
     private boolean deleted;
 
+    @OneToMany
+	@Cascade(CascadeType.ALL)
+	private List<Schedule> schedule = new ArrayList<Schedule>();
+
+	@ElementCollection
+	private List<String> tags = new ArrayList<String>();
+
     public Restaurant() {
-    }
-
-    public Restaurant(@NotNull(message = "Name can not be null") String name) {
-        this.name = name;
         this.deleted = false;
     }
 
-    public Restaurant(@NotNull(message = "Name can not be null") String name, String address,
-            String addressNumber, String city, String state, String postalCode, String phoneNumber,
-            String website, boolean carryOut, boolean delivery, String imageSource) {
-        this.name = name;
-        this.address = address;
-        this.addressNumber = addressNumber;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.phoneNumber = phoneNumber;
-        this.website = website;
-        this.carryOut = carryOut;
-        this.delivery = delivery;
-        this.imageSource = imageSource;
-        this.deleted = false;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,6 +66,14 @@ public class Restaurant {
         this.address = address;
     }
 
+    public String getAddressNumber() {
+        return addressNumber;
+    }
+
+    public void setAddressNumber(String addressNumber) {
+        this.addressNumber = addressNumber;
+    }
+
     public String getCity() {
         return city;
     }
@@ -91,6 +88,14 @@ public class Restaurant {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getPhoneNumber() {
@@ -125,6 +130,14 @@ public class Restaurant {
         this.delivery = delivery;
     }
 
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(String imageSource) {
+        this.imageSource = imageSource;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -133,28 +146,20 @@ public class Restaurant {
         this.deleted = deleted;
     }
 
-    public String getAddressNumber() {
-        return addressNumber;
+    public List<Schedule> getSchedule() {
+        return schedule;
     }
 
-    public void setAddressNumber(String addressNumber) {
-        this.addressNumber = addressNumber;
+    public void setSchedule(List<Schedule> schedule) {
+        this.schedule = schedule;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getImageSource() {
-        return imageSource;
-    }
-
-    public void setImageSource(String imageSource) {
-        this.imageSource = imageSource;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
 }

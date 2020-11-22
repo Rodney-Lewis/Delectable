@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ScheduleService extends CrudRepository<Schedule, Integer> {    
+public interface ScheduleService extends CrudRepository<Schedule, Long> {    
     List<Schedule> findByEpochGreaterThanEqual(Long start);
     List<Schedule> findByEpoch(Long start);
     List<Schedule> findByEpochBetweenOrderByEpochAsc(Long start, Long end);
-    void deleteById(int Id);
+    <T> List<T> findAllByscheduledItemId(Long id);
+    void deleteById(Long Id);
 }
