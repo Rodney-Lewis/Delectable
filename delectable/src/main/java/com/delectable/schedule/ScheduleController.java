@@ -2,17 +2,10 @@ package com.delectable.schedule;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.delectable.conf.UUIDHelper;
-import com.delectable.recipe.Recipe;
-import com.delectable.recipe.RecipeService;
-import com.delectable.restaurant.Restaurant;
-import com.delectable.restaurant.RestaurantService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,22 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScheduleController {
 
     @Autowired
-    private ScheduleService scheduleService;
+    ScheduleService scheduleService;
 
     @GetMapping
-    List<Schedule> getScheduled() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        List<Schedule> schedules = new ArrayList<Schedule>();
-        schedules = scheduleService.findByEpochGreaterThanEqual(calendar.getTimeInMillis());
-        return schedules;
-    }
-
-    @GetMapping("/epochBetween")
-    public ResponseEntity<Map<String, Object>> getScheduledBetween(@RequestParam String begin,
+    ResponseEntity<Map<String, Object>> getScheduledBetween(@RequestParam String begin,
             @RequestParam String end) {
 
         List<Schedule> scheduled = new ArrayList<Schedule>();
@@ -83,6 +64,18 @@ public class ScheduleController {
         response.put("totalElements", scheduled.size());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    List<Schedule> getAllScheduledInFuture() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        List<Schedule> schedules = new ArrayList<Schedule>();
+        schedules = scheduleService.findByEpochGreaterThanEqual(calendar.getTimeInMillis());
+        return schedules;
     }
 
     @GetMapping("/{epoch}")
