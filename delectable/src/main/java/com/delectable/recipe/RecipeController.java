@@ -24,13 +24,13 @@ import com.delectable.schedule.ScheduleService;
 public class RecipeController {
 
     @Autowired
-    private RecipeService recipeService;
+    RecipeService recipeService;
 
     @Autowired
-    private ScheduleService scheduleService;
+    ScheduleService scheduleService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getRestaurants(
+    ResponseEntity<Map<String, Object>> getPageableRecipes(
             @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "") String query) {
 
@@ -60,12 +60,12 @@ public class RecipeController {
     }
 
     @GetMapping("/all")
-    public List<Recipe> getAllRecipes() {
+    List<Recipe> getAllRecipes() {
         return (List<Recipe>) recipeService.findAllByDeleted(false);
     }
 
     @GetMapping("/{id}")
-    public Recipe getRecipe(@PathVariable Long id) {
+    Recipe getRecipe(@PathVariable Long id) {
         Optional<Recipe> recipe = recipeService.findById(id);
         return recipe.get();
     }
