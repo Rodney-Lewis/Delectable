@@ -20,7 +20,7 @@ import org.springframework.http.MediaType;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@WithMockUser(roles = "USER")
+@WithMockUser(authorities = "USER")
 public class ScheduleAPI {
 
     @Autowired

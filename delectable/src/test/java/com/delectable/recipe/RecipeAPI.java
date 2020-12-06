@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@WithMockUser(roles = "USER")
+@WithMockUser(authorities = "USER")
 public class RecipeAPI {
 
 	@Autowired

@@ -22,7 +22,7 @@ import org.junit.Test;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@WithMockUser(roles = "USER")
+@WithMockUser(authorities = "USER")
 public class RestaurantAPI {
 
         @Autowired
