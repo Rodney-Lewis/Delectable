@@ -2,9 +2,7 @@ package com.delectable.unit;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import javax.validation.Valid;
-import com.delectable.conf.UUIDHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +32,6 @@ public class UnitController {
 
     @PostMapping
     public Unit addUnitOfMeasurement(@Valid @RequestBody Unit newUnit) {
-        newUnit.setId(UUIDHelper.generateUUID("unit"));
         return (unitService.save(newUnit));
     }
 

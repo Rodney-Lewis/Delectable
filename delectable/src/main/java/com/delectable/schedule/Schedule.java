@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,10 +17,10 @@ public class Schedule {
     Long epoch;
 
     @NotNull
-    String mealTime;
+    MealTime mealTime;
 
     @NotNull
-    String scheduleType;
+    ScheduleType scheduleType;
 
     @NotNull
     Long scheduledItemId;
@@ -32,6 +31,16 @@ public class Schedule {
     public Schedule() {
     }
 
+    public Schedule(@NotNull Long epoch, @NotNull MealTime mealTime,
+            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId,
+            @NotNull String scheduledItemName) {
+        this.epoch = epoch;
+        this.mealTime = mealTime;
+        this.scheduleType = scheduleType;
+        this.scheduledItemId = scheduledItemId;
+        this.scheduledItemName = scheduledItemName;
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,7 +49,7 @@ public class Schedule {
         this.id = id;
     }
 
-    public long getEpoch() {
+    public Long getEpoch() {
         return epoch;
     }
 
@@ -48,32 +57,28 @@ public class Schedule {
         this.epoch = epoch;
     }
 
-    public String getMealTime() {
+    public MealTime getMealTime() {
         return mealTime;
     }
 
-    public void setMealType(String mealTime) {
-        for (MealTime type : MealTime.values()) {
-            if (type.toString().equals(mealTime)) {
-                this.mealTime = mealTime;
-            }
-        }
+    public void setMealTime(MealTime mealTime) {
+        this.mealTime = mealTime;
     }
 
-    public String getScheduleType() {
-        return this.scheduleType;
+    public ScheduleType getScheduleType() {
+        return scheduleType;
     }
 
-    public void setScheduleType(String scheduleType) {
-        for (ScheduleType type : ScheduleType.values()) {
-            if (type.toString().equals(scheduleType)) {
-                this.scheduleType = scheduleType;
-            }
-        }
+    public void setScheduleType(ScheduleType scheduleType) {
+        this.scheduleType = scheduleType;
     }
 
     public Long getScheduledItemId() {
         return scheduledItemId;
+    }
+
+    public void setScheduledItemId(Long scheduledItemId) {
+        this.scheduledItemId = scheduledItemId;
     }
 
     public String getScheduledItemName() {
@@ -82,10 +87,6 @@ public class Schedule {
 
     public void setScheduledItemName(String scheduledItemName) {
         this.scheduledItemName = scheduledItemName;
-    }
-
-    public void setScheduledItemId(Long scheduledItemId) {
-        this.scheduledItemId = scheduledItemId;
     }
 
 }

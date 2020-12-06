@@ -1,9 +1,8 @@
-package com.delectable;
+package com.delectable.recipe;
 
 import java.util.Optional;
-import com.delectable.recipe.Recipe;
-import com.delectable.recipe.RecipeService;
-import org.json.JSONArray;
+import com.delectable.EntityUtil;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@WithMockUser(roles = "USER")
 public class RecipeAPI {
 
 	@Autowired
@@ -33,12 +34,15 @@ public class RecipeAPI {
 	@Autowired
 	private EntityUtil entityUtil;
 
+	@Autowired
+	private RecipeUtil recipeUtil;
+
 	String[] responseStringArray;
 	MvcResult response;
 
 	@Test
-	public void postValidRecipe() throws Exception {
-		Recipe recipe = entityUtil.createValidTestRecipe();
+	public void createValidRecipe() throws Exception {
+		Recipe recipe = recipeUtil.createValidTestRecipes(1, false).get(0);
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.post("/api/recipe")
 						.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
@@ -48,9 +52,22 @@ public class RecipeAPI {
 				.andReturn();
 	}
 
+
+	@Test
+	public void createInvalidRecipe() throws Exception {
+		Recipe recipe = recipeUtil.createValidTestRecipes(1, false).get(0);
+		recipe.setPrepTimeHour((short) -1);
+		recipe.setPrepTimeSecond((byte) -1);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe")
+				.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andDo(MockMvcResultHandlers.print()).andReturn();
+	}
+
 	@Test
 	public void getRecipeById() throws Exception {
-		Long id = entityUtil.insertValidTestRecipe();
+		Long id = recipeUtil.insertValidTestRecipe(false).getId();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.get("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -60,32 +77,31 @@ public class RecipeAPI {
 	}
 
 	@Test
-	public void getAllRecipes() throws Exception {
-		JSONArray jsonArr;
-		entityUtil.insertValidTestRecipes(10, false);
-		response = mockMvc
-				.perform(MockMvcRequestBuilders.get("/api/recipe")
-						.contentType(MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
-				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		jsonArr = new JSONArray(response.getResponse().getContentAsString());
-		assert (jsonArr.length() == 10);
+	public void getPagedRecipes() throws Exception {
+		int numberToInsert = 20;
+		int numberOfPagesItemInRequest = 5;
+		int page = 1;
+		JSONObject jsonObj;
 
-		entityUtil.insertValidTestRecipes(10, true);
+		recipeUtil.insertValidTestRecipes(numberToInsert, false);
 		response = mockMvc
-				.perform(MockMvcRequestBuilders.get("/api/recipe")
-						.contentType(MediaType.APPLICATION_JSON))
+				.perform(MockMvcRequestBuilders.get("/api/recipe/")
+						.contentType(MediaType.APPLICATION_JSON).param("page", "1")
+						.param("size", String.valueOf(numberOfPagesItemInRequest)))
 				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.page").value(page))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.size").value(numberOfPagesItemInRequest))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		jsonArr = new JSONArray(response.getResponse().getContentAsString());
-		assert (jsonArr.length() == 10);
+		jsonObj = new JSONObject(response.getResponse().getContentAsString());
+		assert (jsonObj.optJSONArray("content").length() == numberOfPagesItemInRequest);
 	}
 
 	@Test
 	@Transactional
-	public void putToUpdateRecipe() throws Exception {
+	public void updateRecipe() throws Exception {
 		String nameUpdate = "NoName";
-		Long id = entityUtil.insertValidTestRecipe();
+		Long id = recipeUtil.insertValidTestRecipe(false).getId();
 		Optional<Recipe> recipeOpt = recipeService.findById(id);
 		Recipe recipe = recipeOpt.get();
 		recipe.setName(nameUpdate);
@@ -98,25 +114,13 @@ public class RecipeAPI {
 
 	@Test
 	public void deleteRecipe() throws Exception {
-		Long id = entityUtil.insertValidTestRecipe();
+		Long id = recipeUtil.insertValidTestRecipe(false).getId();
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.delete("/api/recipe/" + id)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 		assert (response.getResponse().getContentAsString() != null);
-	}
-
-	@Test
-	public void postInvalidRecipe() throws Exception {
-		Recipe recipe = entityUtil.createValidTestRecipe();
-		recipe.setPrepTimeHour((short) -1);
-		recipe.setPrepTimeSecond((byte) -1);
-
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/recipe")
-				.content(entityUtil.toJson(recipe)).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isBadRequest())
-				.andDo(MockMvcResultHandlers.print()).andReturn();
 	}
 
 }

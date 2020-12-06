@@ -47,17 +47,13 @@ public class Recipe {
 	@Min(value = 0, message = "Can not be negative.")
 	private byte cookTimeSecond;
 
-	@OneToMany
+	@ManyToMany
 	@Cascade(CascadeType.ALL)
 	private List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-	@OneToMany
+	@ManyToMany
 	@Cascade(CascadeType.ALL)
 	private List<Direction> directions = new ArrayList<Direction>();
-
-	@OneToMany
-	@Cascade(CascadeType.ALL)
-	private List<Schedule> schedule = new ArrayList<Schedule>();
 
 	@ElementCollection
 	private List<String> tags = new ArrayList<String>();
@@ -66,6 +62,36 @@ public class Recipe {
 	private boolean deleted;
 
 	public Recipe() {
+		this.deleted = false;
+	}
+
+	public Recipe(@NotNull(message = "Name can not be null") String name, String source,
+			String description,
+			@Min(value = 0, message = "Can not be negative.") short prepTimeHour,
+			@Max(value = 59, message = "Can not expceed 59")
+			@Min(value = 0, message = "Can not be negative.") byte prepTimeMinute,
+			@Max(value = 59, message = "Can not expceed 59")
+			@Min(value = 0, message = "Can not be negative.") byte prepTimeSecond,
+			@Min(value = 0, message = "Can not be negative.") short cookTimeHour,
+			@Max(value = 59, message = "Can not expceed 59")
+			@Min(value = 0, message = "Can not be negative.") byte cookTimeMinute,
+			@Max(value = 59, message = "Can not expceed 59")
+			@Min(value = 0, message = "Can not be negative.") byte cookTimeSecond,
+			List<Ingredient> ingredients, List<Direction> directions, List<String> tags,
+			String imageSource) {
+		this.name = name;
+		this.source = source;
+		this.description = description;
+		this.prepTimeHour = prepTimeHour;
+		this.prepTimeMinute = prepTimeMinute;
+		this.prepTimeSecond = prepTimeSecond;
+		this.cookTimeHour = cookTimeHour;
+		this.cookTimeMinute = cookTimeMinute;
+		this.cookTimeSecond = cookTimeSecond;
+		this.ingredients = ingredients;
+		this.directions = directions;
+		this.tags = tags;
+		this.imageSource = imageSource;
 		this.deleted = false;
 	}
 
@@ -163,14 +189,6 @@ public class Recipe {
 
 	public void setDirections(List<Direction> directions) {
 		this.directions = directions;
-	}
-
-	public List<Schedule> getSchedule() {
-		return schedule;
-	}
-
-	public void setSchedule(List<Schedule> schedule) {
-		this.schedule = schedule;
 	}
 
 	public List<String> getTags() {

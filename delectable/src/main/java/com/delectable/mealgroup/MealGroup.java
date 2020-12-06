@@ -33,6 +33,13 @@ public class MealGroup {
         this.deleted = false;
     }
 
+    public MealGroup(String name, List<Recipe> recipe, List<Restaurant> restaurant) {
+        this.name = name;
+        this.recipe = recipe;
+        this.restaurant = restaurant;
+        this.deleted = false;
+    }
+
     public Long getId() {
         return id;
     }

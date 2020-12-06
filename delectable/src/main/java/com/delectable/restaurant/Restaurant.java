@@ -31,15 +31,29 @@ public class Restaurant {
     private String imageSource;
     private boolean deleted;
 
-    @OneToMany
-	@Cascade(CascadeType.ALL)
-	private List<Schedule> schedule = new ArrayList<Schedule>();
-
 	@ElementCollection
 	private List<String> tags = new ArrayList<String>();
 
     public Restaurant() {
         this.deleted = false;
+    }
+
+    public Restaurant(@NotNull(message = "Name can not be null") String name, String address,
+            String addressNumber, String city, String state, String postalCode, String phoneNumber,
+            String website, boolean carryOut, boolean delivery, String imageSource, boolean deleted, List<String> tags) {
+        this.name = name;
+        this.address = address;
+        this.addressNumber = addressNumber;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.website = website;
+        this.carryOut = carryOut;
+        this.delivery = delivery;
+        this.imageSource = imageSource;
+        this.deleted = deleted;
+        this.tags = tags;
     }
 
     public Long getId() {
@@ -144,14 +158,6 @@ public class Restaurant {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public List<Schedule> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(List<Schedule> schedule) {
-        this.schedule = schedule;
     }
 
     public List<String> getTags() {
