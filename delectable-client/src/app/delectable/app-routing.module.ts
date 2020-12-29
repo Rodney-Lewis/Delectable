@@ -8,20 +8,22 @@ import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-d
 import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
 import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.component';
 import { ScheduleCalendarComponent } from './schedule/component/schedule-calendar/schedule-calendar.component';
-import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
+import { YourGuardGuard } from './login/path_gaurd/your-guard.guard';
+import { LoginComponent } from './login/component/login-page/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
-  { path: ':epoch', component:  ScheduleCalendarComponent},
-  { path: 'schedule/add', component: ScheduleFormComponent },
-  { path: 'recipe/add', component: RecipeFormComponent },
-  { path: 'recipe/edit/:id', component: RecipeFormComponent },
+  { path: ':epoch', component: ScheduleCalendarComponent },
+  { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard] },
+  { path: 'recipe/add', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
+  { path: 'recipe/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
   { path: 'recipe/list', component: RecipeListComponent },
-  { path: 'pantry/edit/:id', component: RecipeFormComponent },
+  { path: 'pantry/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
   { path: 'restaurant/list', component: RestaurantListComponent },
-  { path: 'restaurant/add', component: RestaurantFormComponent },
-  { path: 'restaurant/edit/:id', component: RestaurantFormComponent },
+  { path: 'restaurant/add', component: RestaurantFormComponent, canActivate: [YourGuardGuard] },
+  { path: 'restaurant/edit/:id', component: RestaurantFormComponent, canActivate: [YourGuardGuard] },
   { path: 'restaurant/detail/:id', component: RestuarantDetailComponent },
   { path: '**', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
 ];

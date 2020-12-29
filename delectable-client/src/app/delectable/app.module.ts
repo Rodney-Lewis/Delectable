@@ -29,6 +29,11 @@ import { ScheduleCalendarComponent } from './schedule/component/schedule-calenda
 import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
 import { CalendarMultiDateSelectDirective } from './schedule/directives/calendar-multi-date-select.directive';
 import { FixedButtonToContainerDirective } from './recipe/directives/fixed-button-to-container.directive';
+import { LoginComponent } from './login/component/login-page/login.component';
+import { AuthService } from './login/user_auth/auth.service';
+import { TokenStorageService } from './login/user_auth/token-storage.service';
+import { authInterceptorProviders } from './login/user_auth/auth.interceptor';
+import { SignupComponent } from './login/component/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,8 @@ import { FixedButtonToContainerDirective } from './recipe/directives/fixed-butto
     ScheduleWeekAtAGlanceComponent,
     CalendarMultiDateSelectDirective,
     FixedButtonToContainerDirective,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,7 @@ import { FixedButtonToContainerDirective } from './recipe/directives/fixed-butto
     FormsModule,
     CommonModule,
   ],
-  providers: [RecipeService, ScheduleService],
+  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

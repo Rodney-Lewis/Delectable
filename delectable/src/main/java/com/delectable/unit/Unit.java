@@ -11,7 +11,7 @@ public class Unit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @NotNull
     private String name;
@@ -22,11 +22,16 @@ public class Unit {
     public Unit() {
     }
 
-    public String getId() {
+    public Unit(@NotNull String name, @NotNull String abbreviation) {
+        this.name = name;
+        this.abbreviation = abbreviation;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,5 +50,4 @@ public class Unit {
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
-
 }

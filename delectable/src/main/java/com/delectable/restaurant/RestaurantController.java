@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,11 +72,13 @@ public class RestaurantController {
         return RestaurantItem.get();
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PostMapping
     public Restaurant addRestaurant(@Valid @RequestBody Restaurant newRestaurant) {
         return (restaurantService.save(newRestaurant));
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PutMapping("/{id}")
     Restaurant updateRestaurant(@PathVariable Long id,
             @Valid @RequestBody Restaurant newRestaurant) {
@@ -93,6 +96,7 @@ public class RestaurantController {
         return restaurantService.save(newRestaurant);
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @DeleteMapping("/{id}")
     void deleteRestaurantItemById(@PathVariable Long id) {
         Optional<Restaurant> optRestaurant = restaurantService.findById(id);

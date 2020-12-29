@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -65,11 +66,13 @@ public class MealGroupController {
         return mealGroup.get();
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PostMapping
     MealGroup createMealGroup(@Valid @RequestBody MealGroup newMealGroup) {
         return mealGroupService.save(newMealGroup);
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PutMapping("/{id}")
     MealGroup updateMealGroup(@PathVariable Long id, @Valid @RequestBody MealGroup newMealGroup) {
         Optional<MealGroup> optMealGroup = mealGroupService.findById(id);
@@ -86,6 +89,7 @@ public class MealGroupController {
         return mealGroupService.save(newMealGroup);
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @DeleteMapping("/{id}")
     void deleteMealGroup(@PathVariable Long id) {
         MealGroup mealGroupToDelete = mealGroupService.findById(id).get();

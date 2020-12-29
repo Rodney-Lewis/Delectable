@@ -12,7 +12,7 @@ export class ScheduleService {
 
   public findAllBetweenEpochs(begin: number, end: number): Observable<any> {
     const params = new HttpParams().set("begin", begin.toString()).set("end", end.toString());
-    const endpointPattern = `${this.scheduleApiEndpoint}/epochBetween`;
+    const endpointPattern = `${this.scheduleApiEndpoint}`;
     return this.http.get(endpointPattern, { params, responseType: 'text' });
   }
 

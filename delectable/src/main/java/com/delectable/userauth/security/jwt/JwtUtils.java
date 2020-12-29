@@ -3,10 +3,15 @@ package com.delectable.userauth.security.jwt;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
+import com.delectable.config.ConfigurationService;
+import com.delectable.config.EConf;
 import com.delectable.userauth.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +26,9 @@ import java.security.Key;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${jwt.secret}")
+	@Autowired
+	private ConfigurationService configService;
+
 	private String jwtSecret;
 
 	@Value("${jwt.expirationInMlliseconds}")
@@ -29,6 +36,11 @@ public class JwtUtils {
 
 	@Value("${jwt.timeSkewInMlliseconds}")
 	private Long jwtTimeSkewMs;
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void voidSetToken() {
+		this.jwtSecret = configService.findByName(EConf.JWT_SECRET.getName()).getValue();
+	}
 
 	public String generateJwtToken(Authentication authentication) {
 
@@ -75,4 +87,5 @@ public class JwtUtils {
 		SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 		return key;
 	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,11 +71,13 @@ public class RecipeController {
         return recipe.get();
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PostMapping
     Recipe addRecipe(@Valid @RequestBody Recipe newRecipe) {
         return (recipeService.save(newRecipe));
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @PutMapping("/{id}")
     Recipe updateRecipe(@Valid @PathVariable Long id, @Valid @RequestBody Recipe newRecipe) {
         Optional<Recipe> optRecipe = recipeService.findById(id);
@@ -91,6 +94,7 @@ public class RecipeController {
         return recipeService.save(newRecipe);
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
     @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable Long id) {
         Optional<Recipe> recipe = recipeService.findById(id);
