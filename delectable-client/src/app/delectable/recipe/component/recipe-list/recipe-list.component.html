@@ -1,11 +1,8 @@
 <div class="container">
   <div class="mr-2">
-    <app-list-header addItemRoute="/recipe/add" addButtonText="Add new" headerText="Recipes">
+    <app-list-header addItemRoute="/recipe/add" addButtonText="Add new" headerText="Recipes"
+      listItemRoute="/recipe/list">
     </app-list-header>
-  </div>
-  <div class="mt-2 mr-2 d-flex justify-content-end">
-    <app-list-toolbar listItemRoute="/recipe/list">
-    </app-list-toolbar>
   </div>
   <div class="mt-2">
     <app-carddeck *ngIf="responseBody" [items]="responseBody.content">

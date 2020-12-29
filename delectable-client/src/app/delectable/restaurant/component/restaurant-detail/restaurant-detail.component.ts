@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'app/delectable/login/user_auth/auth.service';
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 import { Restaurant } from '../../restaurant';
 import { RestaurantService } from '../../restaurant.service';
@@ -12,7 +13,7 @@ import { RestaurantService } from '../../restaurant.service';
 export class RestuarantDetailComponent implements OnInit {
 
   restaurant: Restaurant = new Restaurant();
-  constructor(private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
+  constructor(private authService: AuthService, private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
@@ -30,7 +31,7 @@ export class RestuarantDetailComponent implements OnInit {
   }
 
   displayDeleteButton() {
-    return !this.restaurant.deleted;
+    return ((!this.restaurant.deleted) && this.authService.isLoggedIn());
   }
 
 }

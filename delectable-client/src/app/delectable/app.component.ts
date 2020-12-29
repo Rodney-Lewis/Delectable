@@ -20,6 +20,6 @@ export class AppComponent {
 
   logout(): void {
     this.tokenStorageService.clearSession();
-    this.ngOnInit();
+    window.location.reload();
   }
 }

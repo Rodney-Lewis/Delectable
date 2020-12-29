@@ -12,7 +12,6 @@ import { RestaurantListComponent } from './restaurant/component/restaurant-list/
 import { RestuarantDetailComponent } from './restaurant/component/restaurant-detail/restaurant-detail.component';
 import { PaginationComponent } from './_component/pagination/pagination.component';
 import { CarddeckComponent } from './_component/carddeck/carddeck.component';
-import { ListToolbarComponent } from './_component/list-toolbar/list-toolbar.component';
 import { ListHeaderComponent } from './_component/list-header/list-header.component';
 import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-detail.component';
@@ -48,7 +47,6 @@ import { SignupComponent } from './login/component/signup/signup.component';
     RestuarantDetailComponent,
     PaginationComponent,
     CarddeckComponent,
-    ListToolbarComponent,
     RestaurantCardInfoComponent,
     ListHeaderComponent,
     RecipeCardInfoComponent,

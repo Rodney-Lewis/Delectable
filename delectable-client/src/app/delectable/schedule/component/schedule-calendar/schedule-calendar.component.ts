@@ -5,6 +5,7 @@ import { ScheduleService } from 'app/delectable/schedule/schedule.service';
 import { RecipeService } from 'app/delectable/recipe/recipe.service';
 import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
 import { DateHelper } from '../../date-helper';
+import { AuthService } from 'app/delectable/login/user_auth/auth.service';
 
 @Component({
   selector: 'app-schedule-calendar',
@@ -21,16 +22,18 @@ export class ScheduleCalendarComponent implements OnInit {
   dates: Date[];
   itemsScheduledByDate: any[][];
   calendar: Date[][];
+  isLoggedIn: boolean;
 
   get WEEKDAYS() { return DateHelper.WEEKDAYS }
   get MONTHS() { return DateHelper.MONTHS }
 
-  constructor(private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService) { }
+  constructor(private authService: AuthService, private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
     this.calendar = new Array();
 
     this.activatedroute.paramMap.subscribe(params => {
+      this.isLoggedIn = this.authService.isLoggedIn();
       var dateParameters = new Array();
       dateParameters = params.get('epoch').split("_");
       this.startDate = new Date(Number(dateParameters[0]));

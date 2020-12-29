@@ -4,6 +4,7 @@ import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-ha
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../recipe';
 import { RecipeService } from '../../recipe.service';
+import { AuthService } from 'app/delectable/login/user_auth/auth.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,7 +18,7 @@ export class RecipeDetailComponent implements OnInit {
   totalTimeMinute: number = 0;
   totalTimeSecond: number = 0;
 
-  constructor(private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(params => {
@@ -72,7 +73,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   displayDeleteButton() {
-    return !this.recipe.deleted;
+    return ((!this.recipe.deleted) && this.authService.isLoggedIn());
   }
 
 }
