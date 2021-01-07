@@ -12,6 +12,8 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     int step;
+
+    @Column(columnDefinition = "text")
     String instruction;
 
     public Direction() {

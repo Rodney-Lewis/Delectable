@@ -31,7 +31,7 @@ export class AutoAddIngredientDirective {
       this.formClassReference.addIngredient();
       this.inputArray = this.formClassReference.form.get('element.ingredients') as FormArray;
       this.inputArray.at(this.inputArray.length - 1).patchValue({
-        ingredient: this.stringValueList[index]
+        displayValue: this.stringValueList[index]
       });
       this.inputsCollection = document.getElementsByClassName(this.inputClassReference);
       this.input = this.inputsCollection.item(this.inputsCollection.length - 1) as HTMLInputElement;

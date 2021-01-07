@@ -38,7 +38,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
     this.recipeService.findById(id).subscribe(recipe => {
       let formGroup = this.getFormGroupComponent('element');
       formGroup.addControl('name', new FormControl(recipe.name, Validators.required));
-      formGroup.addControl('source', new FormControl(recipe.directions));
+      formGroup.addControl('source', new FormControl(recipe.source));
       formGroup.addControl('description', new FormControl(recipe.description));
       formGroup.addControl('servings', new FormControl(recipe.servings, [Validators.min(0), Validators.max(99)]));
       formGroup.addControl('prepTimeHour', new FormControl(recipe.prepTimeHour, [Validators.min(0), Validators.max(72)]));
@@ -106,14 +106,14 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   populateIngredients(ingredients: Ingredient[]) {
     for (let ingredient of ingredients) {
       this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
-        ingredient: [ingredient.displayValue, Validators.required],
+        displayValue: [ingredient.displayValue, Validators.required],
       }));
     }
   }
 
   addIngredient() {
     this.getFormArrayComponent('element.ingredients').push(this.formBuilder.group({
-      ingredient: [null, Validators.required],
+      displayValue: [null, Validators.required],
     }));
     this.change.detectChanges();
   }

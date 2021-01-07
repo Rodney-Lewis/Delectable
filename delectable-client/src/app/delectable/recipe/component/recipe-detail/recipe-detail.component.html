@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-4">
 	<div class="row mt-2 justify-content-center">
 		<div class="col-auto">
 			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
@@ -11,7 +11,7 @@
 	</div>
 	<div class="row mt-2 justify-content-center">
 		<div class="col-auto">
-			<span>{{ recipe.source }}</span>
+			<span><strong>Provisioned by: </strong> {{ recipe.source }}</span>
 		</div>
 	</div>
 	<div class="row mt-2 justify-content-center">
@@ -19,34 +19,30 @@
 			<span>{{ recipe.description }}</span>
 		</div>
 	</div>
-	<div class="row mt-2 justify-content-center">
+	<hr>
+	<div class="row" >
 		<div class="col">
-			<table class="table">
-				<tr>
-					<td class="table-active">Prep time</td>
-					<td class="table-light">
-						{{recipe.prepTimeHour}}h
-						{{recipe.prepTimeMinute}}m
-						{{recipe.prepTimeSecond}}s
-					</td>
-				</tr>
-				<tr>
-					<td class="table-active">Cook time</td>
-					<td class="table-light">
-						{{recipe.cookTimeHour}}h
-						{{recipe.cookTimeMinute}}m
-						{{recipe.cookTimeSecond}}s
-					</td>
-				</tr>
-				<tr>
-					<td class="table-active">Total time</td>
-					<td class="table-light">
-						{{totalTimeHour}}h
-						{{totalTimeMinute}}m
-						{{totalTimeSecond}}s
-					</td>
-				</tr>
-			</table>
+			<strong>Prep: </strong>
+			{{recipe.prepTimeHour}}h
+			{{recipe.prepTimeMinute}}m
+			{{recipe.prepTimeSecond}}s
+		</div>
+		<div class="col">
+			<strong>Cook: </strong>
+			{{recipe.cookTimeHour}}h
+			{{recipe.cookTimeMinute}}m
+			{{recipe.cookTimeSecond}}s
+		</div>
+		<div class="w-100 d-md-none"></div>
+		<div class="col">
+			<strong>Total: </strong>
+			{{totalTimeHour}}h
+			{{totalTimeMinute}}m
+			{{totalTimeSecond}}s
+		</div>
+		<div class="col">
+			<strong>Yield: </strong>
+			{{recipe.servings}} serving(s)
 		</div>
 	</div>
 
@@ -57,11 +53,11 @@
 					<h4>Ingredients</h4>
 				</div>
 			</div>
-			<div class="row" *ngFor="let ingredient of recipe.ingredients">
-				<div class="col">
-					{{ ingredient.measurement }} {{ ingredient.unit }} {{ ingredient.pantry.name }}
-				</div>
-			</div>
+			<ul>
+				<li *ngFor="let ingredient of recipe.ingredients">
+					{{ ingredient.displayValue }} 
+				</li>
+			</ul>
 		</div>
 		<div class="col-md-8">
 			<div class="row mt-2">
@@ -69,12 +65,11 @@
 					<h4>Directions</h4>
 				</div>
 			</div>
-			<div class="row" *ngFor="let direction of recipe.directions">
-				<div class="col">
-					<b>Step {{ direction.step }}: </b>
-					<span>{{ direction.instruction }}</span>
-				</div>
-			</div>
+			<ol>
+				<li *ngFor="let direction of recipe.directions">
+					{{ direction.instruction }}
+				</li>
+			</ol>
 		</div>
 	</div>
 

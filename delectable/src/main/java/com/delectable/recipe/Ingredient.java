@@ -14,6 +14,7 @@ public class Ingredient {
     String name;
     String measurement;
     String unit;
+    String displayValue;
 
     public Ingredient() {
     }
@@ -54,6 +55,14 @@ public class Ingredient {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
+
+    public void setDisplayValue(String displayValue) {
+        this.displayValue = displayValue;
     }
 
 }

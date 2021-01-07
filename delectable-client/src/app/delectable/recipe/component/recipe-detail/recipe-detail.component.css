@@ -1,7 +1,15 @@
 .img-fluid {
-    max-height:250px; 
+    max-height:300px; 
 }
 
 .container {
-    max-width: 750px;
+    max-width: 800px;
+}
+
+li {
+    word-break: break-word;   
+}
+
+ul, ol {
+    padding-left: 20px;
 }

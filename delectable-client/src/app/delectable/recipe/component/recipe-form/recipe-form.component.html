@@ -1,7 +1,7 @@
 <div class="container">
-    <form *ngIf=form [formGroup]="form" (ngSubmit)="submitForm()">
-        <h3 *ngIf=!editRecipe>Create new recipe</h3>
-        <h3 *ngIf=editRecipe>Edit recipe</h3>
+    <form *ngIf="getFormGroupComponent('element.name')" [formGroup]="form" (ngSubmit)="submitForm()">
+        <h3 *ngIf=!edit>Create new recipe</h3>
+        <h3 *ngIf=edit>Edit recipe</h3>
 
         <div formGroupName="element">
             <div class="form-row form-group">
@@ -208,7 +208,7 @@
                     [formGroupName]=i>
                     <div class="col">
                         <input appAutoRemoveIngredient [formClassReference]=this [id]=i type="text"
-                            class="form-control ingredientInputs" formControlName="ingredient">
+                            class="form-control ingredientInputs" formControlName="displayValue">
                     </div>
                     <div class="col-auto mt-auto">
                         <button class="btn btn-secondary key" type="button" (click)=removeIngredient(i)>x</button>
@@ -255,8 +255,8 @@
 
         <div class="form-row mb-2">
             <div class="col d-flex justify-content-end">
-                <button *ngIf=editRecipe class="btn btn-primary" type="submit">Confirm edit!</button>
-                <button *ngIf=!editRecipe class="btn btn-primary" type="submit">Create recipe!</button>
+                <button *ngIf=edit class="btn btn-primary" type="submit">Confirm edit!</button>
+                <button *ngIf=!edit class="btn btn-primary" type="submit">Create recipe!</button>
             </div>
         </div>
         <div *ngIf=debugJson>

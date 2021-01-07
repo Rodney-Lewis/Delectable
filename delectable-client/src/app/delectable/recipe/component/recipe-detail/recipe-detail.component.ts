@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵgetDebugNodeR2 } from '@angular/core';
 
 import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../recipe';
 import { RecipeService } from '../../recipe.service';
 import { AuthService } from 'app/delectable/login/user_auth/auth.service';
+import { Direction } from '../../direction';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -38,8 +39,17 @@ export class RecipeDetailComponent implements OnInit {
           this.totalTimeMinute = (this.recipe.cookTimeMinute + this.recipe.prepTimeMinute);
         }
         this.totalTimeHour = this.totalTimeHour + this.recipe.cookTimeHour + this.recipe.prepTimeHour;
+
+        this.recipe.directions = this.recipe.directions.sort((d1, d2) => {
+          if (d1.step > d2.step)
+            return 1;
+          else if (d1.step < d2.step)
+            return -1;
+          else
+            return 0;
+        });
       })
-    })
+    });
   }
 
   delete(id) {

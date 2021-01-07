@@ -6,9 +6,12 @@ import javax.validation.constraints.NotNull;
 import com.delectable.schedule.Schedule;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import ch.qos.logback.core.joran.conditional.ElseAction;
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @Entity
 public class Recipe {
@@ -47,6 +50,9 @@ public class Recipe {
 	@Min(value = 0, message = "Can not be negative.")
 	private byte cookTimeSecond;
 
+	@Min(value = 0, message = "Can not be negative.")
+	private short servings;
+
 	@ManyToMany
 	@Cascade(CascadeType.ALL)
 	private List<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -77,6 +83,7 @@ public class Recipe {
 			@Min(value = 0, message = "Can not be negative.") byte cookTimeMinute,
 			@Max(value = 59, message = "Can not expceed 59")
 			@Min(value = 0, message = "Can not be negative.") byte cookTimeSecond,
+			@Min(value = 0, message = "Can not be negative.") short servings,
 			List<Ingredient> ingredients, List<Direction> directions, List<String> tags,
 			String imageSource) {
 		this.name = name;
@@ -88,6 +95,7 @@ public class Recipe {
 		this.cookTimeHour = cookTimeHour;
 		this.cookTimeMinute = cookTimeMinute;
 		this.cookTimeSecond = cookTimeSecond;
+		this.servings = servings;
 		this.ingredients = ingredients;
 		this.directions = directions;
 		this.tags = tags;
@@ -213,6 +221,14 @@ public class Recipe {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public short getServings() {
+		return servings;
+	}
+
+	public void setServings(short servings) {
+		this.servings = servings;
 	}
 
 }

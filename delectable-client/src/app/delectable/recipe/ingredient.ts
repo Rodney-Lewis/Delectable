@@ -1,4 +1,7 @@
 export class Ingredient {
     id: number;
-    displayValue: String;
+    name: string;
+    measurement: string;
+    unit: string;
+    displayValue: string;
 }
