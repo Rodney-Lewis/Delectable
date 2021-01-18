@@ -1,0 +1,17 @@
+img {
+    width: 96px;
+    height: 96px;
+}
+
+.card-header {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+
+li {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top:6px;
+    padding-bottom: 6px;
+}

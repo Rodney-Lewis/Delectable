@@ -14,10 +14,14 @@ export class RestaurantListComponent implements OnInit {
   }
 
   jsonResponse: any;
+  pageSize: number = 8;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.restaurantService.findAll(params.cp, params.ps, params.s).subscribe(data => {
+      if(params.ps)
+        this.pageSize = params.ps;
+
+      this.restaurantService.findAll(params.cp, this.pageSize, params.s).subscribe(data => {
         this.jsonResponse = JSON.parse(data);
         this.jsonResponse.content.forEach(restaurant => {
           restaurant.imageSource = this.filehandler.getNamedImageUrl(restaurant.imageSource);
