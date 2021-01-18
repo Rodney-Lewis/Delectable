@@ -87,13 +87,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/mealtypes")
-    String[] getMealtypes() {
-        return MealTime.toStringArray();
+    MealTime[] getMealtypes() {
+        return MealTime.values();
     }
 
     @GetMapping("/scheduletypes")
-    String[] getScheduleTypes() {
-        return ScheduleType.toStringArray();
+    ScheduleType[] getScheduleTypes() {
+        return ScheduleType.values();
     }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ScheduleService } from 'app/delectable/schedule/schedule.service';
@@ -23,6 +23,8 @@ export class ScheduleCalendarComponent implements OnInit {
   itemsScheduledByDate: any[][];
   calendar: Date[][];
   isLoggedIn: boolean;
+
+  lessThan425px: boolean = false;
 
   get WEEKDAYS() { return DateHelper.WEEKDAYS }
   get MONTHS() { return DateHelper.MONTHS }
@@ -58,6 +60,21 @@ export class ScheduleCalendarComponent implements OnInit {
         console.log(this.itemsScheduledByDate[0]);
       })
     })
+
+    if(window.innerWidth < 425) {
+      this.lessThan425px = true;
+    } else {
+      this.lessThan425px = false;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?) {
+    if(window.innerWidth < 425) {
+      this.lessThan425px = true;
+    } else {
+      this.lessThan425px = false;
+    }
   }
 
 

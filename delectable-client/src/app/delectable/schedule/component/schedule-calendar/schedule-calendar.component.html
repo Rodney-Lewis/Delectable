@@ -2,7 +2,11 @@
     <div class="row">
         <div class="col">
             <div class="row month">
-                <div class="col">
+                <div *ngIf=lessThan400px class="col">
+                    {{ MONTHS[startDate.getMonth()].abbreviatedName }}
+                    {{ startDate.getFullYear() }}
+                </div>
+                <div *ngIf=!lessThan400px class="col">
                     {{ MONTHS[startDate.getMonth()].fullName }}
                     {{ startDate.getFullYear() }}
                 </div>

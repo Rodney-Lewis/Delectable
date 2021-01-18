@@ -1,7 +1,8 @@
 package com.delectable.schedule;
 
 public enum ScheduleType {
-    RESTAURANT("Restaurant"), RECIPE("Recipe"), MEAL("Meal");
+    RECIPE("Recipe"), RESTAURANT("Restaurant");
+    //RESTAURANT("Restaurant"), RECIPE("Recipe"), MEAL("Meal");
 
     private final String name;
 

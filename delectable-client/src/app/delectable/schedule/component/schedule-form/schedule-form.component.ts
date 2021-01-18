@@ -17,7 +17,7 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
   epochString: string;
   epochStrings: string[];
   date: Date;
-  mealTypes: string[];
+  mealTimes: string[];
   scheduleTypes: string[];
 
   items: any[];
@@ -32,15 +32,14 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.buildFormforCreate();
-
     this.scheduleService.getAllMealTypes().subscribe(data => {
-      this.mealTypes = data;
+      this.mealTimes = data;
     })
 
     this.scheduleService.getAllScheduleTypes().subscribe(data => {
       this.scheduleTypes = data;
     })
+    this.buildFormforCreate();
   }
 
   onScheduleTypeChange(event) {
@@ -65,9 +64,15 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
       this.epochStrings = this.epochString.split("-");
       this.date = new Date(parseInt(this.epochStrings[0]), parseInt(this.epochStrings[1]) - 1, parseInt(this.epochStrings[2]));
       this.schedule.epoch = this.date.getTime();
-      this.schedule.mealType = this.form.get("mealType").value;
+      this.schedule.mealTime = this.form.get("mealTime").value;
       this.schedule.scheduleType = this.form.get("scheduleType").value;
       this.schedule.scheduledItemId = this.form.get("scheduleTypeId").value;
+
+      this.items.forEach(element => {
+        if (element.id == this.schedule.scheduledItemId)
+          this.schedule.scheduledItemName = element.name;
+      });
+
       this.scheduleService.add(this.schedule).subscribe(() => {
         this.router.navigate(['']);
       })
@@ -80,8 +85,8 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
 
   buildFormforCreate() {
     this.form = this.formBuilder.group({
-      epochDay: ['', Validators.required],
-      mealType: ['', Validators.required],
+      epochDay: [new Date().toISOString().substring(0, 10), Validators.required],
+      mealTime: ['', Validators.required],
       scheduleType: ['', Validators.required],
       scheduleTypeId: ['', Validators.required]
     });

@@ -9,11 +9,11 @@
         </div>
       </div>
       <div class="col-sm">
-        <label for="mealType">Meal</label>
-        <select class="form-control" formControlName="mealType">
-          <option *ngFor="let mealType of mealTypes" [ngValue]=mealType>{{mealType}}</option>
+        <label for="mealTmealTimeype">Meal</label>
+        <select class="form-control" formControlName="mealTime">
+          <option *ngFor="let mealTime of mealTimes" [ngValue]=mealTime>{{mealTime}}</option>
         </select>
-        <div *ngIf="formFieldRequired('mealType')" class="validator">
+        <div *ngIf="formFieldRequired('mealTime')" class="validator">
           Meal type is a required field.
         </div>
       </div>

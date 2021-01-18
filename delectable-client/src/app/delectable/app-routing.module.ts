@@ -10,11 +10,12 @@ import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.
 import { ScheduleCalendarComponent } from './schedule/component/schedule-calendar/schedule-calendar.component';
 import { YourGuardGuard } from './login/path_gaurd/your-guard.guard';
 import { LoginComponent } from './login/component/login-page/login.component';
+import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
-  { path: ':epoch', component: ScheduleCalendarComponent },
+  { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
   { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard] },
   { path: 'recipe/add', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
   { path: 'recipe/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
