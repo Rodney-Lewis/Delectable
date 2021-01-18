@@ -20,7 +20,7 @@ public class RestaurantUtil {
         tags.add("tag3");
         for (int i = 0; i < numberOfItemsToCreate; i++) {
             restaurants.add(new Restaurant("Name" + i, "123", null, "City" + i, "State" + i,
-                    "12345", "123-456-7890", "stackoverflow.com", true, true, "", markAsDeleted,
+                    "12345", "123-456-7890", "stackoverflow.com", true, true, true, "", markAsDeleted,
                     tags));
             if (markAsDeleted == true) {
                 restaurants.get(i).setDeleted(true);

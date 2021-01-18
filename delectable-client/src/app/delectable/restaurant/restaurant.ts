@@ -10,6 +10,7 @@ export class Restaurant {
     website: string;
     carryOut: boolean;
     delivery: boolean;
+    glutenFreeOptions: boolean;
     imageSource: string;
     deleted: boolean;
 }

@@ -1,13 +1,15 @@
 <div class="card-header">
-    <!-- <a routerLink="{{ detailItemRoute }}/{{ item.id }}"></a> -->
+    <a routerLink="{{ detailItemRoute }}/{{ item.id }}">
         <img src="{{ item.imageSource }}" alt="Card image cap">
         <h4 class="ml-2">{{ item.name }} {{ item.city }}</h4>
+    </a>
 </div>
 
 <div class="card-body">
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps?hl=en&saddr=current+location&daddr={{ item.address }} {{ item.city }} {{ item.state }}">
+            <a target="_blank" rel="noopener noreferrer"
+                href="https://www.google.com/maps?hl=en&saddr=current+location&daddr={{ item.address }} {{ item.city }} {{ item.state }}">
                 {{ item.address }} {{ item.addressNumber }},
                 {{ item.city }},
                 {{ item.state }}

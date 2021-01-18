@@ -3,10 +3,7 @@ package com.delectable.restaurant;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import com.delectable.schedule.Schedule;
 import javax.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,6 +25,7 @@ public class Restaurant {
     private String website;
     private boolean carryOut;
     private boolean delivery;
+    private boolean glutenFreeOptions;
     private String imageSource;
     private boolean deleted;
 
@@ -40,7 +38,7 @@ public class Restaurant {
 
     public Restaurant(@NotNull(message = "Name can not be null") String name, String address,
             String addressNumber, String city, String state, String postalCode, String phoneNumber,
-            String website, boolean carryOut, boolean delivery, String imageSource, boolean deleted, List<String> tags) {
+            String website, boolean carryOut, boolean delivery, boolean glutenFreeOptions, String imageSource, boolean deleted, List<String> tags) {
         this.name = name;
         this.address = address;
         this.addressNumber = addressNumber;
@@ -51,8 +49,9 @@ public class Restaurant {
         this.website = website;
         this.carryOut = carryOut;
         this.delivery = delivery;
+        this.glutenFreeOptions = glutenFreeOptions;
         this.imageSource = imageSource;
-        this.deleted = deleted;
+        this.deleted = false;
         this.tags = tags;
     }
 
@@ -168,4 +167,12 @@ public class Restaurant {
         this.tags = tags;
     }
 
+    public boolean isGlutenFreeOptions() {
+        return glutenFreeOptions;
+    }
+
+    public void setGlutenFreeOptions(boolean glutenFreeOptions) {
+        this.glutenFreeOptions = glutenFreeOptions;
+    }
+    
 }

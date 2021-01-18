@@ -43,6 +43,7 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
       this.getFormGroupComponent('element').addControl('website', new FormControl(restaurant.website));
       this.getFormGroupComponent('element').addControl('carryOut', new FormControl(restaurant.carryOut));
       this.getFormGroupComponent('element').addControl('delivery', new FormControl(restaurant.delivery));
+      this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl(restaurant.glutenFreeOptions));
       this.getFormGroupComponent('element').addControl('imageSource', new FormControl(restaurant.imageSource));
       this.previewImage = this.fileHandlerService.getNamedImageUrl(restaurant.imageSource);
 
@@ -60,6 +61,7 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
     this.getFormGroupComponent('element').addControl('website', new FormControl(''));
     this.getFormGroupComponent('element').addControl('carryOut', new FormControl());
     this.getFormGroupComponent('element').addControl('delivery', new FormControl());
+    this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl());
     this.getFormGroupComponent('element').addControl('imageSource', new FormControl(''));
   }
 
