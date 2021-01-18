@@ -47,7 +47,8 @@ export class DateHelper {
         return day;
     }
 
-    static buildWeekFromDate(date: Date) {
+    static buildWeekFromDate(day: Date) {
+        var date = new Date(day);
         var week = new Array();
         for (var i = 0; i < 7; i++) {
             week.push(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
