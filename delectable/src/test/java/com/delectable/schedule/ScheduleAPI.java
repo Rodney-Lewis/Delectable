@@ -51,6 +51,7 @@ public class ScheduleAPI {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
     }
 
+    /*
     @Test
     public void createMealGroupSchedule() throws Exception {
         Schedule schedule = scheduleUtil.createScheduleForMealGroup(false);
@@ -58,6 +59,7 @@ public class ScheduleAPI {
                 .content(entityUtil.toJson(schedule)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
     }
+    */
 
     @Test
     public void getScheduled() throws Exception {

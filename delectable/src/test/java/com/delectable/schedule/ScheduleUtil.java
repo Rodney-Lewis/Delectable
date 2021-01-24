@@ -50,10 +50,12 @@ public class ScheduleUtil {
 
     }
 
+    /*
     public Schedule createScheduleForMealGroup(boolean deleted) {
         MealGroup mealGroup = mealGroupUtil.insertValidMealGroup(2, 2, deleted);
         Schedule mealGroupSchedule = new Schedule(new Date().getTime(), MealTime.BREAKFAST,
                 ScheduleType.MEAL, mealGroup.getId(), mealGroup.getName());
         return mealGroupSchedule;
     }
+    */
 }
