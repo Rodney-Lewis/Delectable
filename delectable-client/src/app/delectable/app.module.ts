@@ -33,6 +33,9 @@ import { AuthService } from './login/user_auth/auth.service';
 import { TokenStorageService } from './login/user_auth/token-storage.service';
 import { authInterceptorProviders } from './login/user_auth/auth.interceptor';
 import { SignupComponent } from './login/component/signup/signup.component';
+import { AdminConsoleComponent } from './admin/admin-console/admin-console.component';
+import { AdminService } from './admin/admin-service.service';
+import { ProfileComponent } from './admin/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,8 @@ import { SignupComponent } from './login/component/signup/signup.component';
     FixedButtonToContainerDirective,
     LoginComponent,
     SignupComponent,
+    AdminConsoleComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,7 @@ import { SignupComponent } from './login/component/signup/signup.component';
     FormsModule,
     CommonModule,
   ],
-  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, authInterceptorProviders],
+  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, AdminService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

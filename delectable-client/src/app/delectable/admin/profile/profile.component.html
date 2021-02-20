@@ -1,0 +1,34 @@
+<div class="container">
+    <form *ngIf="getFormGroupComponent('element.username')" [formGroup]="form" (ngSubmit)="submitForm()">
+        <div formGroupName="element">
+            <div class="form-row form-group">
+                <div class="col">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" formControlName="username">
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" formControlName="email">
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label for="role">Role</label>
+                    <select class="form-control" formControlName="role">
+                        <option *ngFor="let role of roles" [ngValue]=role>{{role}}</option>
+                    </select>
+                    <div *ngIf="formFieldRequired('role')" class="validator">
+                        Role is a required field.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row mb-2">
+            <div class="col d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Confirm edit!</button>
+            </div>
+        </div>
+    </form>
+</div>

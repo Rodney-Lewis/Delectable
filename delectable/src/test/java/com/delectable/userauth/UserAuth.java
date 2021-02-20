@@ -2,7 +2,6 @@ package com.delectable.userauth;
 
 import com.delectable.EntityUtil;
 import com.delectable.userauth.models.ERole;
-import com.delectable.userauth.models.Role;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
 import org.junit.Before;
@@ -38,11 +37,6 @@ public class UserAuth {
 	private MockMvc mockMvc;
 
 	MvcResult response;
-
-	@Before
-	public void setUpRoles() {
-		util.setupRoles();
-	}
 
 	@Test
 	@Transactional

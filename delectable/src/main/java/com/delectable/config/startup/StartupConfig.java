@@ -11,9 +11,7 @@ import com.delectable.unit.EDefaultUnits;
 import com.delectable.unit.Unit;
 import com.delectable.unit.UnitService;
 import com.delectable.userauth.models.ERole;
-import com.delectable.userauth.models.Role;
 import com.delectable.userauth.models.User;
-import com.delectable.userauth.repository.RoleRepository;
 import com.delectable.userauth.repository.UserRepository;
 import com.delectable.util.UUIDHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +27,6 @@ public class StartupConfig {
     UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
     ConfigurationService configurationService;
 
     @Autowired
@@ -43,19 +38,19 @@ public class StartupConfig {
     @EventListener(ApplicationStartedEvent.class)
     public void setUpUserAuth() {
         persistJwtSecret();
-        persistDefaultUserRoles();
         persistDefaultAdminUser();
     }
 
     @EventListener(ApplicationStartedEvent.class)
     public void setUpDefaultUnits() {
-        if (!configurationService.existsByName(EConf.DEFAULT_UNITS_GENERATED.getName()))
+        if (!configurationService.existsByName(EConf.DEFAULT_UNITS_GENERATED.getName())) {
             for (EDefaultUnits unit : EDefaultUnits.values()) {
                 unitService.save(new Unit(unit.getName(), unit.getAbbreviation()));
             }
-        Configuration config = new Configuration(EConf.DEFAULT_UNITS_GENERATED.getName(),
-                "true", EConf.DEFAULT_UNITS_GENERATED.getType());
-        configurationService.save(config);
+            Configuration config = new Configuration(EConf.DEFAULT_UNITS_GENERATED.getName(),
+                    "true", EConf.DEFAULT_UNITS_GENERATED.getType());
+            configurationService.save(config);
+        }
     }
 
     private void persistJwtSecret() {
@@ -67,34 +62,13 @@ public class StartupConfig {
 
     }
 
-    private void persistDefaultUserRoles() {
-        if (!configurationService.existsByName(EConf.ROLES_GENERATED.getName())) {
-            List<Role> roles = new ArrayList<Role>();
-
-            for (ERole e : ERole.values()) {
-                roles.add(new Role(e));
-            }
-            roleRepository.saveAll(roles);
-
-            Configuration config = new Configuration(EConf.ROLES_GENERATED.getName(), "true",
-                    EConf.ROLES_GENERATED.getType());
-            configurationService.save(config);
-        }
-
-    }
-
     private void persistDefaultAdminUser() {
         if (!configurationService.existsByName(EConf.SUPER_USER_GENERATED.getName())) {
-            String email = "Admin@email.com";
+            String email = "replaceme@admin.com";
             String username = "Admin";
             String password = "Admin";
             User user = new User(username, email, encoder.encode(password));
-
-            Set<Role> roles = new HashSet<Role>();
-            Role adminRole = roleRepository.findByName(ERole.ADMIN).get();
-            roles.add(adminRole);
-
-            user.setRoles(roles);
+            user.setRole(ERole.SUPER_USER);
             userRepository.save(user);
 
             Configuration config = new Configuration(EConf.SUPER_USER_GENERATED.getName(), "true",

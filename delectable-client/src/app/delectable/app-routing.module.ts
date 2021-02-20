@@ -7,13 +7,18 @@ import { RestuarantDetailComponent } from './restaurant/component/restaurant-det
 import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-detail.component';
 import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
 import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.component';
-import { ScheduleCalendarComponent } from './schedule/component/schedule-calendar/schedule-calendar.component';
 import { YourGuardGuard } from './login/path_gaurd/your-guard.guard';
 import { LoginComponent } from './login/component/login-page/login.component';
 import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
+import { AdminConsoleComponent } from './admin/admin-console/admin-console.component';
+import { SignupComponent } from './login/component/signup/signup.component';
+import { ProfileComponent } from './admin/profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'admin', component: AdminConsoleComponent },
+  { path: 'user/edit/:id', component: ProfileComponent },
+  { path: 'register', component: SignupComponent },
   { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
   { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
   { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard] },

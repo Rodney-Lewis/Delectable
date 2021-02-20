@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 import com.delectable.userauth.models.ERole;
-import com.delectable.userauth.models.Role;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
 import com.delectable.userauth.payload.request.SignupRequest;
@@ -37,9 +36,6 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -81,13 +77,7 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<Role> roles = new HashSet<>();
-
-        Role userRole = roleRepository.findByName(ERole.VEIWER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-
-        user.setRoles(roles);
+        user.setRole(ERole.VEIWER);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

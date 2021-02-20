@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import com.delectable.userauth.models.ERole;
-import com.delectable.userauth.models.Role;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
 import com.delectable.userauth.payload.request.SignupRequest;
-import com.delectable.userauth.repository.RoleRepository;
 import com.delectable.userauth.repository.UserRepository;
 import com.delectable.util.UUIDHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +17,6 @@ public class UserAuthUtil {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    void setupRoles() {
-        List<Role> roles = new ArrayList<Role>();
-
-        for (ERole e : ERole.values()) {
-            roles.add(new Role(e));
-        }
-        roleRepository.saveAll(roles);
-    }
 
     SignupRequest createValidSignupRequest() {
         String email = UUIDHelper.generateUUID(5) + "@gmail.com";
@@ -63,12 +49,12 @@ public class UserAuthUtil {
         return loginRequest;
     }
 
-    LoginRequest createValidUserLoginRequest(Set<Role> roles) {
+    LoginRequest createValidUserLoginRequest(ERole role) {
         String email = UUIDHelper.generateUUID(5) + "@gmail.com";
         String username = UUIDHelper.generateUUID(8);
         String password = UUIDHelper.generateUUID(8);
         User user = new User(username, email, password);
-        user.setRoles(roles);
+        user.setRole(role);
         userRepository.save(user);
 
         LoginRequest loginRequest = new LoginRequest();
