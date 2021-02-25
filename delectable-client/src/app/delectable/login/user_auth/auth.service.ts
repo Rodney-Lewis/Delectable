@@ -25,6 +25,7 @@ export class AuthService {
       if (expTime > currentTime) {
         return true;
       } else {
+        this.tokenStorageService.clearSession();
         return false;
       }
     } else {

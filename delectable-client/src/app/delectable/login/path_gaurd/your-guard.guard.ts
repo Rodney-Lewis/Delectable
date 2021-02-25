@@ -25,15 +25,8 @@ export class YourGuardGuard implements CanActivate {
     } else {
       this.authService.redirectUrl = url;
       this.tokenStorage.clearSession();
-      this.reloadPage();
       return this.router.parseUrl('/login');
     }
-  }
-
-  reloadPage(): void {
-    setTimeout(() => {
-      window.location.reload();
-    }, 5);
   }
 
 }
