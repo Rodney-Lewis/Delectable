@@ -77,7 +77,7 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        user.setRole(ERole.VEIWER);
+        user.setRole(ERole.ROLE_VEIWER);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

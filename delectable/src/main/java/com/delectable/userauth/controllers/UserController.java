@@ -90,7 +90,7 @@ public class UserController {
 
     @GetMapping("/groups")
     EnumSet<ERole> getRoles() {
-        return EnumSet.of(ERole.ADMIN, ERole.USER, ERole.VEIWER);
+        return EnumSet.of(ERole.ROLE_ADMIN, ERole.ROLE_USER, ERole.ROLE_VEIWER);
     }
 
     @PutMapping("/{id}")

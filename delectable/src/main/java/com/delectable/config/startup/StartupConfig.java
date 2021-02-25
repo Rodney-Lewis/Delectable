@@ -68,7 +68,7 @@ public class StartupConfig {
             String username = "Admin1";
             String password = "Admin1";
             User user = new User(username, email, encoder.encode(password));
-            user.setRole(ERole.SUPER_USER);
+            user.setRole(ERole.ROLE_SUPER_USER);
             userRepository.save(user);
 
             Configuration config = new Configuration(EConf.SUPER_USER_GENERATED.getName(), "true",

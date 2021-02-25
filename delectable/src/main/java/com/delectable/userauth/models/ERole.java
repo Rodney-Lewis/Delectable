@@ -1,8 +1,8 @@
 package com.delectable.userauth.models;
 
 public enum ERole {
-    SUPER_USER,
-    ADMIN,
-    USER,
-    VEIWER;
+    ROLE_SUPER_USER,
+    ROLE_ADMIN,
+    ROLE_USER,
+    ROLE_VEIWER;
 }

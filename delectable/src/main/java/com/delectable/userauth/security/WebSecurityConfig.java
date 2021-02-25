@@ -1,11 +1,14 @@
 package com.delectable.userauth.security;
 
+import com.delectable.userauth.models.ERole;
 import com.delectable.userauth.security.jwt.AuthEntryPointJwt;
 import com.delectable.userauth.security.jwt.AuthTokenFilter;
 import com.delectable.userauth.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,6 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
+
+	@Bean
+	public RoleHierarchy roleHierarchy() {
+		RoleHierarchyImpl rh = new RoleHierarchyImpl();
+		String roles = "";
+
+		roles += ERole.ROLE_SUPER_USER.toString() + " > ";
+		roles += ERole.ROLE_ADMIN.toString() + " > ";
+		roles += ERole.ROLE_USER.toString() + " > ";
+		roles += ERole.ROLE_VEIWER.toString();
+
+		rh.setHierarchy(roles);
+		return rh;
+	}
 
 	@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
