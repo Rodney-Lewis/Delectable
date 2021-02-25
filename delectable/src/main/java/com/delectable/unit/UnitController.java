@@ -15,30 +15,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/unit")
-@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
 public class UnitController {
 
     @Autowired
     private UnitService unitService;
 
-    @PreAuthorize("hasAuthority('VIEWER')")
     @GetMapping
     public List<Unit> getUnitOfMeasurementList() {
         return (List<Unit>) unitService.findAll();
     }
 
-    @PreAuthorize("hasAuthority('VIEWER')")
     @GetMapping("/{id}")
     public Unit getUnitOfMeasurementById(@PathVariable int id) {
         Optional<Unit> unit = unitService.findById(id);
         return unit.get();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public Unit addUnitOfMeasurement(@Valid @RequestBody Unit newUnit) {
         return (unitService.save(newUnit));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     public void deleteUnitOfMeasurement(@PathVariable int id) {
         unitService.deleteById(id);

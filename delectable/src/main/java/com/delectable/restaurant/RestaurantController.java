@@ -72,13 +72,13 @@ public class RestaurantController {
         return RestaurantItem.get();
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public Restaurant addRestaurant(@Valid @RequestBody Restaurant newRestaurant) {
         return (restaurantService.save(newRestaurant));
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     Restaurant updateRestaurant(@PathVariable Long id,
             @Valid @RequestBody Restaurant newRestaurant) {
@@ -96,7 +96,7 @@ public class RestaurantController {
         return restaurantService.save(newRestaurant);
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     void deleteRestaurantItemById(@PathVariable Long id) {
         Optional<Restaurant> optRestaurant = restaurantService.findById(id);

@@ -71,13 +71,13 @@ public class RecipeController {
         return recipe.get();
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     Recipe addRecipe(@Valid @RequestBody Recipe newRecipe) {
         return (recipeService.save(newRecipe));
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     Recipe updateRecipe(@Valid @PathVariable Long id, @Valid @RequestBody Recipe newRecipe) {
         Optional<Recipe> optRecipe = recipeService.findById(id);
@@ -94,7 +94,7 @@ public class RecipeController {
         return recipeService.save(newRecipe);
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     void deleteRecipe(@PathVariable Long id) {
         Optional<Recipe> recipe = recipeService.findById(id);

@@ -96,13 +96,13 @@ public class ScheduleController {
         return ScheduleType.values();
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     Schedule addSchedule(@RequestBody Schedule newSchedule) {
         return (scheduleService.save(newSchedule));
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{Id}")
     void deleteSchedule(@PathVariable Long Id) {
         scheduleService.deleteById(Id);

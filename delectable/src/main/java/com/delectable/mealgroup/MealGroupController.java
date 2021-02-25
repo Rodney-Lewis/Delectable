@@ -66,13 +66,13 @@ public class MealGroupController {
         return mealGroup.get();
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     MealGroup createMealGroup(@Valid @RequestBody MealGroup newMealGroup) {
         return mealGroupService.save(newMealGroup);
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     MealGroup updateMealGroup(@PathVariable Long id, @Valid @RequestBody MealGroup newMealGroup) {
         Optional<MealGroup> optMealGroup = mealGroupService.findById(id);
@@ -89,7 +89,7 @@ public class MealGroupController {
         return mealGroupService.save(newMealGroup);
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     void deleteMealGroup(@PathVariable Long id) {
         MealGroup mealGroupToDelete = mealGroupService.findById(id).get();

@@ -48,6 +48,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/user")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     @Autowired

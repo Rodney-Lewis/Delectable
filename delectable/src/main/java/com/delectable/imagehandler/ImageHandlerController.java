@@ -48,7 +48,7 @@ public class ImageHandlerController {
                 .body(file);
     }
     
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('SUPER_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public void handleFileUpload(@RequestParam("imageMultipartFile") MultipartFile file) {
         storageService.store(file);
