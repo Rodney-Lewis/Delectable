@@ -36,6 +36,10 @@ import { SignupComponent } from './login/component/signup/signup.component';
 import { AdminConsoleComponent } from './admin/admin-console/admin-console.component';
 import { AdminService } from './admin/admin-service.service';
 import { ProfileComponent } from './admin/profile/profile.component';
+import { AccountComponent } from './user-settings/component/profile/profile.component';
+import { ChangePasswordComponent } from './user-settings/component/change-password/change-password.component';
+import { UserSettingsComponent } from './user-settings/component/user-settings/user-settings.component';
+import { UserService } from './user-settings/service/user.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,9 @@ import { ProfileComponent } from './admin/profile/profile.component';
     SignupComponent,
     AdminConsoleComponent,
     ProfileComponent,
+    AccountComponent,
+    ChangePasswordComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +81,7 @@ import { ProfileComponent } from './admin/profile/profile.component';
     FormsModule,
     CommonModule,
   ],
-  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, AdminService, authInterceptorProviders],
+  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, AdminService, UserService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

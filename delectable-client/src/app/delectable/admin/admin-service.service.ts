@@ -23,13 +23,10 @@ export class AdminService {
     return this.http.get(this.endpoint + "/groups");
   }
 
+ 
   public getById(id: number) : Observable<User> {
     const endpointPattern = `${this.endpoint}/${id}`;
     return this.http.get<User>(endpointPattern);
   }
 
-  public updateUser(id: number, user: User) {
-    const endpointPattern = `${this.endpoint}/${id}`;
-    return this.http.put<User>(endpointPattern, user) 
-  }
 }

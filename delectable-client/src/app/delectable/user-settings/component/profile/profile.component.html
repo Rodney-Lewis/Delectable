@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" formControlName="username">
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+            <div *ngIf="username.errors.required">Username is required</div>
+            <div *ngIf="username.errors.minlength">
+                Username must be at least 3 characters
+            </div>
+            <div *ngIf="username.errors.maxlength">
+                Username must be at most 20 characters
+            </div>
+        </div>
+    </div>
+    <div class="form-row form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email" formControlName="email">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+            <div *ngIf="email.errors.email">
+                Email must be a valid email address
+            </div>
+        </div>
+    </div>
+    <div class="form-row form-group">
+        <label for="role">Role</label>
+        <input type="text" class="form-control" id="role" formControlName="role">
+    </div>
+    <div class="form-row mb-2">
+        <div class="col d-flex justify-content-begin">
+            <button type="button" class="btn btn-link" (click)="signout()">Sign out</button>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit">Save changes</button>
+        </div>
+    </div>
+</form>
+<div *ngIf="formSubmitted && isSuccessful" class="alert alert-success">
+    <span>{{message}}</span>
+</div>
+<div *ngIf="formSubmitted && isFailed" class="alert alert-danger">
+    <span>{{message}}</span>
+</div>

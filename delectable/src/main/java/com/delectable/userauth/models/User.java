@@ -12,8 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
-			@UniqueConstraint(columnNames = "username"),
-			@UniqueConstraint(columnNames = "email") 
+			@UniqueConstraint(columnNames = "username")
 		})
 public class User {
 	@Id
@@ -26,7 +25,6 @@ public class User {
 	@JsonView(UserViews.Simple.class)
 	private String username;
 
-	@NotBlank
 	@Size(max = 50)
 	@Email
 	@JsonView(UserViews.Simple.class)

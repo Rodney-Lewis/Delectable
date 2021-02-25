@@ -47,16 +47,16 @@ public class JwtUtils {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 		Long expTime = System.currentTimeMillis() + jwtExpirationMs;
 
-		return Jwts.builder().setSubject((userPrincipal.getUsername()))
-				.claim("email", userPrincipal.getEmail())
-				.claim("scope",
-						userPrincipal.getAuthorities().stream().map(item -> item.getAuthority())
-								.collect(Collectors.toList()))
-				.claim("iat", new Date().getTime()).claim("exp", new Date(expTime).getTime())
+		return Jwts.builder()
+				//.setSubject((userPrincipal.getUsername()))
+				.setSubject(userPrincipal.getId().toString())
+				.claim("scope", userPrincipal.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList()))
+				.claim("iat", new Date().getTime())
+				.claim("exp", new Date(expTime).getTime())
 				.signWith(convertStringToKey(jwtSecret)).compact();
 	}
 
-	public String getUserNameFromJwtToken(String token) {
+	public String getSubjectFromJwtToken(String token) {
 		return Jwts.parserBuilder().setSigningKey(convertStringToKey(jwtSecret))
 				.setAllowedClockSkewSeconds(jwtTimeSkewMs / 1000).build().parseClaimsJws(token)
 				.getBody().getSubject();

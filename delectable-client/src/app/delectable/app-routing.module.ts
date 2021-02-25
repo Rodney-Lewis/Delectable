@@ -13,11 +13,22 @@ import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-we
 import { AdminConsoleComponent } from './admin/admin-console/admin-console.component';
 import { SignupComponent } from './login/component/signup/signup.component';
 import { ProfileComponent } from './admin/profile/profile.component';
+import { AccountComponent } from './user-settings/component/profile/profile.component';
+import { UserSettingsComponent } from './user-settings/component/user-settings/user-settings.component';
+import { ChangePasswordComponent } from './user-settings/component/change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  {
+    path: 'settings', component: UserSettingsComponent, children: [
+      { path: 'profile', component: AccountComponent },
+      { path: 'security', component: ChangePasswordComponent },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' }
+    ]
+  },
   { path: 'admin', component: AdminConsoleComponent },
   { path: 'user/edit/:id', component: ProfileComponent },
+  { path: 'account/:id', component: AccountComponent },
   { path: 'register', component: SignupComponent },
   { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
   { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
