@@ -65,8 +65,8 @@ public class StartupConfig {
     private void persistDefaultAdminUser() {
         if (!configurationService.existsByName(EConf.SUPER_USER_GENERATED.getName())) {
             String email = "replaceme@admin.com";
-            String username = "Admin";
-            String password = "Admin";
+            String username = "Admin1";
+            String password = "Admin1";
             User user = new User(username, email, encoder.encode(password));
             user.setRole(ERole.SUPER_USER);
             userRepository.save(user);
