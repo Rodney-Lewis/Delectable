@@ -3,7 +3,7 @@ package com.delectable.userauth.security.jwt;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
-import com.delectable.config.ConfigurationService;
+import com.delectable.config.ConfigurationRepository;
 import com.delectable.config.EConf;
 import com.delectable.userauth.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	@Autowired
-	private ConfigurationService configService;
+	private ConfigurationRepository configurationRepository;
 
 	private String jwtSecret;
 
@@ -39,7 +39,7 @@ public class JwtUtils {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void voidSetToken() {
-		this.jwtSecret = configService.findByName(EConf.JWT_SECRET.getName()).getValue();
+		this.jwtSecret = configurationRepository.findByName(EConf.JWT_SECRET.getName()).getValue();
 	}
 
 	public String generateJwtToken(Authentication authentication) {

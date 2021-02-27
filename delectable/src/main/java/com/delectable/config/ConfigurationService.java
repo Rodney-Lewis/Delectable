@@ -1,11 +1,22 @@
 package com.delectable.config;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Repository
-public interface ConfigurationService extends CrudRepository<Configuration, Integer> {
-  boolean existsByName(String string);
+@Service
+public class ConfigurationService {
 
-  Configuration findByName(String name);
+    @Autowired
+    ConfigurationRepository configurationRepository;
+
+    public <T> void persistConfiguration(EConf conf, T value) {
+        Configuration config = new Configuration(conf.getName(),
+                String.valueOf(value), conf.getType());
+        configurationRepository.save(config);
+    }
+
+    public boolean doesConfigurationExist(EConf conf) {
+        return configurationRepository.existsByName(conf.getName());
+    }
+
 }

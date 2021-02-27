@@ -4,4 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UnitService extends CrudRepository<Unit, Integer> {}
+public interface UnitRepository extends CrudRepository<Unit, Integer> {}

@@ -18,29 +18,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class UnitController {
 
     @Autowired
-    private UnitService unitService;
+    private UnitRepository unitRepository;
 
     @GetMapping
     public List<Unit> getUnitOfMeasurementList() {
-        return (List<Unit>) unitService.findAll();
+        return (List<Unit>) unitRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Unit getUnitOfMeasurementById(@PathVariable int id) {
-        Optional<Unit> unit = unitService.findById(id);
+        Optional<Unit> unit = unitRepository.findById(id);
         return unit.get();
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     public Unit addUnitOfMeasurement(@Valid @RequestBody Unit newUnit) {
-        return (unitService.save(newUnit));
+        return (unitRepository.save(newUnit));
     }
 
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     public void deleteUnitOfMeasurement(@PathVariable int id) {
-        unitService.deleteById(id);
+        unitRepository.deleteById(id);
     }
 
 }
