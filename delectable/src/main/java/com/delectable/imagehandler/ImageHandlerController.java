@@ -23,12 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 public class ImageHandlerController {
 
-    private final StorageService storageService;
-
     @Autowired
-    public ImageHandlerController(StorageService storageService) {
-        this.storageService = storageService;
-    }
+    private FileSystemStorageService fileSystemStorageService;
 
     @GetMapping
     @ResponseBody
@@ -42,7 +38,7 @@ public class ImageHandlerController {
     @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = fileSystemStorageService.loadAsResource(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
@@ -51,7 +47,7 @@ public class ImageHandlerController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     public void handleFileUpload(@RequestParam("imageMultipartFile") MultipartFile file) {
-        storageService.store(file);
+        fileSystemStorageService.store(file);
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
