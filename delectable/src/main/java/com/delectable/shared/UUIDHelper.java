@@ -1,4 +1,4 @@
-package com.delectable.util;
+package com.delectable.shared;
 
 import java.security.SecureRandom;
 

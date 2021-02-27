@@ -1,4 +1,4 @@
-package com.delectable.config;
+package com.delectable.shared.conf;
 
 import java.util.Date;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Configuration {
+public class Conf {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,11 @@ public class Configuration {
     @NotNull
     private Long epochUpdateDate;
 
-    public Configuration() {
+    public Conf() {
         epochCreationDate = new Date().getTime();
     }
 
-    public Configuration(@NotNull String name, @NotNull String value, @NotNull String type) {
+    public Conf(@NotNull String name, @NotNull String value, @NotNull String type) {
         this.name = name;
         this.value = value;
         this.type = type;

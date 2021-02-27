@@ -3,8 +3,6 @@ package com.delectable.schedule;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.delectable.mealgroup.MealGroup;
-import com.delectable.mealgroup.MealGroupUtil;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeUtil;
 import com.delectable.restaurant.Restaurant;
@@ -23,9 +21,6 @@ public class ScheduleUtil {
 
     @Autowired
     private RestaurantUtil restaurantUtil;
-
-    @Autowired
-    private MealGroupUtil mealGroupUtil;
 
     public List<Schedule> insertSchedules(int numberToInsert, boolean deleted) {
         List<Schedule> schedules = new ArrayList<>();

@@ -1,16 +1,16 @@
-package com.delectable.config;
+package com.delectable.shared.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConfigurationService {
+public class ConfService {
 
     @Autowired
-    ConfigurationRepository configurationRepository;
+    ConfRepository configurationRepository;
 
     public <T> void persistConfiguration(EConf conf, T value) {
-        Configuration config = new Configuration(conf.getName(),
+        Conf config = new Conf(conf.getName(),
                 String.valueOf(value), conf.getType());
         configurationRepository.save(config);
     }

@@ -2,8 +2,8 @@ package com.delectable.userauth.controllers;
 
 import java.util.Map;
 import java.util.Optional;
+import com.delectable.shared.MessageResponse;
 import com.delectable.userauth.models.User;
-import com.delectable.userauth.payload.response.MessageResponse;
 import com.delectable.userauth.repository.*;
 import com.delectable.userauth.security.jwt.*;
 import com.delectable.userauth.security.services.UserDetailsImpl;

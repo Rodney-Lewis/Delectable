@@ -1,7 +1,6 @@
 package com.delectable.schedule;
 
 import java.util.Calendar;
-import java.util.Date;
 import com.delectable.EntityUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;

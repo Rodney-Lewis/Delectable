@@ -1,4 +1,4 @@
-package com.delectable.userauth.payload.response;
+package com.delectable.shared;
 
 public class MessageResponse {
     private String message;

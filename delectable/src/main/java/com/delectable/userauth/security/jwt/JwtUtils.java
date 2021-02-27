@@ -3,8 +3,8 @@ package com.delectable.userauth.security.jwt;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
-import com.delectable.config.ConfigurationRepository;
-import com.delectable.config.EConf;
+import com.delectable.shared.conf.ConfRepository;
+import com.delectable.shared.conf.EConf;
 import com.delectable.userauth.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	@Autowired
-	private ConfigurationRepository configurationRepository;
+	private ConfRepository configurationRepository;
 
 	private String jwtSecret;
 

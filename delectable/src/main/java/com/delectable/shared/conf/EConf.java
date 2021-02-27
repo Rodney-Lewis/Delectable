@@ -1,4 +1,4 @@
-package com.delectable.config;
+package com.delectable.shared.conf;
 
 public enum EConf {
     ROLES_GENERATED("ROLES_GENERATED", EType.BOOLEAN),

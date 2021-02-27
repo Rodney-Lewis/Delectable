@@ -1,10 +1,7 @@
 package com.delectable.userauth;
 
 import com.delectable.EntityUtil;
-import com.delectable.userauth.models.ERole;
-import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

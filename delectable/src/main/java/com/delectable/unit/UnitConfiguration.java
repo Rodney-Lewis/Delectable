@@ -1,7 +1,7 @@
 package com.delectable.unit;
 
-import com.delectable.config.ConfigurationService;
-import com.delectable.config.EConf;
+import com.delectable.shared.conf.ConfService;
+import com.delectable.shared.conf.EConf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 class UnitConfiguration {
 
     @Autowired
-    ConfigurationService configurationService;
+    ConfService configurationService;
 
     @Autowired
     UnitRepository unitRepository;

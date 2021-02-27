@@ -1,4 +1,4 @@
-package com.delectable.config;
+package com.delectable.shared.conf;
 
 public enum EType {
     BOOLEAN,

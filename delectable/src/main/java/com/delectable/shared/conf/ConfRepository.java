@@ -1,11 +1,11 @@
-package com.delectable.config;
+package com.delectable.shared.conf;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfigurationRepository extends CrudRepository<Configuration, Integer> {
+public interface ConfRepository extends CrudRepository<Conf, Integer> {
   boolean existsByName(String string);
 
-  Configuration findByName(String name);
+  Conf findByName(String name);
 }

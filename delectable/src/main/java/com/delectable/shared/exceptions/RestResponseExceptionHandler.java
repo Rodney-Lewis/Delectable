@@ -1,4 +1,4 @@
-package com.delectable.config.exceptions;
+package com.delectable.shared.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;

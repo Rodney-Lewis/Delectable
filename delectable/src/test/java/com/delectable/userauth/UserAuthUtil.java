@@ -1,14 +1,11 @@
 package com.delectable.userauth;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.delectable.shared.UUIDHelper;
 import com.delectable.userauth.models.ERole;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
 import com.delectable.userauth.payload.request.SignupRequest;
 import com.delectable.userauth.repository.UserRepository;
-import com.delectable.util.UUIDHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

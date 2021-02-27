@@ -1,15 +1,12 @@
 package com.delectable.userauth.controllers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.validation.Valid;
+import com.delectable.shared.MessageResponse;
 import com.delectable.userauth.models.ERole;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.payload.request.LoginRequest;
 import com.delectable.userauth.payload.request.SignupRequest;
 import com.delectable.userauth.payload.response.JwtResponse;
-import com.delectable.userauth.payload.response.MessageResponse;
 import com.delectable.userauth.repository.*;
 import com.delectable.userauth.security.jwt.*;
 import org.springframework.beans.factory.annotation.Autowired;
