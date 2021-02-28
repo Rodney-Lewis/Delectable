@@ -11,7 +11,7 @@ export class RecipeService {
   constructor(private http: HttpClient) {
   }
 
-  public findAll(page: number = 1, size: number = 12, query?: string): Observable<any> {
+  public findAll(page: number = 1, size: number = 12, query: string=""): Observable<any> {
     page = page - 1;
     const params = new HttpParams().set("page", page.toString()).set("size", size.toString()).set("query", query);
     return this.http.get(this.recipeApiEndpoint, { params, observe: 'response'});      

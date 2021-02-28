@@ -31,8 +31,8 @@ public class RecipeUtil {
 
             recipes.add(new Recipe("Name" + i, "Source" + i,
                     "Lorem ipsum dolor sit amet, sea no erant convenire, ne per esse facer oportere. An usu copiosae luptatum, ornatus veritus pro ne, in nam etiam aliquid. Et doming commodo ceteros mel. Eros oporteat nominati eos id. Tota eligendi ea est, legendos instructior est te, cu vix labore delenit. Cu nihil postulant quo, quas soleat quo id. Sale ludus deseruisse quo at.",
-                    (short) 10, (byte) 10, (byte) 10, (short) 10, (byte) 10, (byte) 10, (short) 4, ingredients,
-                    instructions, tags, ""));
+                    (short) 10, (byte) 10, (byte) 10, (short) 10, (byte) 10, (byte) 10, (short) 4,
+                    ingredients, instructions, tags, ""));
 
             if (markAsDeleted == true) {
                 recipes.get(i).setDeleted(true);
@@ -45,13 +45,11 @@ public class RecipeUtil {
     public List<Recipe> insertValidTestRecipes(int numberOfRecipes, boolean markAsDeleted) {
         List<Recipe> recipes = new ArrayList<Recipe>();
         recipes.addAll(createValidTestRecipes(numberOfRecipes, markAsDeleted));
-        recipes = (List<Recipe>) recipeService.saveAll(recipes);
-        return recipes;
+        return (List<Recipe>) recipeService.addRecipes(recipes);
     }
 
     public Recipe insertValidTestRecipe(boolean markAsDeleted) {
         Recipe recipe = createValidTestRecipes(1, markAsDeleted).get(0);
-        recipe = recipeService.save(recipe);
-        return recipe;
+        return recipeService.addRecipe(recipe);
     }
 }

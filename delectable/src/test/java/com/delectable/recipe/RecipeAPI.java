@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@WithMockUser(authorities = "USER")
+@WithMockUser(roles = "USER")
 public class RecipeAPI {
 
 	@Autowired
@@ -102,8 +102,7 @@ public class RecipeAPI {
 	public void updateRecipe() throws Exception {
 		String nameUpdate = "NoName";
 		Long id = recipeUtil.insertValidTestRecipe(false).getId();
-		Optional<Recipe> recipeOpt = recipeService.findById(id);
-		Recipe recipe = recipeOpt.get();
+		Recipe recipe = recipeService.getRecipeById(id);
 		recipe.setName(nameUpdate);
 		response = mockMvc
 				.perform(MockMvcRequestBuilders.put("/api/recipe/" + id)
