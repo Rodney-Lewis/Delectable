@@ -2,6 +2,8 @@ package com.delectable.mealgroup;
 
 import java.util.Optional;
 import com.delectable.EntityUtil;
+import com.delectable.combo.Combo;
+import com.delectable.combo.ComboRepository;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +31,7 @@ public class MealGroupAPI {
         private MealGroupUtil mealGroupUtil;
 
         @Autowired
-        private MealGroupService mealGroupService;
+        private ComboRepository mealGroupService;
 
         @Autowired
         private MockMvc mockMvc;
@@ -42,7 +44,7 @@ public class MealGroupAPI {
 
         @Test
         public void createValidMealGroup() throws Exception {
-                MealGroup mealGroup = mealGroupUtil.createValidMealGroups(1, 2, 2, false).get(0);
+                Combo mealGroup = mealGroupUtil.createValidMealGroups(1, 2, 2, false).get(0);
                 response = mockMvc
                                 .perform(MockMvcRequestBuilders.post("/api/mealgroup")
                                                 .content(entityUtil.toJson(mealGroup))
@@ -94,8 +96,8 @@ public class MealGroupAPI {
         public void updateMealGroup() throws Exception {
                 String nameUpdate = "NoName";
                 Long id = mealGroupUtil.insertValidMealGroup(2, 2, false).getId();
-                Optional<MealGroup> mealGroupOpt = mealGroupService.findById(id);
-                MealGroup mealGroup = mealGroupOpt.get();
+                Optional<Combo> mealGroupOpt = mealGroupService.findById(id);
+                Combo mealGroup = mealGroupOpt.get();
                 mealGroup.setName(nameUpdate);
                 response = mockMvc
                                 .perform(MockMvcRequestBuilders.put("/api/mealgroup/" + id)

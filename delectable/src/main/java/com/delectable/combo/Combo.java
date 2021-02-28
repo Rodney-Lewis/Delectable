@@ -1,4 +1,4 @@
-package com.delectable.mealgroup;
+package com.delectable.combo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.delectable.recipe.*;
 import com.delectable.restaurant.*;
+import com.delectable.shared.crud.MarkDEntity;
 import io.micrometer.core.lang.NonNull;
 
 @Entity
-public class MealGroup {
+public class Combo implements MarkDEntity<Combo> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,21 +30,23 @@ public class MealGroup {
 
     boolean deleted;
 
-    public MealGroup() {
+    public Combo() {
         this.deleted = false;
     }
 
-    public MealGroup(String name, List<Recipe> recipe, List<Restaurant> restaurant) {
+    public Combo(String name, List<Recipe> recipe, List<Restaurant> restaurant) {
         this.name = name;
         this.recipe = recipe;
         this.restaurant = restaurant;
         this.deleted = false;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,10 +75,12 @@ public class MealGroup {
         this.restaurant = restaurant;
     }
 
+    @Override
     public boolean isDeleted() {
         return deleted;
     }
 
+    @Override
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
