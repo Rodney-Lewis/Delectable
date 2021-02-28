@@ -1,11 +1,10 @@
 import { Component, OnInit, ɵgetDebugNodeR2 } from '@angular/core';
 
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Recipe } from '../../recipe';
-import { RecipeService } from '../../recipe.service';
-import { AuthService } from 'app/delectable/login/user_auth/auth.service';
-import { Direction } from '../../direction';
+import { Recipe } from '../../model/recipe';
+import { RecipeService } from '../../service/recipe.service';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { AuthService } from 'app/delectable/user/service/auth.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,7 +22,7 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(params => {
-      this.recipeService.findById(Number(params.get('id'))).subscribe(data => {
+      this.recipeService.getById(Number(params.get('id'))).subscribe(data => {
         this.recipe = data;
         this.recipe.imageSource = this.fileHandlerService.getNamedImageUrl(this.recipe.imageSource);
         if (this.recipe.cookTimeSecond + this.recipe.prepTimeSecond > 60) {

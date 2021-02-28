@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
-import { RestaurantService } from '../../restaurant.service';
-
+import { FormWithImageComponent } from 'app/delectable/shared/component/form/image-form/form-with-image-component';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-form',
@@ -32,7 +31,7 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
   }
 
   buildFormforEdit(id: number) {
-    this.restaurantService.findById(id).subscribe(restaurant => {
+    this.restaurantService.getById(id).subscribe(restaurant => {
       this.getFormGroupComponent('element').addControl('name', new FormControl(restaurant.name, Validators.required));
       this.getFormGroupComponent('element').addControl('address', new FormControl(restaurant.address, Validators.required));
       this.getFormGroupComponent('element').addControl('addressNumber', new FormControl(restaurant.addressNumber));

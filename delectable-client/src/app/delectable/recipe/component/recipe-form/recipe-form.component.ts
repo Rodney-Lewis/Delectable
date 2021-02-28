@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { RecipeService } from '../../recipe.service';
-import { FormWithImageComponent } from 'app/delectable/_component/form/image-form/form-with-image-component';
-import { Ingredient } from '../../ingredient';
-import { Direction } from '../../direction';
+import { FormWithImageComponent } from 'app/delectable/shared/component/form/image-form/form-with-image-component';
+import { Ingredient } from '../../model/ingredient';
+import { Direction } from '../../model/direction';
+import { RecipeService } from '../../service/recipe.service';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
 
 @Component({
   selector: 'app-recipe-form',
@@ -35,7 +35,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
   }
 
   buildFormforEdit(id: number) {
-    this.recipeService.findById(id).subscribe(recipe => {
+    this.recipeService.getById(id).subscribe(recipe => {
       let formGroup = this.getFormGroupComponent('element');
       formGroup.addControl('name', new FormControl(recipe.name, Validators.required));
       formGroup.addControl('source', new FormControl(recipe.source));

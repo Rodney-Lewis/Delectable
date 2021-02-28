@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { Schedule } from 'app/delectable/schedule/schedule';
-import { FormComponent } from 'app/delectable/_component/form/base-form/form-component';
-import { Recipe } from 'app/delectable/recipe/recipe';
-import { RecipeService } from 'app/delectable/recipe/recipe.service';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
+import { Schedule } from 'app/delectable/schedule/model/schedule';
+import { FormComponent } from 'app/delectable/shared/component/form/base-form/form-component';
+import { Recipe } from 'app/delectable/recipe/model/recipe';
+import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
+import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
+import { ScheduleService } from '../../service/schedule.service';
 
 @Component({
   selector: 'app-schedule-form',
@@ -45,11 +45,11 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
   onScheduleTypeChange(event) {
     this.items = [];
     if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "restaurant")) {
-      this.restaurantService.findAll(1, 1000).subscribe(data => {
+      this.restaurantService.getPage(1, 1000).subscribe(data => {
         this.items = JSON.parse(data).content;
       })
     } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "recipe")) {
-      this.recipeService.findAll(1, 1000).subscribe(data => {
+      this.recipeService.getPage(1, 1000).subscribe(data => {
         this.items = data.body.content;
       })
     }

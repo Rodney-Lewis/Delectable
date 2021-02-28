@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { RecipeService } from 'app/delectable/recipe/recipe.service';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
-import { DateHelper } from '../../date-helper';
-import { AuthService } from 'app/delectable/login/user_auth/auth.service';
+import { AuthService } from 'app/delectable/user/service/auth.service';
+import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
+import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
+import { ScheduleService } from '../../service/schedule.service';
+import { DateHelper } from '../../service/date-helper';
 
 @Component({
   selector: 'app-schedule-calendar',

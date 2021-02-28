@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from 'app/delectable/recipe/recipe.service';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
-import { ScheduleService } from '../../schedule.service';
-import { DateHelper } from '../../date-helper';
-import { AuthService } from 'app/delectable/login/user_auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
+import { AuthService } from 'app/delectable/user/service/auth.service';
+import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
+import { ScheduleService } from '../../service/schedule.service';
+import { DateHelper } from '../../service/date-helper';
 
 @Component({
   selector: 'app-schedule-week-at-a-glance',

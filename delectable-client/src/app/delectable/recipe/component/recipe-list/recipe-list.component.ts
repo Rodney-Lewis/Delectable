@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
 import { ActivatedRoute } from '@angular/router';
-import { RecipeService } from '../../recipe.service';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { RecipeService } from '../../service/recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -16,7 +16,7 @@ export class RecipeListComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.recipeService.findAll(params.cp, params.ps, params.s).subscribe(responseFull => {
+      this.recipeService.getPage(params.cp, params.ps, params.s).subscribe(responseFull => {
         this.responseBody = responseFull.body;
         this.responseBody.content.forEach(recipe => {
           recipe.imageSource = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);

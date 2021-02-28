@@ -7,15 +7,15 @@ import { RestuarantDetailComponent } from './restaurant/component/restaurant-det
 import { RecipeDetailComponent } from './recipe/component/recipe-detail/recipe-detail.component';
 import { RecipeFormComponent } from './recipe/component/recipe-form/recipe-form.component';
 import { RecipeListComponent } from './recipe/component/recipe-list/recipe-list.component';
-import { YourGuardGuard } from './login/path_gaurd/your-guard.guard';
-import { LoginComponent } from './login/component/login-page/login.component';
+import { YourGuardGuard } from './user/path_gaurd/your-guard.guard';
+import { LoginComponent } from './user/component/login-page/login.component';
 import { ScheduleWeekAtAGlanceComponent } from './schedule/component/schedule-week-at-a-glance/schedule-week-at-a-glance.component';
-import { AdminConsoleComponent } from './admin/admin-console/admin-console.component';
-import { SignupComponent } from './login/component/signup/signup.component';
-import { ProfileComponent } from './admin/profile/profile.component';
-import { AccountComponent } from './user-settings/component/profile/profile.component';
-import { UserSettingsComponent } from './user-settings/component/user-settings/user-settings.component';
-import { ChangePasswordComponent } from './user-settings/component/change-password/change-password.component';
+import { AdminConsoleComponent } from './user/component/admin-console/admin-console.component';
+import { SignupComponent } from './user/component/signup/signup.component';
+import { ProfileComponent } from './user/component/profile/profile.component';
+import { AccountComponent } from './user/component/account/profile.component';
+import { UserSettingsComponent } from './user/component/user-settings/user-settings.component';
+import { ChangePasswordComponent } from './user/component/change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

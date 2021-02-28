@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { RestaurantService } from '../../restaurant.service';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -21,7 +21,7 @@ export class RestaurantListComponent implements OnInit {
       if(params.ps)
         this.pageSize = params.ps;
 
-      this.restaurantService.findAll(params.cp, this.pageSize, params.s).subscribe(data => {
+      this.restaurantService.getPage(params.cp, this.pageSize, params.s).subscribe(data => {
         this.jsonResponse = JSON.parse(data);
         this.jsonResponse.content.forEach(restaurant => {
           restaurant.imageSource = this.filehandler.getNamedImageUrl(restaurant.imageSource);

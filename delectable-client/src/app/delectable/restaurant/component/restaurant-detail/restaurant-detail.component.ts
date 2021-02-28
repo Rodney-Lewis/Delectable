@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'app/delectable/login/user_auth/auth.service';
-import { FileHandlerService } from 'app/delectable/_service/imagehandler/file-handler.service';
-import { Restaurant } from '../../restaurant';
-import { RestaurantService } from '../../restaurant.service';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { AuthService } from 'app/delectable/user/service/auth.service';
+import { Restaurant } from '../../model/restaurant';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -17,7 +17,7 @@ export class RestuarantDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
-      this.restaurantService.findById(Number(params.get('id'))).subscribe(data => {
+      this.restaurantService.getById(Number(params.get('id'))).subscribe(data => {
         this.restaurant = data;
         this.restaurant.imageSource = this.fileHandlerService.getNamedImageUrl(this.restaurant.imageSource);
       })
