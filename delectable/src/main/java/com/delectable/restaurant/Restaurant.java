@@ -6,9 +6,10 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import com.delectable.shared.crud.MarkDEntity;
 
 @Entity
-public class Restaurant {
+public class Restaurant implements MarkDEntity<Restaurant> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,10 +56,12 @@ public class Restaurant {
         this.tags = tags;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -150,11 +153,13 @@ public class Restaurant {
     public void setImageSource(String imageSource) {
         this.imageSource = imageSource;
     }
-
+    
+    @Override
     public boolean isDeleted() {
         return deleted;
     }
 
+    @Override
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }

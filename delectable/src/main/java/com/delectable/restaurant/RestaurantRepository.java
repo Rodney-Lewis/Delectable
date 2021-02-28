@@ -1,8 +1,8 @@
-package com.delectable.recipe;
+package com.delectable.restaurant;
 
 import com.delectable.shared.crud.CRUDRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RecipeRepository extends CRUDRepository<Recipe> {
+public interface RestaurantRepository extends CRUDRepository<Restaurant> {
 }

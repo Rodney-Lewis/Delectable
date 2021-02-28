@@ -26,7 +26,7 @@ import org.junit.Test;
 public class RestaurantAPI {
 
         @Autowired
-        private RestaurantService restaurantService;
+        private RestaurantRepository restaurantService;
 
         @Autowired
         private MockMvc mockMvc;

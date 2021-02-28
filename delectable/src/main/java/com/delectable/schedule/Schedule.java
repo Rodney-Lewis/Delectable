@@ -25,20 +25,15 @@ public class Schedule {
     @NotNull
     Long scheduledItemId;
 
-    @NotNull
-    String scheduledItemName;
-
     public Schedule() {
     }
 
     public Schedule(@NotNull Long epoch, @NotNull MealTime mealTime,
-            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId,
-            @NotNull String scheduledItemName) {
+            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId) {
         this.epoch = epoch;
         this.mealTime = mealTime;
         this.scheduleType = scheduleType;
         this.scheduledItemId = scheduledItemId;
-        this.scheduledItemName = scheduledItemName;
     }
 
     public Long getId() {
@@ -79,14 +74,6 @@ public class Schedule {
 
     public void setScheduledItemId(Long scheduledItemId) {
         this.scheduledItemId = scheduledItemId;
-    }
-
-    public String getScheduledItemName() {
-        return scheduledItemName;
-    }
-
-    public void setScheduledItemName(String scheduledItemName) {
-        this.scheduledItemName = scheduledItemName;
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class RestaurantUtil {
 
     @Autowired
-    private RestaurantService restaurantService;
+    private RestaurantRepository restaurantService;
 
     public List<Restaurant> createValidRestaurants(int numberOfItemsToCreate,
             boolean markAsDeleted) {

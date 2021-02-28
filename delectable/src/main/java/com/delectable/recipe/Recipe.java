@@ -3,6 +3,7 @@ package com.delectable.recipe;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import com.delectable.shared.crud.MarkDEntity;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-public class Recipe {
+public class Recipe implements MarkDEntity<Recipe> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,10 +100,12 @@ public class Recipe {
 		this.deleted = false;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -211,10 +214,12 @@ public class Recipe {
 		this.imageSource = imageSource;
 	}
 
+	@Override
 	public boolean isDeleted() {
 		return deleted;
 	}
 
+	@Override
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
