@@ -22,7 +22,7 @@ export class RestaurantListComponent implements OnInit {
         this.pageSize = params.ps;
 
       this.restaurantService.getPage(params.cp, this.pageSize, params.s).subscribe(data => {
-        this.jsonResponse = JSON.parse(data);
+        this.jsonResponse = data.body;
         this.jsonResponse.content.forEach(restaurant => {
           restaurant.imageSource = this.filehandler.getNamedImageUrl(restaurant.imageSource);
         });
