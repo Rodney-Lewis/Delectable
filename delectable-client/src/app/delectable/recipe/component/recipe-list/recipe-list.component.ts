@@ -13,10 +13,15 @@ export class RecipeListComponent implements OnInit {
   constructor(private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedRoute: ActivatedRoute) { }
 
   responseBody: any;
+  pageSize: number = 12;
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.recipeService.getPage(params.cp, params.ps, params.s).subscribe(responseFull => {
+
+      if(params.ps)
+        this.pageSize = params.ps;
+
+      this.recipeService.getPage(params.cp, this.pageSize, params.s).subscribe(responseFull => {
         this.responseBody = responseFull.body;
         this.responseBody.content.forEach(recipe => {
           recipe.imageSource = this.fileHandlerService.getNamedImageUrl(recipe.imageSource);
