@@ -1,26 +1,25 @@
 <div class="container mb-4">
 	<div class="row mt-2 justify-content-center">
 		<div class="col-auto">
-			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
-		</div>
-	</div>
-	<div class="row mt-2 justify-content-center">
-		<div class="col-auto">
 			<h2>{{ recipe.name }}</h2>
 		</div>
 	</div>
-	<div class="row mt-2 justify-content-center">
+	<div *ngIf="recipe.source" class="row mt-2 justify-content-center">
 		<div class="col-auto">
-			<span><strong>Provisioned by: </strong> {{ recipe.source }}</span>
+			<span><strong>Recipe By - </strong> {{ recipe.source }}</span>
 		</div>
 	</div>
 	<div class="row mt-2 justify-content-center">
 		<div class="col-auto">
-			<span>{{ recipe.description }}</span>
+			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
 		</div>
 	</div>
-	<hr>
-	<div class="row" >
+	<div *ngIf="recipe.description" class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<span><strong>Cooking notes and description - </strong>{{ recipe.description }}</span>
+		</div>
+	</div>
+	<div class="row mt-4 recipe-timing">
 		<div class="col">
 			<strong>Prep: </strong>
 			{{recipe.prepTimeHour}}h
@@ -45,24 +44,23 @@
 			{{recipe.servings}} serving(s)
 		</div>
 	</div>
-
-	<div class="row mt-2">
-		<div class="col-md-4">
-			<div class="row mt-2">
+	<div class="row mt-4">
+		<div class="col-md-5">
+			<div class="row">
 				<div class="col">
-					<h4>Ingredients</h4>
+					<h4>Ingredients:</h4>
 				</div>
 			</div>
 			<ul>
 				<li *ngFor="let ingredient of recipe.ingredients">
-					{{ ingredient.displayValue }} 
+					{{ ingredient.displayValue }}
 				</li>
 			</ul>
 		</div>
-		<div class="col-md-8">
-			<div class="row mt-2">
+		<div class="col-md-7">
+			<div class="row">
 				<div class="col">
-					<h4>Directions</h4>
+					<h4>Directions:</h4>
 				</div>
 			</div>
 			<ol>

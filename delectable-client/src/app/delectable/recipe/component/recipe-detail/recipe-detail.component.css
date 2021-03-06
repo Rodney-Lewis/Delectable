@@ -2,12 +2,20 @@
     max-height:300px; 
 }
 
-.container {
-    max-width: 800px;
+div {
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 li {
-    word-break: break-word;   
+    padding: 10px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.recipe-timing {
+    padding: 10px;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
 }
 
 ul, ol {
