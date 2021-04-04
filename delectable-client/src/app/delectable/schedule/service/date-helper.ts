@@ -25,6 +25,10 @@ export class DateHelper {
         return date;
     }
 
+    static convertToUTC(date: Date) {
+        return date.setTime(date.getTime() + (date.getTimezoneOffset() * 60 * 1000));
+    }
+
     static buildDatesBetweenDates(date1: Date, date2: Date) {
         var timeBetweenDates = Math.abs(date1.getTime() - date2.getTime());
         var daysBetweenDates = Math.floor(timeBetweenDates / (24 * 3600 * 1000))

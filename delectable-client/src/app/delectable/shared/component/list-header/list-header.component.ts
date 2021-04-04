@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'app/delectable/user/service/auth.service';
 
 @Component({
@@ -16,11 +16,14 @@ export class ListHeaderComponent {
 
   searchForm: any = {};
   isLoggedIn: any;
+  displayAddButton: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    this.activatedRoute.data.subscribe(data => {
+      this.displayAddButton = this.authService.hasPermissions(data);
+    })
   }
 
   onSubmit(): void {

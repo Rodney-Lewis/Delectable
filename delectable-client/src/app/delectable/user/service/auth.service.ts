@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { Role } from '../model/Role';
 
 const AUTH_API = '/api/auth/';
 
@@ -30,6 +32,21 @@ export class AuthService {
       }
     } else {
       return false;
+    }
+  }
+
+  hasPermissions(next: any): boolean {
+    if (next.role) {
+      const userRoles = this.tokenStorageService.getRoles();
+
+      var requiredRole = Role[next.role];
+      var userRole = Role[userRoles[0]];
+
+      if (userRole <= requiredRole) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Role } from '../model/Role';
 import { AuthService } from '../service/auth.service';
 import { TokenStorageService } from '../service/token-storage.service';
 
@@ -11,11 +12,18 @@ export class YourGuardGuard implements CanActivate {
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private router: Router) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const url: string = state.url;
-    return this.checkLogin(url);
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const userRoles = this.tokenStorage.getRoles();
+
+    if (this.authService.isLoggedIn() && next.data) {
+      if (this.authService.hasPermissions(next.data))
+        return this.authService.hasPermissions(next.data)
+      else {
+        return this.router.parseUrl('/');
+      }
+    } else {
+      return this.router.parseUrl('/');
+    }
   }
 
   checkLogin(url: string): true | UrlTree {

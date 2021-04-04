@@ -20,11 +20,15 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
   endDate: Date;
   itemsScheduledByDate: any[][];
   dates: Date[];
+  displayAddButton: boolean = false;
 
   constructor(private scheduleService: ScheduleService, private restaurantService: RestaurantService,
     private recipeService: RecipeService, private authService: AuthService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    this.activatedroute.data.subscribe(data => {
+      this.displayAddButton = this.authService.hasPermissions(data);
+    })
 
     this.activatedroute.paramMap.subscribe(params => {
       if (!isNaN(Number(params.get('epoch')))) {
@@ -34,7 +38,8 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
         this.week = new Array();
         this.week = DateHelper.buildWeekFromDate(this.startDate);
         this.endDate = new Date(this.startDate);
-        this.endDate.setHours(6 * 24);
+        //Push the date forward 6 days and add 1 hour to handle time shift of daylight savings
+        this.endDate.setHours((6 * 24) + 1);
       } else {
         this.today();
       }

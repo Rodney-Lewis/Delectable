@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
 import { RecipeService } from '../../service/recipe.service';
 
@@ -17,10 +17,9 @@ export class RecipeListComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-
-      if(params.ps)
+      if (params.ps) {
         this.pageSize = params.ps;
-
+      }
       this.recipeService.getPage(params.cp, this.pageSize, params.s).subscribe(responseFull => {
         this.responseBody = responseFull.body;
         this.responseBody.content.forEach(recipe => {

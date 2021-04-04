@@ -53,7 +53,7 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.ASC, "username"));
         Page<User> userPages;
 
-        userPages = userRepository.findByUsernameNot(pageable, "admin");
+        userPages = userRepository.findByIdNot(pageable, 1);
         if (userPages.getContent().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -16,31 +16,32 @@ import { ProfileComponent } from './user/component/profile/profile.component';
 import { AccountComponent } from './user/component/account/profile.component';
 import { UserSettingsComponent } from './user/component/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './user/component/change-password/change-password.component';
+import { Role } from './user/model/Role';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'settings', component: UserSettingsComponent, children: [
+    path: 'settings', component: UserSettingsComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_VEIWER] }, children: [
       { path: 'profile', component: AccountComponent },
       { path: 'security', component: ChangePasswordComponent },
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
   },
-  { path: 'admin', component: AdminConsoleComponent },
-  { path: 'user/edit/:id', component: ProfileComponent },
-  { path: 'account/:id', component: AccountComponent },
+  { path: 'admin', component: AdminConsoleComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
+  { path: 'user/edit/:id', component: ProfileComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
+  { path: 'account/:id', component: AccountComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
   { path: 'register', component: SignupComponent },
   { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
-  { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
-  { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard] },
-  { path: 'recipe/add', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
-  { path: 'recipe/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
+  { path: ':epoch', component: ScheduleWeekAtAGlanceComponent, data: { role: Role[Role.ROLE_USER] } },
+  { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+  { path: 'recipe/add', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+  { path: 'recipe/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
   { path: 'recipe/detail/:id', component: RecipeDetailComponent },
-  { path: 'recipe/list', component: RecipeListComponent },
-  { path: 'pantry/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard] },
-  { path: 'restaurant/list', component: RestaurantListComponent },
-  { path: 'restaurant/add', component: RestaurantFormComponent, canActivate: [YourGuardGuard] },
-  { path: 'restaurant/edit/:id', component: RestaurantFormComponent, canActivate: [YourGuardGuard] },
+  { path: 'recipe/list', component: RecipeListComponent, data: { role: Role[Role.ROLE_USER] } },
+  { path: 'pantry/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+  { path: 'restaurant/list', component: RestaurantListComponent, data: { role: Role[Role.ROLE_USER] } },
+  { path: 'restaurant/add', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+  { path: 'restaurant/edit/:id', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
   { path: 'restaurant/detail/:id', component: RestuarantDetailComponent },
   { path: '**', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
 ];
