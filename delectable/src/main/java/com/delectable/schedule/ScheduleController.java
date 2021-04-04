@@ -6,17 +6,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.delectable.shared.crud.CRUHardDeleteController;
+import com.delectable.shared.crud.CRUHardDeleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/schedule")
 @CrossOrigin
-public class ScheduleController {
+public class ScheduleController extends CRUHardDeleteController<Schedule> {
+
+    public ScheduleController(CRUHardDeleteRepository<Schedule> repository) {
+        super(repository);
+    }
 
     @Autowired
-    ScheduleService scheduleService;
+    ScheduleRepository scheduleService;
 
     @GetMapping
     ResponseEntity<Map<String, Object>> getScheduledBetween(@RequestParam String begin,
@@ -67,25 +67,6 @@ public class ScheduleController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    List<Schedule> getAllScheduledInFuture() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        List<Schedule> schedules = new ArrayList<Schedule>();
-        schedules = scheduleService.findByEpochGreaterThanEqual(calendar.getTimeInMillis());
-        return schedules;
-    }
-
-    @GetMapping("/{epoch}")
-    List<Schedule> getScheduledByDate(@PathVariable Long epoch) {
-        List<Schedule> schedules = new ArrayList<Schedule>();
-        schedules = scheduleService.findByEpoch(epoch);
-        return schedules;
-    }
-
     @GetMapping("/mealtypes")
     MealTime[] getMealtypes() {
         return MealTime.values();
@@ -94,17 +75,5 @@ public class ScheduleController {
     @GetMapping("/scheduletypes")
     ScheduleType[] getScheduleTypes() {
         return ScheduleType.values();
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @PostMapping
-    Schedule addSchedule(@RequestBody Schedule newSchedule) {
-        return (scheduleService.save(newSchedule));
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @DeleteMapping("/{Id}")
-    void deleteSchedule(@PathVariable Long Id) {
-        scheduleService.deleteById(Id);
     }
 }

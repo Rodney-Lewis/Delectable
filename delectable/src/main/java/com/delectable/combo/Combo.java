@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.delectable.recipe.*;
 import com.delectable.restaurant.*;
-import com.delectable.shared.crud.MarkDEntity;
+import com.delectable.shared.crud.CRUSoftDeleteEntity;
 import io.micrometer.core.lang.NonNull;
 
 @Entity
-public class Combo implements MarkDEntity<Combo> {
+public class Combo implements CRUSoftDeleteEntity<Combo> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

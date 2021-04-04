@@ -1,15 +1,15 @@
 package com.delectable.restaurant;
 
 import org.springframework.web.bind.annotation.*;
-import com.delectable.shared.crud.CRUDRepository;
-import com.delectable.shared.crud.MarkDController;
+import com.delectable.shared.crud.CRUSoftDeleteController;
+import com.delectable.shared.crud.CRUSoftDeleteRepository;
 
 @RestController
 @RequestMapping(value = "/api/restaurant")
 @CrossOrigin
-public class RestaurantController extends MarkDController<Restaurant> {
+public class RestaurantController extends CRUSoftDeleteController<Restaurant> {
 
-    public RestaurantController(CRUDRepository<Restaurant> repository) {
+    public RestaurantController(CRUSoftDeleteRepository<Restaurant> repository) {
         super(repository);
     }
 }

@@ -6,10 +6,10 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
-import com.delectable.shared.crud.MarkDEntity;
+import com.delectable.shared.crud.CRUSoftDeleteEntity;
 
 @Entity
-public class Restaurant implements MarkDEntity<Restaurant> {
+public class Restaurant implements CRUSoftDeleteEntity<Restaurant> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

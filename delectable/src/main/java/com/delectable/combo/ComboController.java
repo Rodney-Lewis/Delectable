@@ -1,15 +1,15 @@
 package com.delectable.combo;
 
 import org.springframework.web.bind.annotation.*;
-import com.delectable.shared.crud.CRUDRepository;
-import com.delectable.shared.crud.MarkDController;
+import com.delectable.shared.crud.CRUSoftDeleteController;
+import com.delectable.shared.crud.CRUSoftDeleteRepository;
 
 @RestController
 @RequestMapping(value = "/api/combo")
 @CrossOrigin
-public class ComboController extends MarkDController<Combo> {
+public class ComboController extends CRUSoftDeleteController<Combo> {
 
-    public ComboController(CRUDRepository<Combo> repository) {
+    public ComboController(CRUSoftDeleteRepository<Combo> repository) {
         super(repository);
     }
 }

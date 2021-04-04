@@ -5,19 +5,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-public abstract class CRUController<T extends CRUDEntity<T>> {
+public abstract class CRUHardDeleteController<T extends CRUDEntity<T>> {
 
-    protected final CRUDService<T> service;
+    protected final CRUHardDeleteService<T> service;
 
-    public CRUController(CRUDRepository<T> repository) {
-        this.service = new CRUDService<T>(repository) {};
+    public CRUHardDeleteController(CRUHardDeleteRepository<T> repository) {
+        this.service = new CRUHardDeleteService<T>(repository) {
+        };
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -26,9 +28,9 @@ public abstract class CRUController<T extends CRUDEntity<T>> {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(created));
     }
 
-    @GetMapping("")
-    public ResponseEntity<Page<T>> getPage(Pageable pageable, @RequestParam(defaultValue = "") String name){
-        return ResponseEntity.ok(service.getPage(pageable, name));
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<T>> getPage(Pageable pageable) {
+        return ResponseEntity.ok(service.getPage(pageable));
     }
 
     @GetMapping("/{id}")
@@ -40,5 +42,12 @@ public abstract class CRUController<T extends CRUDEntity<T>> {
     @PutMapping("/{id}")
     public ResponseEntity<T> update(@PathVariable Long id, @RequestBody T updated) {
         return ResponseEntity.ok(service.update(id, updated));
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

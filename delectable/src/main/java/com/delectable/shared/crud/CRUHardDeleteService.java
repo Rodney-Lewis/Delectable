@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public abstract class CRUDService<T extends CRUDEntity<T>> {
+public abstract class CRUHardDeleteService<T extends CRUDEntity<T>> {
 
-    protected final CRUDRepository<T> repository;
+    protected final CRUHardDeleteRepository<T> repository;
 
-    public CRUDService(CRUDRepository<T> repository) {
+    public CRUHardDeleteService(CRUHardDeleteRepository<T> repository) {
         this.repository = repository;
     }
 
@@ -26,8 +26,8 @@ public abstract class CRUDService<T extends CRUDEntity<T>> {
         }
     }
 
-    public Page<T> getPage(Pageable pageable, String name) {
-        return repository.findAllByDeletedAndNameStartingWith(pageable, false, name);
+    public Page<T> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public T update(Long id, T updatedEntity) {

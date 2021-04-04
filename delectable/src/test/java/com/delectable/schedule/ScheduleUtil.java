@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class ScheduleUtil {
 
     @Autowired
-    private ScheduleService scheduleService;
+    private ScheduleRepository scheduleService;
 
     @Autowired
     private RecipeUtil recipeUtil;
