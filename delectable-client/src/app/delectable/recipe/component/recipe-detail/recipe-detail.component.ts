@@ -5,6 +5,7 @@ import { Recipe } from '../../model/recipe';
 import { RecipeService } from '../../service/recipe.service';
 import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
 import { AuthService } from 'app/delectable/user/service/auth.service';
+import { Role } from 'app/delectable/user/model/Role';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,10 +18,13 @@ export class RecipeDetailComponent implements OnInit {
   totalTimeHour: number = 0;
   totalTimeMinute: number = 0;
   totalTimeSecond: number = 0;
+  hasUserPermissions: boolean = false;
 
   constructor(private authService: AuthService, private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);
+
     this.activatedroute.paramMap.subscribe(params => {
       this.recipeService.getById(Number(params.get('id'))).subscribe(data => {
         this.recipe = data;

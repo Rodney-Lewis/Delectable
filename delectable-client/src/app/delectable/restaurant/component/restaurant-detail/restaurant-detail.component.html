@@ -81,7 +81,7 @@
             </table>
         </div>
     </div>
-    <div class="row mt-2" *ngIf="displayDeleteButton()">
+    <div class="row mt-2" *ngIf="hasUserPermissions">
         <div class="col d-flex justify-content-begin">
             <button type="button" class="btn btn-link" (click)="delete(restaurant.id)">
                 Delete</button>

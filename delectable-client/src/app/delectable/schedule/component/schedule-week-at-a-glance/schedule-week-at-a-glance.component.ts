@@ -5,6 +5,7 @@ import { AuthService } from 'app/delectable/user/service/auth.service';
 import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { ScheduleService } from '../../service/schedule.service';
 import { DateHelper } from '../../service/date-helper';
+import { Role } from 'app/delectable/user/model/Role';
 
 @Component({
   selector: 'app-schedule-week-at-a-glance',
@@ -20,15 +21,13 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
   endDate: Date;
   itemsScheduledByDate: any[][];
   dates: Date[];
-  displayAddButton: boolean = false;
+  hasUserPermissions: boolean = false;
 
   constructor(private scheduleService: ScheduleService, private restaurantService: RestaurantService,
     private recipeService: RecipeService, private authService: AuthService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.activatedroute.data.subscribe(data => {
-      this.displayAddButton = this.authService.hasPermissions(data);
-    })
+    this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);
 
     this.activatedroute.paramMap.subscribe(params => {
       if (!isNaN(Number(params.get('epoch')))) {

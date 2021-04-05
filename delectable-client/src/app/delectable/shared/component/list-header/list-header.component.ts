@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from 'app/delectable/user/model/Role';
 import { AuthService } from 'app/delectable/user/service/auth.service';
 
 @Component({
@@ -16,18 +17,16 @@ export class ListHeaderComponent {
 
   searchForm: any = {};
   isLoggedIn: any;
-  displayAddButton: boolean = false;
+  hasUserPermissions: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(data => {
-      this.displayAddButton = this.authService.hasPermissions(data);
-    })
+    this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);
   }
 
   onSubmit(): void {
     this.router.navigate([this.listItemRoute], { queryParams: { 'cp': 1, 's': this.searchForm.query } })
   }
-  
+
 }
