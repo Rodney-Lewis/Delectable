@@ -17,9 +17,15 @@ import { AccountComponent } from './user/component/account/profile.component';
 import { UserSettingsComponent } from './user/component/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './user/component/change-password/change-password.component';
 import { Role } from './user/model/Role';
+import { ComboFormComponent } from './combo/component/combo-form/combo-form.component';
+import { ComboDetailComponent } from './combo/component/combo-detail/combo-detail.component';
+import { ComboListComponent } from './combo/component/combo-list/combo-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'admin', component: AdminConsoleComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
+  { path: 'user/edit/:id', component: ProfileComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
+  { path: 'register', component: SignupComponent },
   {
     path: 'settings', component: UserSettingsComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_VEIWER] }, children: [
       { path: 'profile', component: AccountComponent },
@@ -27,23 +33,43 @@ const routes: Routes = [
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
   },
-  { path: 'admin', component: AdminConsoleComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
-  { path: 'user/edit/:id', component: ProfileComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
-  { path: 'account/:id', component: AccountComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_ADMIN] } },
-  { path: 'register', component: SignupComponent },
-  { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' },
-  { path: ':epoch', component: ScheduleWeekAtAGlanceComponent, data: { role: Role[Role.ROLE_USER] } },
-  { path: 'schedule/add', component: ScheduleFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'recipe/add', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'recipe/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'recipe/detail/:id', component: RecipeDetailComponent },
-  { path: 'recipe/list', component: RecipeListComponent, data: { role: Role[Role.ROLE_USER] } },
-  { path: 'pantry/edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'restaurant/list', component: RestaurantListComponent, data: { role: Role[Role.ROLE_USER] } },
-  { path: 'restaurant/add', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'restaurant/edit/:id', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
-  { path: 'restaurant/detail/:id', component: RestuarantDetailComponent },
-  { path: '**', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
+  {
+    path: 'schedule', children: [
+      { path: 'add', component: ScheduleFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
+      { path: 'detail/:id', component: ComboDetailComponent },
+      { path: 'list', component: ComboListComponent },
+      { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'combo', children: [
+      { path: 'add', component: ComboFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'edit/:id', component: ComboFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'detail/:id', component: ComboDetailComponent },
+      { path: 'list', component: ComboListComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'restaurant', children: [
+      { path: 'add', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'edit/:id', component: RestaurantFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'detail/:id', component: RestuarantDetailComponent },
+      { path: 'list', component: RestaurantListComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'recipe', children: [
+      { path: 'add', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'edit/:id', component: RecipeFormComponent, canActivate: [YourGuardGuard], data: { role: Role[Role.ROLE_USER] } },
+      { path: 'detail/:id', component: RecipeDetailComponent },
+      { path: 'list', component: RecipeListComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }
+    ]
+  },
+  { path: '**', redirectTo: 'schedule/' + new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
 ];
 
 @NgModule({
