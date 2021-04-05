@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.delectable.combo.ComboRepository;
+import com.delectable.recipe.Recipe;
+import com.delectable.recipe.RecipeRepository;
+import com.delectable.restaurant.RestaurantRepository;
 import com.delectable.shared.crud.CRUHardDeleteController;
 import com.delectable.shared.crud.CRUHardDeleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,15 @@ public class ScheduleController extends CRUHardDeleteController<Schedule> {
 
     @Autowired
     ScheduleRepository scheduleService;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
+    @Autowired
+    ComboRepository comboRepository;
 
     @GetMapping
     ResponseEntity<Map<String, Object>> getScheduledBetween(@RequestParam String begin,
@@ -57,6 +70,15 @@ public class ScheduleController extends CRUHardDeleteController<Schedule> {
             scheduledByDate.add(new ArrayList<Schedule>());
             for (int j = 0; j < scheduled.size(); j++) {
                 if (dates.get(k).getTime() == scheduled.get(j).epoch) {
+                    Schedule t = scheduled.get(j);
+
+                    if (t.getScheduleType() == ScheduleType.RECIPE) {
+                        t.setScheduledItemName(
+                                recipeRepository.findById(t.getScheduledItemId()).get().getName());
+                    } else if (t.getScheduleType() == ScheduleType.RESTAURANT) {
+                        t.setScheduledItemName(restaurantRepository.findById(t.getScheduledItemId())
+                                .get().getName());
+                    }
                     scheduledByDate.get(k).add(scheduled.get(j));
                 }
             }

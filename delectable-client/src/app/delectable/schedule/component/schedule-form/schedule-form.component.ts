@@ -46,7 +46,7 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
     this.items = [];
     if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "restaurant")) {
       this.restaurantService.getPage(1, 1000).subscribe(data => {
-        this.items = JSON.parse(data).content;
+        this.items = data.body.content;
       })
     } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "recipe")) {
       this.recipeService.getPage(1, 1000).subscribe(data => {

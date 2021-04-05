@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import com.delectable.shared.crud.CRUDEntity;
 
@@ -26,11 +27,15 @@ public class Schedule implements CRUDEntity<Schedule> {
     @NotNull
     Long scheduledItemId;
 
+    @Transient
+    String scheduledItemName;
+
     public Schedule() {
     }
 
     public Schedule(@NotNull Long epoch, @NotNull MealTime mealTime,
-            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId) {
+            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId,
+            @NotNull String scheduledItemName) {
         this.epoch = epoch;
         this.mealTime = mealTime;
         this.scheduleType = scheduleType;
@@ -75,6 +80,14 @@ public class Schedule implements CRUDEntity<Schedule> {
 
     public void setScheduledItemId(Long scheduledItemId) {
         this.scheduledItemId = scheduledItemId;
+    }
+
+    public String getScheduledItemName() {
+        return scheduledItemName;
+    }
+
+    public void setScheduledItemName(String scheduledItemName) {
+        this.scheduledItemName = scheduledItemName;
     }
 
 }
