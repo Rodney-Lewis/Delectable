@@ -1,5 +1,6 @@
 package com.delectable.shared.crud;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,10 @@ public abstract class CRUHardDeleteService<T extends CRUDEntity<T>> {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Unknown entity ID - " + id);
         }
+    }
+
+    public List<T> getAllByIds(List<Long> ids) {
+        return (List<T>) repository.findAllById(ids);
     }
 
     public Page<T> getPage(Pageable pageable) {

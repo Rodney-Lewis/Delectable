@@ -28,7 +28,7 @@ public class CRUSoftDeleteController<T extends CRUSoftDeleteEntity<T>> {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(created));
     }
 
-    @GetMapping("")
+    @GetMapping("pageable")
     public ResponseEntity<Page<T>> getPage(Pageable pageable) {
         return ResponseEntity.ok(service.getPage(pageable));
     }

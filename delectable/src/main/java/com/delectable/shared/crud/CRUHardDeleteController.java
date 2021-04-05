@@ -1,5 +1,6 @@
 package com.delectable.shared.crud;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,11 @@ public abstract class CRUHardDeleteController<T extends CRUDEntity<T>> {
     @GetMapping("/pageable")
     public ResponseEntity<Page<T>> getPage(Pageable pageable) {
         return ResponseEntity.ok(service.getPage(pageable));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<T>> getAll(List<Long> ids) {
+        return ResponseEntity.ok(service.getAllByIds(ids));
     }
 
     @GetMapping("/{id}")

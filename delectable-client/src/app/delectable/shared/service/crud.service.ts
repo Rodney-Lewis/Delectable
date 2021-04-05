@@ -23,9 +23,10 @@ export abstract class CRUDService {
   }
 
   public getPage(page: number = 1, size: number = 12, name: string = ""): Observable<any> {
+    const endpointPattern = this.APIEndpoint + `/pageable`;
     page = page - 1;
     const params = new HttpParams().set("page", page.toString()).set("size", size.toString()).set("name", name).set("sort", "name").set("name.dir", "ASC");
-    return this.http.get(this.APIEndpoint, { params, observe: 'response' });
+    return this.http.get(endpointPattern, { params, observe: 'response' });
   }
 
   public update(payload: any, id: Number): Observable<any> {
