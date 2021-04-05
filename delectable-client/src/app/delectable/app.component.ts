@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Role } from './user/model/Role';
 import { AuthService } from './user/service/auth.service';
 import { UserService } from './user/service/user.service';
 
@@ -12,15 +14,14 @@ export class AppComponent {
   title: string;
   isLoggedIn: boolean = false;
   user: any;
+  hasAdminPermissions: boolean = false;
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    if (this.isLoggedIn) {
-      this.userService.getCurrentUserDetails().subscribe(data => {
-        this.user = data;
-      });
-    }
+    this.activatedRoute.data.subscribe(() => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+      this.hasAdminPermissions = this.authService.hasPermissions(Role[Role.ROLE_ADMIN]);
+    })
   }
 }
