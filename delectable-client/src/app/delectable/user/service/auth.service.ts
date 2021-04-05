@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   hasPermissions(next: any): boolean {
-    if (next.role) {
+    if (next.role && this.isLoggedIn()) {
       const userRoles = this.tokenStorageService.getRoles();
 
       var requiredRole = Role[next.role];
@@ -47,6 +47,8 @@ export class AuthService {
       } else {
         return false;
       }
+    } else {
+      return false;
     }
   }
 
