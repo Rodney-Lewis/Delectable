@@ -37,8 +37,6 @@ const routes: Routes = [
     path: 'schedule', children: [
       { path: 'add', component: ScheduleFormComponent, canActivate: [AuthGuard], data: { role: Role[Role.ROLE_USER] } },
       { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
-      { path: 'detail/:id', component: ComboDetailComponent },
-      { path: 'list', component: ComboListComponent },
       { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
     ]
   },
