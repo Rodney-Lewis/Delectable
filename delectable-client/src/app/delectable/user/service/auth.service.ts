@@ -35,13 +35,11 @@ export class AuthService {
     }
   }
 
-  hasPermissions(next: any): boolean {
-    if (next.role && this.isLoggedIn()) {
+  hasPermissions(role: any): boolean {
+    if (role && this.isLoggedIn()) {
       const userRoles = this.tokenStorageService.getRoles();
-
-      var requiredRole = Role[next.role];
+      var requiredRole = Role[role];
       var userRole = Role[userRoles[0]];
-
       if (userRole <= requiredRole) {
         return true;
       } else {
