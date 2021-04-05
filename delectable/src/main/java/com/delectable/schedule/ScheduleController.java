@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.delectable.combo.ComboRepository;
-import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeRepository;
 import com.delectable.restaurant.RestaurantRepository;
 import com.delectable.shared.crud.CRUHardDeleteController;
@@ -78,6 +77,9 @@ public class ScheduleController extends CRUHardDeleteController<Schedule> {
                     } else if (t.getScheduleType() == ScheduleType.RESTAURANT) {
                         t.setScheduledItemName(restaurantRepository.findById(t.getScheduledItemId())
                                 .get().getName());
+                    } else if (t.getScheduleType() == ScheduleType.COMBO) {
+                        t.setScheduledItemName(
+                                comboRepository.findById(t.getScheduledItemId()).get().getName());
                     }
                     scheduledByDate.get(k).add(scheduled.get(j));
                 }

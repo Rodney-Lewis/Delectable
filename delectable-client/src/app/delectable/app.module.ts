@@ -40,6 +40,10 @@ import { AuthService } from './user/service/auth.service';
 import { TokenStorageService } from './user/service/token-storage.service';
 import { AdminService } from './user/service/admin-service.service';
 import { ScheduleService } from './schedule/service/schedule.service';
+import { ComboCardInfoComponent } from './combo/component/combo-card-info/combo-card-info.component';
+import { ComboDetailComponent } from './combo/component/combo-detail/combo-detail.component';
+import { ComboFormComponent } from './combo/component/combo-form/combo-form.component';
+import { ComboListComponent } from './combo/component/combo-list/combo-list.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +75,11 @@ import { ScheduleService } from './schedule/service/schedule.service';
     ProfileComponent,
     AccountComponent,
     ChangePasswordComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    ComboCardInfoComponent,
+    ComboDetailComponent,
+    ComboFormComponent,
+    ComboListComponent
   ],
   imports: [
     BrowserModule,
