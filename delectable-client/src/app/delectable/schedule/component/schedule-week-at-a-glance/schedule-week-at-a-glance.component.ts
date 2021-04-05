@@ -65,11 +65,11 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
   }
 
   changeWeek(epoch: number) {
-    this.router.navigate([epoch]);
+    this.router.navigate(['schedule/' + epoch]);
   }
 
   today() {
-    this.router.navigate(['']);
+    this.router.navigate(['/schedule']);
   }
 
   delete(id) {
