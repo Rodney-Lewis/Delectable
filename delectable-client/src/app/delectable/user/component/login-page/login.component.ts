@@ -28,12 +28,15 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.isLoginFailed = false;
-        window.location.reload();
         if (this.authService.redirectUrl != null) {
-          this.router.navigate([this.authService.redirectUrl]);
-          this.authService.redirectUrl = null;
+          this.router.navigate([this.authService.redirectUrl]).then(() => {
+            this.authService.redirectUrl = null;
+            window.location.reload();
+          });
         } else {
-          this.router.navigate(['']);
+          this.router.navigate(['']).then(() => {
+            window.location.reload();
+          });
         }
       },
       err => {
