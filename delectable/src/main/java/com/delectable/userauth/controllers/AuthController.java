@@ -65,9 +65,13 @@ public class AuthController {
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+        if (signUpRequest.getEmail() != null) {
+            if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Error: Email is already in use!"));
+            }
+        } else {
+            signUpRequest.setEmail("");
         }
 
         // Create new user's account

@@ -8,6 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 public abstract class CRUSoftDeleteService<T extends CRUSoftDeleteEntity<T>> {
 
+     /** 
+     * @see com.delectable.shared.exceptions
+     */
     protected final CRUSoftDeleteRepository<T> repository;
 
     public CRUSoftDeleteService(CRUSoftDeleteRepository<T> repository) {
@@ -24,7 +27,7 @@ public abstract class CRUSoftDeleteService<T extends CRUSoftDeleteEntity<T>> {
             Optional<T> entity = repository.findByIdAndDeleted(id, false);
             return entity.get();
         } catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Unknown entity ID - " + id);
+            throw new NoSuchElementException("Unknown ID for entity - " + id);
         }
     }
 

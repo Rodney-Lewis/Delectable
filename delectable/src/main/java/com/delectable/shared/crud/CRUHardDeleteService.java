@@ -23,7 +23,7 @@ public abstract class CRUHardDeleteService<T extends CRUDEntity<T>> {
             Optional<T> entity = repository.findById(id);
             return entity.get();
         } catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Unknown entity ID - " + id);
+            throw new NoSuchElementException("Unknown ID for entity - " + id);
         }
     }
 

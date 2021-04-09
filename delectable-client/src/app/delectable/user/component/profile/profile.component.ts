@@ -40,12 +40,11 @@ export class ProfileComponent extends FormComponent implements OnInit {
   buildFormforCreate() {
     throw new Error('Method not implemented.');
   }
+  
   submitForm() {
-    /*
     this.adminService.updateUser(this.id, this.getFormComponent("element").value).subscribe(() => {
       this.router.navigate(['/admin']);
     });
-    */
   }
 
 }

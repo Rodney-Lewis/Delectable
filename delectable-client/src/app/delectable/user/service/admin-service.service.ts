@@ -14,19 +14,25 @@ export class AdminService {
   }
 
   public findAll(page: number = 1, size: number = 10): Observable<any> {
+    const endpointPattern = `${this.endpoint}/pageable`;
     page = page - 1;
     const params = new HttpParams().set("page", page.toString()).set("size", size.toString());
-    return this.http.get(this.endpoint + "/all", { params, observe: 'response' });
+    return this.http.get(endpointPattern, { params, observe: 'response' });
   }
 
-  public getRoles() : Observable<any> {
-    return this.http.get(this.endpoint + "/groups");
+  public getRoles(): Observable<any> {
+    const endpointPattern = `${this.endpoint}/groups`;
+    return this.http.get(endpointPattern);
   }
 
- 
-  public getById(id: number) : Observable<User> {
+  public getById(id: number): Observable<User> {
     const endpointPattern = `${this.endpoint}/${id}`;
     return this.http.get<User>(endpointPattern);
+  }
+
+  public updateUser(id: number, body: any): Observable<User> {
+    const endpointPattern = `${this.endpoint}/${id}`;
+    return this.http.put<User>(endpointPattern, body);
   }
 
 }

@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 public abstract class CRUHardDeleteController<T extends CRUDEntity<T>> {
-
+    
+    /** 
+     * @see com.delectable.shared.exceptions
+     */
     protected final CRUHardDeleteService<T> service;
 
     public CRUHardDeleteController(CRUHardDeleteRepository<T> repository) {

@@ -6,11 +6,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.delectable.combo.Combo;
 import com.delectable.combo.ComboRepository;
-import com.delectable.recipe.RecipeRepository;
+import com.delectable.recipe.Recipe;
+import com.delectable.recipe.RecipeService;
+import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantRepository;
 import com.delectable.shared.crud.CRUHardDeleteController;
 import com.delectable.shared.crud.CRUHardDeleteRepository;
+import com.delectable.shared.crud.CRUSoftDeleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +29,16 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class ScheduleController extends CRUHardDeleteController<Schedule> {
 
-    public ScheduleController(CRUHardDeleteRepository<Schedule> repository) {
+    public ScheduleController(CRUHardDeleteRepository<Schedule> repository,
+            CRUSoftDeleteRepository<Recipe> Rrepository, CRUSoftDeleteRepository<Restaurant> Rreporrsitory, CRUSoftDeleteRepository<Combo> Rrepositrrory) {
         super(repository);
+        recipeRepository = new RecipeService(Rrepository);
     }
 
     @Autowired
     ScheduleRepository scheduleService;
 
-    @Autowired
-    RecipeRepository recipeRepository;
+    RecipeService recipeRepository;
 
     @Autowired
     RestaurantRepository restaurantRepository;
@@ -73,7 +78,7 @@ public class ScheduleController extends CRUHardDeleteController<Schedule> {
 
                     if (t.getScheduleType() == ScheduleType.RECIPE) {
                         t.setScheduledItemName(
-                                recipeRepository.findById(t.getScheduledItemId()).get().getName());
+                                recipeRepository.get(t.getScheduledItemId()).getName());
                     } else if (t.getScheduleType() == ScheduleType.RESTAURANT) {
                         t.setScheduledItemName(restaurantRepository.findById(t.getScheduledItemId())
                                 .get().getName());

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.micrometer.core.ipc.http.HttpSender.Response;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,9 @@ public class UserController {
     UserRepository userRepository;
 
     @Autowired
+    UserService service;
+
+    @Autowired
     JwtUtils jwtUtils;
 
     @Autowired
@@ -53,7 +57,7 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.ASC, "username"));
         Page<User> userPages;
 
-        userPages = userRepository.findByIdNot(pageable, 1);
+        userPages = userRepository.findByIdNot(pageable, 1L);
         if (userPages.getContent().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -80,19 +84,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @JsonView(UserViews.Simple.class)
     public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody User updatedUser) {
-        Optional<User> optUser = userRepository.findById(id);
-        if (optUser.isEmpty()) {
-            throw new EntityNotFoundException("User not found");
-        } else {
-            updatedUser.setId(optUser.get().getId());
-            updatedUser.setPassword(optUser.get().getPassword());
-            userRepository.save(updatedUser);
-            return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+        try {
+            return ResponseEntity.ok(service.updateUser(id, updatedUser));
+        } catch (IllegalArgumentException | EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(e.getMessage()));
         }
     }
 
-   
+
 
 }

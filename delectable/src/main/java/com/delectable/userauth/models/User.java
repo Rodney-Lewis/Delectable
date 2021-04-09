@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import com.delectable.shared.crud.CRUDEntity;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "username")
 		})
-public class User {
+public class User implements CRUDEntity<User> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonView(UserViews.Simple.class)
