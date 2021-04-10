@@ -19,60 +19,61 @@ import org.springframework.http.MediaType;
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@WithMockUser(authorities = "USER")
+@WithMockUser(roles = "USER")
 public class ScheduleAPI {
 
-    @Autowired
-    private ScheduleUtil scheduleUtil;
+  @Autowired
+  private ScheduleUtil scheduleUtil;
 
-    @Autowired
-    private EntityUtil entityUtil;
+  @Autowired
+  private EntityUtil entityUtil;
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    String[] responseStringArray;
-    MvcResult response;
+  String[] responseStringArray;
+  MvcResult response;
 
-    @Test
-    public void createRecipeSchedule() throws Exception {
-        Schedule schedule = scheduleUtil.createScheduleForRecipe(false);
-        response = mockMvc.perform(MockMvcRequestBuilders.post("/api/schedule")
-                .content(entityUtil.toJson(schedule)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-    }
+  private final String endpoint = "/api/schedule/";
 
-    @Test
-    public void createRestaurantSchedule() throws Exception {
-        Schedule schedule = scheduleUtil.createScheduleForRestaurant(false);
-        response = mockMvc.perform(MockMvcRequestBuilders.post("/api/schedule")
-                .content(entityUtil.toJson(schedule)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-    }
+  @Test
+  public void createRecipeSchedule() throws Exception {
+    Schedule schedule = scheduleUtil.createScheduleForRecipe(false);
+    response = mockMvc
+        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
+  }
 
-    /*
-    @Test
-    public void createMealGroupSchedule() throws Exception {
-        Schedule schedule = scheduleUtil.createScheduleForMealGroup(false);
-        response = mockMvc.perform(MockMvcRequestBuilders.post("/api/schedule")
-                .content(entityUtil.toJson(schedule)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-    }
-    */
+  @Test
+  public void createRestaurantSchedule() throws Exception {
+    Schedule schedule = scheduleUtil.createScheduleForRestaurant(false);
+    response = mockMvc
+        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
+  }
 
-    @Test
-    public void getScheduled() throws Exception {
-        Calendar begin = Calendar.getInstance();
-        begin.add(Calendar.HOUR, -1);
-        Calendar end = Calendar.getInstance();
-        end.add(Calendar.HOUR, 1);
+  @Test
+  public void createMealGroupSchedule() throws Exception {
+    Schedule schedule = scheduleUtil.createScheduleForCombo(false);
+    response = mockMvc
+        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
+  }
 
-        response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/schedule")
-                        .param("begin", String.valueOf(begin.getTimeInMillis()))
-                        .param("end", String.valueOf(end.getTimeInMillis())))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();;
-    }
+  @Test
+  public void getScheduled() throws Exception {
+    Calendar begin = Calendar.getInstance();
+    begin.add(Calendar.HOUR, -1);
+    Calendar end = Calendar.getInstance();
+    end.add(Calendar.HOUR, 1);
 
-
+    response = mockMvc
+        .perform(MockMvcRequestBuilders.get(endpoint)
+            .param("begin", String.valueOf(begin.getTimeInMillis()))
+            .param("end", String.valueOf(end.getTimeInMillis())))
+        .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();;
+  }
 }
