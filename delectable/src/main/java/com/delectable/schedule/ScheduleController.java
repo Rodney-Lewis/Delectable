@@ -3,7 +3,9 @@ package com.delectable.schedule;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import com.delectable.combo.Combo;
 import com.delectable.combo.ComboService;
 import com.delectable.recipe.Recipe;
@@ -50,9 +52,10 @@ public class ScheduleController {
   }
 
   @GetMapping
-  ResponseEntity<List<List<Schedule>>> getScheduledBetween(@RequestParam String begin,
+  ResponseEntity<Map<String, Object>> getScheduledBetween(@RequestParam String begin,
       @RequestParam String end) {
 
+    Map<String, Object> response = new HashMap<>();
     List<Schedule> scheduled = new ArrayList<Schedule>();
     scheduled.addAll(scheduleService.findByEpochBetweenOrderByEpochAsc(Long.parseLong(begin),
         Long.parseLong(end)));
@@ -88,7 +91,8 @@ public class ScheduleController {
         }
       }
     }
-    return ResponseEntity.ok().body(scheduledByDate);
+    response.put("content", scheduledByDate);
+    return ResponseEntity.ok().body(response);
   }
 
   @GetMapping("/mealtypes")
