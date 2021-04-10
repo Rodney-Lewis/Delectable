@@ -23,12 +23,12 @@ public class CRUSoftDeleteController<T extends CRUSoftDeleteEntity<T>> {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<T> create(@RequestBody T created) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(created));
     }
 
-    @GetMapping("/pageable")
+    @GetMapping
     public ResponseEntity<Page<T>> getPage(Pageable pageable) {
         return ResponseEntity.ok(service.getPage(pageable));
     }
