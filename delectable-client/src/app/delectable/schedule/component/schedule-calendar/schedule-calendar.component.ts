@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { AuthService } from 'app/delectable/user/service/auth.service';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
 import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
 import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { ScheduleService } from '../../service/schedule.service';
@@ -29,7 +29,7 @@ export class ScheduleCalendarComponent implements OnInit {
   get WEEKDAYS() { return DateHelper.WEEKDAYS }
   get MONTHS() { return DateHelper.MONTHS }
 
-  constructor(private authService: AuthService, private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService) { }
+  constructor(private authService: UserAuthService, private scheduleService: ScheduleService, private activatedroute: ActivatedRoute, private router: Router, private recipeService: RecipeService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
     this.calendar = new Array();

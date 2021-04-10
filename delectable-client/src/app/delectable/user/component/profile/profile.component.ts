@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormComponent } from 'app/delectable/shared/component/form/base-form/form-component';
-import { AdminService } from '../../service/admin-service.service';
+import { UserManagementService } from '../../service/admin-service.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +12,7 @@ import { AdminService } from '../../service/admin-service.service';
 export class ProfileComponent extends FormComponent implements OnInit {
 
 
-  constructor(private formbuilder: FormBuilder, router: Router, private adminService: AdminService, private activatedroute: ActivatedRoute) {
+  constructor(private formbuilder: FormBuilder, router: Router, private adminService: UserManagementService, private activatedroute: ActivatedRoute) {
     super(router, formbuilder);
   }
 

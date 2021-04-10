@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
 import { Role } from 'app/delectable/user/model/Role';
-import { AuthService } from 'app/delectable/user/service/auth.service';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
 import { Restaurant } from '../../model/restaurant';
 import { RestaurantService } from '../../service/restaurant.service';
 
@@ -15,7 +15,7 @@ export class RestuarantDetailComponent implements OnInit {
 
   restaurant: Restaurant = new Restaurant();
   hasUserPermissions: boolean = false;
-  constructor(private authService: AuthService, private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
+  constructor(private authService: UserAuthService, private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
 
   ngOnInit(): void {
     this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);

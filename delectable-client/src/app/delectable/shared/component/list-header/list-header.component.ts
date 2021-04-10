@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from 'app/delectable/user/model/Role';
-import { AuthService } from 'app/delectable/user/service/auth.service';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
 
 @Component({
   selector: 'app-list-header',
@@ -19,7 +19,7 @@ export class ListHeaderComponent {
   isLoggedIn: any;
   hasUserPermissions: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private authService: UserAuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);

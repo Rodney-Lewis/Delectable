@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { UserService } from '../../service/user.service';
+import { UserAccountService } from '../../service/user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -9,7 +9,7 @@ import { UserService } from '../../service/user.service';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserAccountService) { }
 
   form: FormGroup;
   formSubmitted = false;

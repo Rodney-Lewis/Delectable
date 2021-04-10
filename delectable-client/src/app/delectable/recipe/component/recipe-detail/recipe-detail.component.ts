@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../model/recipe';
 import { RecipeService } from '../../service/recipe.service';
 import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
-import { AuthService } from 'app/delectable/user/service/auth.service';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
 import { Role } from 'app/delectable/user/model/Role';
 
 @Component({
@@ -20,7 +20,7 @@ export class RecipeDetailComponent implements OnInit {
   totalTimeSecond: number = 0;
   hasUserPermissions: boolean = false;
 
-  constructor(private authService: AuthService, private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
+  constructor(private authService: UserAuthService, private recipeService: RecipeService, private fileHandlerService: FileHandlerService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);

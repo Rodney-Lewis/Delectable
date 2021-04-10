@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../../service/token-storage.service';
-import { UserService } from '../../service/user.service';
+import { UserAccountService } from '../../service/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +11,7 @@ import { UserService } from '../../service/user.service';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private router: Router, private userService: UserService, private tokenStorageService: TokenStorageService) { }
+  constructor(private router: Router, private userService: UserAccountService, private tokenStorageService: TokenStorageService) { }
 
   form: FormGroup;
   formSubmitted = false;

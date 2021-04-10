@@ -34,11 +34,11 @@ import { ProfileComponent } from './user/component/profile/profile.component';
 import { AccountComponent } from './user/component/account/profile.component';
 import { ChangePasswordComponent } from './user/component/change-password/change-password.component';
 import { UserSettingsComponent } from './user/component/user-settings/user-settings.component';
-import { UserService } from './user/service/user.service';
+import { UserAccountService } from './user/service/user.service';
 import { RecipeService } from './recipe/service/recipe.service';
-import { AuthService } from './user/service/auth.service';
+import { UserAuthService } from './user/service/auth.service';
 import { TokenStorageService } from './user/service/token-storage.service';
-import { AdminService } from './user/service/admin-service.service';
+import { UserManagementService } from './user/service/admin-service.service';
 import { ScheduleService } from './schedule/service/schedule.service';
 import { ComboCardInfoComponent } from './combo/component/combo-card-info/combo-card-info.component';
 import { ComboDetailComponent } from './combo/component/combo-detail/combo-detail.component';
@@ -89,7 +89,7 @@ import { ComboListComponent } from './combo/component/combo-list/combo-list.comp
     FormsModule,
     CommonModule,
   ],
-  providers: [RecipeService, ScheduleService, AuthService, TokenStorageService, AdminService, UserService, authInterceptorProviders],
+  providers: [RecipeService, ScheduleService, UserAuthService, TokenStorageService, UserManagementService, UserAccountService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,18 +6,16 @@ import { User } from '../model/user';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminService {
+export class UserManagementService {
 
   private endpoint: string = "/api/user";
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  public findAll(page: number = 1, size: number = 10): Observable<any> {
-    const endpointPattern = `${this.endpoint}/pageable`;
+  public getUserPage(page: number = 1, size: number = 10): Observable<any> {
     page = page - 1;
     const params = new HttpParams().set("page", page.toString()).set("size", size.toString());
-    return this.http.get(endpointPattern, { params, observe: 'response' });
+    return this.http.get(this.endpoint, { params, observe: 'response' });
   }
 
   public getRoles(): Observable<any> {

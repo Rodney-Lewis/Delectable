@@ -29,7 +29,7 @@ public class UserManagementController {
     @Autowired
     UserService service;
 
-    @GetMapping("/pageable")
+    @GetMapping("")
     @JsonView(UserViews.Simple.class)
     public ResponseEntity<?> getUserPage(Pageable pageable) {
         return ResponseEntity.ok(service.getUserPage(pageable));

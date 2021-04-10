@@ -6,7 +6,7 @@ import { User } from '../model/user';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserAccountService {
 
   private endpoint: string = "/api/account";
 

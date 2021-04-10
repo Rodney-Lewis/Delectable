@@ -16,15 +16,6 @@ export class ScheduleService {
     return this.http.get(endpointPattern, { params, responseType: 'text' });
   }
 
-  public findAllScheduled(): Observable<Schedule[]> {
-    return this.http.get<Schedule[]>(this.scheduleApiEndpoint)
-  }
-
-  public findAllScheduledByEpoch(epoch: number): Observable<Schedule[]> {
-    const endpointPattern = `${this.scheduleApiEndpoint}/${epoch}`;
-    return this.http.get<Schedule[]>(endpointPattern);
-  }
-
   public getAllMealTypes(): Observable<string[]> {
     const endpointPattern = `${this.scheduleApiEndpoint}/mealtypes`;
     return this.http.get<string[]>(endpointPattern)

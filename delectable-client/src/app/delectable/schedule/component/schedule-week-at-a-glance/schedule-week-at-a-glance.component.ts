@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
-import { AuthService } from 'app/delectable/user/service/auth.service';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
 import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { ScheduleService } from '../../service/schedule.service';
 import { DateHelper } from '../../service/date-helper';
@@ -24,7 +24,7 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
   hasUserPermissions: boolean = false;
 
   constructor(private scheduleService: ScheduleService, private restaurantService: RestaurantService,
-    private recipeService: RecipeService, private authService: AuthService, private activatedroute: ActivatedRoute, private router: Router) { }
+    private recipeService: RecipeService, private authService: UserAuthService, private activatedroute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);

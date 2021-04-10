@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Role } from './user/model/Role';
-import { AuthService } from './user/service/auth.service';
-import { UserService } from './user/service/user.service';
+import { UserAuthService } from './user/service/auth.service';
+import { UserAccountService } from './user/service/user.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent {
   user: any;
   hasAdminPermissions: boolean = false;
 
-  constructor(private authService: AuthService, private activatedRoute: ActivatedRoute) { }
+  constructor(private authService: UserAuthService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(() => {
