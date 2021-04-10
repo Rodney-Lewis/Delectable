@@ -82,7 +82,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
         if (this.edit) {
           this.recipeService.update(this.getFormComponent("element").value, this.id).subscribe();
         } else {
-          this.recipeService.add(this.getFormComponent("element").value).subscribe();
+          this.recipeService.create(this.getFormComponent("element").value).subscribe();
         }
         const imageFormData = new FormData();
         imageFormData.append('imageMultipartFile', this.getFormComponent('image.imageMultipartFile').value);
@@ -95,7 +95,7 @@ export class RecipeFormComponent extends FormWithImageComponent implements OnIni
             this.router.navigate(['/recipe/detail', this.id]);
           });
         } else {
-          this.recipeService.add(this.getFormComponent("element").value).subscribe(() => {
+          this.recipeService.create(this.getFormComponent("element").value).subscribe(() => {
             this.router.navigate(['/recipe/list']);
           });
         }

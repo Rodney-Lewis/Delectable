@@ -80,7 +80,7 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
           this.router.navigate(['/restaurant/list']);
         });
       } else {
-        this.restaurantService.add(this.form.get('element').value).subscribe(() => {
+        this.restaurantService.create(this.form.get('element').value).subscribe(() => {
           this.router.navigate(['/restaurant/list']);
         });
       }
