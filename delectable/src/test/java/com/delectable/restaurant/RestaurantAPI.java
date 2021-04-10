@@ -1,6 +1,5 @@
 package com.delectable.restaurant;
 
-import java.util.Optional;
 import com.delectable.EntityUtil;
 import org.springframework.transaction.annotation.Transactional;
 import org.junit.runner.RunWith;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.json.JSONObject;
 import org.junit.Test;
 
 @AutoConfigureMockMvc

@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.delectable.combo.Combo;
-import com.delectable.mealgroup.ComboUtil;
+import com.delectable.combo.ComboUtil;
 import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeUtil;
 import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantUtil;
-import com.delectable.shared.crud.CRUHardDeleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleUtil {
 
+  @Autowired
   private ScheduleService service;
 
   @Autowired
@@ -26,10 +26,6 @@ public class ScheduleUtil {
 
   @Autowired
   private ComboUtil comboUtil;
-
-  public ScheduleUtil(CRUHardDeleteRepository<Schedule> repository) {
-    this.service = new ScheduleService(repository);
-  }
 
   public List<Schedule> insertSchedules(int numberToInsert, boolean deleted) {
     List<Schedule> schedules = new ArrayList<>();

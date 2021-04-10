@@ -3,7 +3,6 @@ package com.delectable.restaurant;
 import java.util.List;
 import com.delectable.shared.crud.CRUSoftDeleteRepository;
 import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
