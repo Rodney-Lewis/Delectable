@@ -8,10 +8,7 @@ import com.delectable.shared.crud.CRUDEntity;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-@Table(	name = "users", 
-		uniqueConstraints = { 
-			@UniqueConstraint(columnNames = "username")
-		})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 public class User implements CRUDEntity<User> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,8 +81,6 @@ public class User implements CRUDEntity<User> {
 	public void setRole(ERole role) {
 		this.role = role;
 	}
-
-	
 }
 
 
