@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.delectable.recipe.*;
-import com.delectable.restaurant.*;
 import com.delectable.shared.crud.CRUSoftDeleteEntity;
 import io.micrometer.core.lang.NonNull;
 
@@ -25,19 +24,15 @@ public class Combo implements CRUSoftDeleteEntity<Combo> {
     @OneToMany
     private List<Recipe> recipe = new ArrayList<Recipe>();
 
-    @OneToMany
-    private List<Restaurant> restaurant = new ArrayList<Restaurant>();
-
     boolean deleted;
 
     public Combo() {
         this.deleted = false;
     }
 
-    public Combo(String name, List<Recipe> recipe, List<Restaurant> restaurant) {
+    public Combo(String name, List<Recipe> recipe) {
         this.name = name;
         this.recipe = recipe;
-        this.restaurant = restaurant;
         this.deleted = false;
     }
 
@@ -65,14 +60,6 @@ public class Combo implements CRUSoftDeleteEntity<Combo> {
 
     public void setRecipe(List<Recipe> recipe) {
         this.recipe = recipe;
-    }
-
-    public List<Restaurant> getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(List<Restaurant> restaurant) {
-        this.restaurant = restaurant;
     }
 
     @Override
