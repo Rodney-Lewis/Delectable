@@ -1,12 +1,9 @@
 package com.delectable.userauth.controllers;
 
 import java.util.Map;
-import javax.persistence.EntityNotFoundException;
-import com.delectable.shared.MessageResponse;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

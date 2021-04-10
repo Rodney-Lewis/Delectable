@@ -1,19 +1,13 @@
 package com.delectable.userauth.controllers;
 
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import com.delectable.shared.MessageResponse;
 import com.delectable.userauth.models.ERole;
 import com.delectable.userauth.models.User;
 import com.delectable.userauth.models.UserViews;
-import com.delectable.userauth.repository.*;
-import com.delectable.userauth.security.jwt.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RestController
 @RequestMapping("/api/user")
 @PreAuthorize("hasRole('ADMIN')")
-public class UserController {
+public class UserManagementController {
 
     @Autowired
     UserService service;
