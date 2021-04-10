@@ -10,12 +10,16 @@ import com.delectable.recipe.Recipe;
 import com.delectable.recipe.RecipeService;
 import com.delectable.restaurant.Restaurant;
 import com.delectable.restaurant.RestaurantService;
-import com.delectable.shared.crud.CRUHardDeleteController;
-import com.delectable.shared.crud.CRUHardDeleteRepository;
 import com.delectable.shared.crud.CRUSoftDeleteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,23 +27,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/schedule")
 @CrossOrigin
-public class ScheduleController extends CRUHardDeleteController<Schedule> {
+public class ScheduleController {
 
-  public ScheduleController(CRUHardDeleteRepository<Schedule> scheduleRepository,
-      CRUSoftDeleteRepository<Recipe> recipeRepository,
+  @Autowired
+  ScheduleService scheduleService;
+
+  RecipeService recipeService;
+  RestaurantService restaurantService;
+  ComboService comboService;
+
+  public ScheduleController(CRUSoftDeleteRepository<Recipe> recipeRepository,
       CRUSoftDeleteRepository<Restaurant> restaurantRepository,
       CRUSoftDeleteRepository<Combo> comboRepository) {
-    super(scheduleRepository);
-    scheduleService = new ScheduleService(scheduleRepository);
     recipeService = new RecipeService(recipeRepository);
     restaurantService = new RestaurantService(restaurantRepository);
     comboService = new ComboService(comboRepository);
   }
 
-  ScheduleService scheduleService;
-  RecipeService recipeService;
-  RestaurantService restaurantService;
-  ComboService comboService;
+  @PostMapping
+  ResponseEntity<?> addSchedule(@RequestBody Schedule schedule) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.create(schedule));
+  }
 
   @GetMapping
   ResponseEntity<List<List<Schedule>>> getScheduledBetween(@RequestParam String begin,
@@ -91,5 +99,10 @@ public class ScheduleController extends CRUHardDeleteController<Schedule> {
   @GetMapping("/scheduletypes")
   ScheduleType[] getScheduleTypes() {
     return ScheduleType.values();
+  }
+
+  @DeleteMapping("/{Id}")
+  void deleteSchedule(@PathVariable Long Id) {
+    scheduleService.delete(Id);
   }
 }

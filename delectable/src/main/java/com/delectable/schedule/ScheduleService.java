@@ -1,20 +1,28 @@
 package com.delectable.schedule;
 
 import java.util.List;
-import com.delectable.shared.crud.CRUHardDeleteRepository;
-import com.delectable.shared.crud.CRUHardDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ScheduleService extends CRUHardDeleteService<Schedule> {
+@Component
+public class ScheduleService {
 
   @Autowired
-  ScheduleRepository scheduleRepository;
+  ScheduleRepository repository;
 
-  public ScheduleService(CRUHardDeleteRepository<Schedule> repository) {
-    super(repository);
+  public Schedule create(Schedule schedule) {
+    return repository.save(schedule);
+  }
+
+  public List<Schedule> createFromList(List<Schedule> schedules) {
+    return (List<Schedule>) repository.saveAll(schedules);
   }
 
   public List<Schedule> findByEpochBetweenOrderByEpochAsc(Long start, Long end) {
-      return scheduleRepository.findByEpochBetweenOrderByEpochAsc(start, end);
-    }
+    return repository.findByEpochBetweenOrderByEpochAsc(start, end);
+  }
+
+  public void delete(Long id) {
+    repository.deleteById(id);
+  }
 }
