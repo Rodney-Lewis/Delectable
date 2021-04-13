@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public abstract class CRUSoftDeleteService<T extends CRUSoftDeleteEntity<T>> {
 
@@ -39,8 +40,8 @@ public abstract class CRUSoftDeleteService<T extends CRUSoftDeleteEntity<T>> {
     return (List<T>) repository.findByIdInAndDeleted(ids, false);
   }
 
-  public Page<T> getPage(Pageable pageable) {
-    return repository.findAllByDeleted(pageable, false);
+  public Page<T> getPage(Pageable pageable, String name) {
+    return repository.findAllByDeletedAndNameStartingWith(pageable, false, name);
   }
 
   public T update(Long id, T updatedEntity) {

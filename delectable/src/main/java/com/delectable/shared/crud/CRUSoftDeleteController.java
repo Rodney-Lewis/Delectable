@@ -15,39 +15,39 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class CRUSoftDeleteController<T extends CRUSoftDeleteEntity<T>> {
 
-    protected final CRUSoftDeleteService<T> service;
+  protected final CRUSoftDeleteService<T> service;
 
-    public CRUSoftDeleteController(CRUSoftDeleteRepository<T> repository) {
-        this.service = new CRUSoftDeleteService<T>(repository) {
-        };
-    }
+  public CRUSoftDeleteController(CRUSoftDeleteRepository<T> repository) {
+    this.service = new CRUSoftDeleteService<T>(repository) {
+    };
+  }
 
-    @PreAuthorize("hasRole('USER')")
-    @PostMapping
-    public ResponseEntity<T> create(@RequestBody T created) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(created));
-    }
+  @PreAuthorize("hasRole('USER')")
+  @PostMapping
+  public ResponseEntity<T> create(@RequestBody T created) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.create(created));
+  }
 
-    @GetMapping
-    public ResponseEntity<Page<T>> getPage(Pageable pageable) {
-        return ResponseEntity.ok(service.getPage(pageable));
-    }
+  @GetMapping
+  public ResponseEntity<Page<T>> getPage(Pageable pageable, String name) {
+    return ResponseEntity.ok(service.getPage(pageable, name));
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<T> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.get(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<T> getById(@PathVariable Long id) {
+    return ResponseEntity.ok(service.get(id));
+  }
 
-    @PreAuthorize("hasRole('USER')")
-    @PutMapping("/{id}")
-    public ResponseEntity<T> update(@PathVariable Long id, @RequestBody T updated) {
-        return ResponseEntity.ok(service.update(id, updated));
-    }
+  @PreAuthorize("hasRole('USER')")
+  @PutMapping("/{id}")
+  public ResponseEntity<T> update(@PathVariable Long id, @RequestBody T updated) {
+    return ResponseEntity.ok(service.update(id, updated));
+  }
 
-    @PreAuthorize("hasRole('USER')")
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
+  @PreAuthorize("hasRole('USER')")
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable Long id) {
+    service.delete(id);
+  }
 }
