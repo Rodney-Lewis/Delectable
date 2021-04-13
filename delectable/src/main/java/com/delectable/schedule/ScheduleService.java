@@ -1,5 +1,6 @@
 package com.delectable.schedule;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,8 @@ public class ScheduleService {
     return (List<Schedule>) repository.saveAll(schedules);
   }
 
-  public List<Schedule> findByEpochBetweenOrderByEpochAsc(Long start, Long end) {
-    return repository.findByEpochBetweenOrderByEpochAsc(start, end);
+  public List<Schedule> findByDateBetween(LocalDate begin, LocalDate end) {
+    return repository.findByDateBetweenOrderByDateAsc(begin, end);
   }
 
   public void delete(Long id) {

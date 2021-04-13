@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RecipeService } from 'app/delectable/recipe/service/recipe.service';
+import { Router } from '@angular/router';
 import { UserAuthService } from 'app/delectable/user/service/auth.service';
-import { RestaurantService } from 'app/delectable/restaurant/service/restaurant.service';
 import { ScheduleService } from '../../service/schedule.service';
 import { DateHelper } from '../../service/date-helper';
 import { Role } from 'app/delectable/user/model/Role';
+import { DatetrackerService } from '../../service/datetracker.service';
 
 @Component({
   selector: 'app-schedule-week-at-a-glance',
@@ -17,58 +16,46 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
   week: Date[];
   items: any[][];
   isLoggedIn: any;
-  startDate: Date;
-  endDate: Date;
+  sunday: Date;
+  saturday: Date;
   itemsScheduledByDate: any[][];
   dates: Date[];
   hasUserPermissions: boolean = false;
 
-  constructor(private scheduleService: ScheduleService, private restaurantService: RestaurantService,
-    private recipeService: RecipeService, private authService: UserAuthService, private activatedroute: ActivatedRoute, private router: Router) { }
+  constructor(private scheduleService: ScheduleService, private authService: UserAuthService, private router: Router, private dateTracker: DatetrackerService) { }
 
   ngOnInit(): void {
     this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);
-
-    this.activatedroute.paramMap.subscribe(params => {
-      if (!isNaN(Number(params.get('epoch')))) {
-        this.startDate = new Date(Number(params.get('epoch')));
-        this.startDate = DateHelper.setDateToMidnight(this.startDate);
-        this.startDate = DateHelper.findSundayInWeekByDate(this.startDate);
-        this.week = new Array();
-        this.week = DateHelper.buildWeekFromDate(this.startDate);
-        this.endDate = new Date(this.startDate);
-        //Push the date forward 6 days and add 1 hour to handle time shift of daylight savings
-        this.endDate.setHours((6 * 24) + 1);
-      } else {
-        this.today();
-      }
-
-      this.scheduleService.findAllBetweenEpochs(this.startDate.getTime(), this.endDate.getTime()).subscribe(res => {
-        this.itemsScheduledByDate = JSON.parse(res).content;
-        this.dates = DateHelper.buildDatesBetweenDates(this.startDate, this.endDate);
-      })
-    })
-
     this.isLoggedIn = this.authService.isLoggedIn();
 
+    this.sunday = new Date(this.dateTracker.value)
+    this.sunday = DateHelper.setDateToMidnight(this.sunday);
+    this.sunday = DateHelper.findSundayInWeekByDate(this.sunday);
+    this.saturday = new Date(this.sunday);
+    this.saturday.setHours(6 * 24);
+
+    this.week = new Array();
+    this.week = DateHelper.buildWeekFromDate(this.sunday);
+
+    this.scheduleService.findAllBetweenEpochs(this.sunday.toISOString().substring(0, 10), this.saturday.toISOString().substring(0, 10)).subscribe(res => {
+      this.itemsScheduledByDate = JSON.parse(res).content;
+      this.dates = DateHelper.buildDatesBetweenDates(this.sunday, this.saturday);
+    })
   }
 
   nextWeek() {
-    this.startDate.setDate(this.startDate.getDate() + 7)
-    this.changeWeek(this.startDate.getTime());
+    this.dateTracker.value.setDate(this.sunday.getDate() + 7);
+    this.ngOnInit();
   }
 
   previousWeek() {
-    this.startDate.setDate(this.startDate.getDate() - 7)
-    this.changeWeek(this.startDate.getTime());
-  }
-
-  changeWeek(epoch: number) {
-    this.router.navigate(['schedule/' + epoch]);
+    this.dateTracker.value.setDate(this.sunday.getDate() - 7);
+    this.ngOnInit();
   }
 
   today() {
-    this.router.navigate(['/schedule']);
+    this.dateTracker.value = new Date();
+    this.ngOnInit();
   }
 
   delete(id) {

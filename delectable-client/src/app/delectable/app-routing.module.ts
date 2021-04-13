@@ -36,8 +36,6 @@ const routes: Routes = [
   {
     path: 'schedule', children: [
       { path: 'add', component: ScheduleFormComponent, canActivate: [AuthGuard], data: { role: Role[Role.ROLE_USER] } },
-      { path: ':epoch', component: ScheduleWeekAtAGlanceComponent },
-      { path: '', redirectTo: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
     ]
   },
   {
@@ -67,7 +65,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
-  { path: '**', redirectTo: 'schedule/' + new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime().toString(), pathMatch: 'full' }
+  { path: '', component: ScheduleWeekAtAGlanceComponent },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 package com.delectable.schedule;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,83 +12,81 @@ import com.delectable.shared.crud.CRUDEntity;
 @Entity
 public class Schedule implements CRUDEntity<Schedule> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
 
-    @NotNull
-    Long epoch;
+  @NotNull
+  LocalDate date;
 
-    @NotNull
-    MealTime mealTime;
+  @NotNull
+  MealTime mealTime;
 
-    @NotNull
-    ScheduleType scheduleType;
+  @NotNull
+  ScheduleType scheduleType;
 
-    @NotNull
-    Long scheduledItemId;
+  @NotNull
+  Long scheduledItemId;
 
-    @Transient
-    String scheduledItemName;
+  @Transient
+  String scheduledItemName;
 
-    public Schedule() {
-    }
+  public Schedule() {
+  }
 
-    public Schedule(@NotNull Long epoch, @NotNull MealTime mealTime,
-            @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId,
-            @NotNull String scheduledItemName) {
-        this.epoch = epoch;
-        this.mealTime = mealTime;
-        this.scheduleType = scheduleType;
-        this.scheduledItemId = scheduledItemId;
-    }
+  public Schedule(@NotNull LocalDate date, @NotNull MealTime mealTime,
+      @NotNull ScheduleType scheduleType, @NotNull Long scheduledItemId) {
+    this.date = date;
+    this.mealTime = mealTime;
+    this.scheduleType = scheduleType;
+    this.scheduledItemId = scheduledItemId;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getEpoch() {
-        return epoch;
-    }
+  public LocalDate getDate() {
+    return date;
+  }
 
-    public void setEpoch(Long epoch) {
-        this.epoch = epoch;
-    }
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
 
-    public MealTime getMealTime() {
-        return mealTime;
-    }
+  public MealTime getMealTime() {
+    return mealTime;
+  }
 
-    public void setMealTime(MealTime mealTime) {
-        this.mealTime = mealTime;
-    }
+  public void setMealTime(MealTime mealTime) {
+    this.mealTime = mealTime;
+  }
 
-    public ScheduleType getScheduleType() {
-        return scheduleType;
-    }
+  public ScheduleType getScheduleType() {
+    return scheduleType;
+  }
 
-    public void setScheduleType(ScheduleType scheduleType) {
-        this.scheduleType = scheduleType;
-    }
+  public void setScheduleType(ScheduleType scheduleType) {
+    this.scheduleType = scheduleType;
+  }
 
-    public Long getScheduledItemId() {
-        return scheduledItemId;
-    }
+  public Long getScheduledItemId() {
+    return scheduledItemId;
+  }
 
-    public void setScheduledItemId(Long scheduledItemId) {
-        this.scheduledItemId = scheduledItemId;
-    }
+  public void setScheduledItemId(Long scheduledItemId) {
+    this.scheduledItemId = scheduledItemId;
+  }
 
-    public String getScheduledItemName() {
-        return scheduledItemName;
-    }
+  public String getScheduledItemName() {
+    return scheduledItemName;
+  }
 
-    public void setScheduledItemName(String scheduledItemName) {
-        this.scheduledItemName = scheduledItemName;
-    }
-
+  public void setScheduledItemName(String scheduledItemName) {
+    this.scheduledItemName = scheduledItemName;
+  }
 }

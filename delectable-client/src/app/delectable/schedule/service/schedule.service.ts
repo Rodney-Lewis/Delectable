@@ -10,9 +10,15 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) { }
 
-  public findAllBetweenEpochs(begin: number, end: number): Observable<any> {
+  public findAllBetweenEpochs(begin: any, end: any): Observable<any> {
     const params = new HttpParams().set("begin", begin.toString()).set("end", end.toString());
     const endpointPattern = `${this.scheduleApiEndpoint}`;
+    return this.http.get(endpointPattern, { params, responseType: 'text' });
+  }
+
+  public getScheduleable(name: string = "", maxResponseSize: number): Observable<any> {
+    const params = new HttpParams().set("page", "0").set("size", maxResponseSize.toString()).set("name", name).set("sort", "name").set("name.dir", "ASC");
+    const endpointPattern = `${this.scheduleApiEndpoint}/schedulable`;
     return this.http.get(endpointPattern, { params, responseType: 'text' });
   }
 

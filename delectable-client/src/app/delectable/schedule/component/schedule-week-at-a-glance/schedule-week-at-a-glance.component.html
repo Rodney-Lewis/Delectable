@@ -1,66 +1,68 @@
-<div class="container mb-2">
-    <div class="row">
-        <div class="col">
-            <h3>Schedule</h3>
-        </div>
-        <div *ngIf="hasUserPermissions" class="col d-flex justify-content-end">
-            <a routerLink="/schedule/add" class="btn btn-primary" role="button">Schedule</a>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Schedule</h3>
     </div>
-    <div class="row mt-2">
-        <div class="col">
-            <div class="row no-gutters">
-                <div class="col-auto mr-2">
-                    <h5>{{ week[0].toDateString() }} -
-                    </h5>
-                </div>
-                <div class="col-auto">
-                    <h5>{{ week[6].toDateString() }}
-                    </h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="row">
-                <div class="col d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary" (click)="previousWeek()">&lt;</button>
-                    <button type="button" class="btn btn-primary ml-2" (click)="today()">&bull;</button>
-                    <button type="button" class="btn btn-primary ml-2" (click)="nextWeek()"> &gt;</button>
-                </div>
-            </div>
-        </div>
+    <div *ngIf="hasUserPermissions" class="col d-flex justify-content-end">
+      <a routerLink="/schedule/add" class="btn btn-primary" role="button">Schedule</a>
     </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <div class="row no-gutters">
+        <div class="col-auto mr-2">
+          <h5>{{ week[0].toDateString() }} -
+          </h5>
+        </div>
+        <div class="col-auto">
+          <h5>{{ week[6].toDateString() }}
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row">
+        <div class="col d-flex justify-content-end">
+          <button type="button" class="btn btn-primary" (click)="previousWeek()">&lt;</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="today()">&bull;</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="nextWeek()"> &gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div *ngFor="let itemsScheduledOnDate of itemsScheduledByDate; let i = index" class="mt-2">
-        <hr>
-        <div class="row no-gutters">
-            <div class="col font-weight-bold">
-                {{ dates[i].toDateString() }}
-            </div>
-        </div>
-        <div class="row ml-2" *ngIf="itemsScheduledOnDate.length == 0; else somethingSchedule">
-            <div class="col">
-                Nothing scheduled!
-            </div>
-        </div>
-        <ng-template #somethingSchedule>
-            <div *ngFor="let item of itemsScheduledOnDate; let j = index" class="row ml-2">
-                <div class="col-4 col-sm-2">
-                    {{ item.mealTime }}
-                </div>
-                <div class="col">
-                    <span *ngIf="item.scheduleType.toLowerCase() == 'recipe'">
-                        <a [routerLink]="['/recipe/detail', item.scheduledTypeId]">{{ item.scheduledItemName }}</a>
-                    </span>
-                    <span *ngIf="item.scheduleType.toLowerCase() == 'restaurant'">
-                        <a [routerLink]="['/restaurant/detail', item.scheduledTypeId]">{{ item.scheduledItemName
-                            }}</a>
-                    </span>
-                </div>
-                <div class="col-auto" *ngIf="displayAddButton">
-                    <button type="button" (click)="delete(item.id)" class="btn btn-danger btn-sm mt-1">X</button>
-                </div>
-            </div>
-        </ng-template>
+  <div *ngFor="let itemsScheduledOnDate of itemsScheduledByDate; let i = index" class="mt-2">
+    <hr>
+    <div class="row no-gutters">
+      <div class="col font-weight-bold">
+        {{ dates[i].toDateString() }}
+      </div>
     </div>
+    <div class="row ml-2" *ngIf="itemsScheduledOnDate.length == 0; else somethingSchedule">
+      <div class="col">
+        Nothing scheduled!
+      </div>
+    </div>
+    <ng-template #somethingSchedule>
+      <div *ngFor="let item of itemsScheduledOnDate; let j = index" class="row ml-2">
+        <div class="col-4 col-sm-2">
+          {{ item.mealTime }}
+        </div>
+        <div class="col">
+          <span *ngIf="item.scheduleType.toLowerCase() == 'recipe'">
+            <a [routerLink]="['/recipe/detail', item.scheduledItemId]">{{ item.scheduledItemName }}</a>
+          </span>
+          <span *ngIf="item.scheduleType.toLowerCase() == 'restaurant'">
+            <a [routerLink]="['/restaurant/detail', item.scheduledItemId]">{{ item.scheduledItemName }}</a>
+          </span>
+          <span *ngIf="item.scheduleType.toLowerCase() == 'combo'">
+            <a [routerLink]="['/combo/detail', item.scheduledItemId]">{{ item.scheduledItemName }}</a>
+          </span>
+        </div>
+        <div class="col-auto" *ngIf="hasUserPermissions">
+          <button type="button" (click)="delete(item.id)" class="btn btn-danger btn-sm mt-1">X</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>
