@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import com.delectable.shared.crud.CRUDEntity;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 @Entity
 public class Schedule implements CRUDEntity<Schedule> {
@@ -17,6 +19,7 @@ public class Schedule implements CRUDEntity<Schedule> {
   Long id;
 
   @NotNull
+  @JsonSerialize(using = ToStringSerializer.class) 
   LocalDate date;
 
   @NotNull

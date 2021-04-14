@@ -1,7 +1,7 @@
 package com.delectable.schedule;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import com.delectable.combo.Combo;
 import com.delectable.combo.ComboUtil;
@@ -37,23 +37,32 @@ public class ScheduleUtil {
 
   public Schedule createScheduleForRecipe(boolean deleted) {
     Recipe recipe = recipeUtil.insertValidTestRecipe(deleted);
-    Schedule recipeSchedule = new Schedule(new Date().getTime(), MealTime.BREAKFAST,
-        ScheduleType.RECIPE, recipe.getId(), recipe.getName());
+    Schedule recipeSchedule =
+        new Schedule(LocalDate.now(), MealTime.BREAKFAST, ScheduleType.RECIPE, recipe.getId());
     return recipeSchedule;
   }
 
   public Schedule createScheduleForRestaurant(boolean deleted) {
     Restaurant restaurant = restaurantUtil.insertValidRestaurant(deleted);
-    Schedule restaurantSchedule = new Schedule(new Date().getTime(), MealTime.BREAKFAST,
-        ScheduleType.RESTAURANT, restaurant.getId(), restaurant.getName());
+    Schedule restaurantSchedule = new Schedule(LocalDate.now(), MealTime.BREAKFAST,
+        ScheduleType.RESTAURANT, restaurant.getId());
     return restaurantSchedule;
 
   }
 
   public Schedule createScheduleForCombo(boolean deleted) {
     Combo combo = comboUtil.insertValidCombo(2, deleted);
-    Schedule mealGroupSchedule = new Schedule(new Date().getTime(), MealTime.BREAKFAST,
-        ScheduleType.COMBO, combo.getId(), combo.getName());
-    return mealGroupSchedule;
+    Schedule comboSchedule =
+        new Schedule(LocalDate.now(), MealTime.BREAKFAST, ScheduleType.COMBO, combo.getId());
+    return comboSchedule;
+  }
+
+  public List<Schedule> createListOfScheduledEntities(boolean deleted) {
+    List<Schedule> scheduledItems = new ArrayList<>();
+    scheduledItems.add(createScheduleForRecipe(deleted));
+    scheduledItems.add(createScheduleForRestaurant(deleted));
+    scheduledItems.add(createScheduleForCombo(deleted));
+    service.createFromList(scheduledItems);
+    return scheduledItems;
   }
 }

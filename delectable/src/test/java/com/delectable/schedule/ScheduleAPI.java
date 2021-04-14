@@ -1,6 +1,7 @@
 package com.delectable.schedule;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.util.List;
 import com.delectable.EntityUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,43 +38,24 @@ public class ScheduleAPI {
   private final String endpoint = "/api/schedule/";
 
   @Test
-  public void createRecipeSchedule() throws Exception {
-    Schedule schedule = scheduleUtil.createScheduleForRecipe(false);
+  public void createSchedule() throws Exception {
+    List<Schedule> scheduledItems = scheduleUtil.createListOfScheduledEntities(false);
     response = mockMvc
-        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
-  }
-
-  @Test
-  public void createRestaurantSchedule() throws Exception {
-    Schedule schedule = scheduleUtil.createScheduleForRestaurant(false);
-    response = mockMvc
-        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
-  }
-
-  @Test
-  public void createMealGroupSchedule() throws Exception {
-    Schedule schedule = scheduleUtil.createScheduleForCombo(false);
-    response = mockMvc
-        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(schedule))
+        .perform(MockMvcRequestBuilders.post(endpoint).content(entityUtil.toJson(scheduledItems))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
   }
 
   @Test
   public void getScheduled() throws Exception {
-    Calendar begin = Calendar.getInstance();
-    begin.add(Calendar.HOUR, -1);
-    Calendar end = Calendar.getInstance();
-    end.add(Calendar.HOUR, 1);
-
+    LocalDate beginDate = LocalDate.now();
+    LocalDate endDate = LocalDate.now();
+    endDate.plusDays(7);
+    
     response = mockMvc
         .perform(MockMvcRequestBuilders.get(endpoint)
-            .param("begin", String.valueOf(begin.getTimeInMillis()))
-            .param("end", String.valueOf(end.getTimeInMillis())))
+            .param("begin", String.valueOf(beginDate.toString()))
+            .param("end", String.valueOf(endDate.toString())))
         .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();;
   }
 }
