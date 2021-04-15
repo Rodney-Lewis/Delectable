@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ComboFormComponent } from './combo-form.component';
 
@@ -6,7 +6,7 @@ describe('ComboFormComponent', () => {
   let component: ComboFormComponent;
   let fixture: ComponentFixture<ComboFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ComboFormComponent ]
     })

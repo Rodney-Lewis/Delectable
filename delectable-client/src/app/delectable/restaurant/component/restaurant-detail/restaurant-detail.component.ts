@@ -23,7 +23,6 @@ export class RestuarantDetailComponent implements OnInit {
     this.activatedroute.paramMap.subscribe(params => {
       this.restaurantService.getById(Number(params.get('id'))).subscribe(data => {
         this.restaurant = data;
-        this.restaurant.imageSource = this.fileHandlerService.getNamedImageUrl(this.restaurant.imageSource);
       })
     })
   }

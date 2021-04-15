@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ScheduleCalendarComponent } from './schedule-calendar.component';
 
@@ -6,7 +6,7 @@ describe('ScheduleListComponent', () => {
   let component: ScheduleCalendarComponent;
   let fixture: ComponentFixture<ScheduleCalendarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ScheduleCalendarComponent ]
     })
