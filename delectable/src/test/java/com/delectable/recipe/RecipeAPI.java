@@ -76,11 +76,10 @@ public class RecipeAPI {
     int numberToInsert = 20;
     int numberOfPagesItemInRequest = 5;
     JSONObject jsonObj;
-    final String pageableEndpoint = endpoint + "pageable";
 
     recipeUtil.insertValidTestRecipes(numberToInsert, false);
     response = mockMvc
-        .perform(MockMvcRequestBuilders.get(pageableEndpoint).contentType(MediaType.APPLICATION_JSON)
+        .perform(MockMvcRequestBuilders.get(endpoint).contentType(MediaType.APPLICATION_JSON)
             .param("page", "1").param("size", String.valueOf(numberOfPagesItemInRequest)))
         .andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
