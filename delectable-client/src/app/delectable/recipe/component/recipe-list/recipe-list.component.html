@@ -13,7 +13,7 @@
     </app-carddeck>
   </div>
   <div class="mt-2 d-flex justify-content-center">
-    <app-pagination *ngIf="responseBody" [logicalCurrentPage]="responseBody.number" [pageSize]="responseBody.size"
+    <app-pagination *ngIf="responseBody.totalPages > 0" [logicalCurrentPage]="responseBody.number" [pageSize]="responseBody.size"
       [totalPages]="responseBody.totalPages" [totalElements]="responseBody.totalElements" listItemRoute="/recipe/list">
     </app-pagination>
   </div>

@@ -117,18 +117,27 @@ public class ScheduleController {
         if (datesBetweenDates.get(k).isEqual(temp.date)) {
           switch (temp.getScheduleType()) {
             case RECIPE:
-              temp.setScheduledItemName(recipeService.get(temp.getScheduledItemId()).getName());
+              if (!recipeService.isDeleted(temp.getScheduledItemId())) {
+                temp.setScheduledItemName(recipeService.get(temp.getScheduledItemId()).getName());
+                scheduledByDate.get(k).add(temp);
+              }
               break;
             case RESTAURANT:
-              temp.setScheduledItemName(restaurantService.get(temp.getScheduledItemId()).getName());
+              if (!restaurantService.isDeleted(temp.getScheduledItemId())) {
+                temp.setScheduledItemName(
+                    restaurantService.get(temp.getScheduledItemId()).getName());
+                scheduledByDate.get(k).add(temp);
+              }
               break;
             case COMBO:
-              temp.setScheduledItemName(comboService.get(temp.getScheduledItemId()).getName());
+              if (!comboService.isDeleted(temp.getScheduledItemId())) {
+                temp.setScheduledItemName(comboService.get(temp.getScheduledItemId()).getName());
+                scheduledByDate.get(k).add(temp);
+              }
               break;
             default:
               break;
           }
-          scheduledByDate.get(k).add(temp);
         }
       }
     }

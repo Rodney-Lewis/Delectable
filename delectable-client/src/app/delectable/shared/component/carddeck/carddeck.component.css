@@ -15,8 +15,8 @@
 }
 
 .card-img-top {
-  max-height: 300px;
-  object-fit: cover;
+  max-height: 202px;
+  object-fit: fill;
 }
 
 @media screen and (min-width: 768px) {

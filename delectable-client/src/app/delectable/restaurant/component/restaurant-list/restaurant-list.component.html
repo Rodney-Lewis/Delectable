@@ -13,7 +13,7 @@
         </app-carddeck>
     </div>
     <div class="mt-2 d-flex justify-content-center">
-        <app-pagination *ngIf="jsonResponse" [logicalCurrentPage]="jsonResponse.number" [pageSize]="jsonResponse.size"
+        <app-pagination *ngIf="jsonResponse.totalPages > 0" [logicalCurrentPage]="jsonResponse.number" [pageSize]="jsonResponse.size"
             [totalPages]="jsonResponse.totalPages" [totalElements]="jsonResponse.totalElements"
             listItemRoute="/restaurant/list">
         </app-pagination>

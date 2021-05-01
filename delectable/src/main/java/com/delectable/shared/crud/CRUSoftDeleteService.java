@@ -35,6 +35,11 @@ public abstract class CRUSoftDeleteService<T extends CRUSoftDeleteEntity<T>> {
     }
   }
 
+  public boolean isDeleted(Long id) {
+    T entity = repository.findById(id).get();
+    return entity.isDeleted();
+  }
+
   public List<T> getAllByIds(List<Long> ids) {
     return (List<T>) repository.findByIdInAndDeleted(ids, false);
   }

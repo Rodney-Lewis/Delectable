@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormWithImageComponent } from 'app/delectable/shared/component/form/image-form/form-with-image-component';
+import { FormComponent } from 'app/delectable/shared/component/form/base-form/form-component';
 import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
 import { RestaurantService } from '../../service/restaurant.service';
 
@@ -10,7 +10,7 @@ import { RestaurantService } from '../../service/restaurant.service';
   templateUrl: './restaurant-form.component.html',
   styleUrls: ['./restaurant-form.component.css']
 })
-export class RestaurantFormComponent extends FormWithImageComponent implements OnInit {
+export class RestaurantFormComponent extends FormComponent implements OnInit {
 
   constructor(formBuilder: FormBuilder, private activatedroute: ActivatedRoute,
     private restaurantService: RestaurantService, router: Router, private fileHandlerService: FileHandlerService) {
@@ -43,9 +43,6 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
       this.getFormGroupComponent('element').addControl('carryOut', new FormControl(restaurant.carryOut));
       this.getFormGroupComponent('element').addControl('delivery', new FormControl(restaurant.delivery));
       this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl(restaurant.glutenFreeOptions));
-      this.getFormGroupComponent('element').addControl('imageSource', new FormControl(restaurant.imageSource));
-      this.previewImage = this.fileHandlerService.getNamedImageUrl(restaurant.imageSource);
-
     })
   }
 
@@ -61,7 +58,6 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
     this.getFormGroupComponent('element').addControl('carryOut', new FormControl());
     this.getFormGroupComponent('element').addControl('delivery', new FormControl());
     this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl());
-    this.getFormGroupComponent('element').addControl('imageSource', new FormControl(''));
   }
 
   submitForm() {
@@ -70,11 +66,6 @@ export class RestaurantFormComponent extends FormWithImageComponent implements O
     if (this.form.invalid) {
       return;
     } else {
-      if (this.getFormComponent("image.imageSourceFile").value != "") {
-        const imageFormData = new FormData();
-        imageFormData.append('imageMultipartFile', this.getFormComponent('image.imageMultipartFile').value);
-        this.fileHandlerService.add(imageFormData).subscribe();
-      }
       if (this.edit) {
         this.restaurantService.update(this.form.get('element').value, this.id).subscribe(() => {
           this.router.navigate(['/restaurant/list']);

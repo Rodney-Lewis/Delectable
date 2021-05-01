@@ -32,7 +32,7 @@ export class ScheduleWeekAtAGlanceComponent implements OnInit {
     this.sunday = DateHelper.setDateToMidnight(this.sunday);
     this.sunday = DateHelper.findSundayInWeekByDate(this.sunday);
     this.saturday = new Date(this.sunday);
-    this.saturday.setHours(6 * 24);
+    this.saturday.setHours((6 * 24) + 1);
 
     this.week = new Array();
     this.week = DateHelper.buildWeekFromDate(this.sunday);

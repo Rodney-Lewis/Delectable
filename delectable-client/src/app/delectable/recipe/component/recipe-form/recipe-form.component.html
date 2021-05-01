@@ -210,8 +210,8 @@
                         <input appAutoRemoveIngredient [formClassReference]=this [id]=i type="text"
                             class="form-control ingredientInputs" formControlName="displayValue">
                     </div>
-                    <div class="col-auto mt-auto">
-                        <button class="btn btn-secondary key" type="button" (click)=removeIngredient(i)>x</button>
+                    <div class="col-auto mt-auto mb-auto">
+                        <button class="btn btn-sm btn-danger" type="button" (click)=removeIngredient(i)>x</button>
                     </div>
                 </div>
             </div>
@@ -240,7 +240,7 @@
                             class="form-control instructionInputs" formControlName="instruction" rows="1"></textarea>
                     </div>
                     <div class="col-auto mt-auto mb-auto">
-                        <button class="btn btn-secondary key" type="button" (click)=removeDirection(i)>x</button>
+                        <button class="btn btn-sm btn-danger" type="button" (click)=removeDirection(i)>x</button>
                     </div>
                 </div>
                 <div class="form-row form-group">
