@@ -1,0 +1,82 @@
+<div class="container mb-4">
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<h2>{{ recipe.name }}</h2>
+		</div>
+	</div>
+	<div *ngIf="recipe.source" class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<span><strong>Recipe By - </strong> {{ recipe.source }}</span>
+		</div>
+	</div>
+	<div class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<img class="img-fluid" src="{{ recipe.imageSource }}" alt="image">
+		</div>
+	</div>
+	<div *ngIf="recipe.description" class="row mt-2 justify-content-center">
+		<div class="col-auto">
+			<span><strong>Cooking notes and description - </strong>{{ recipe.description }}</span>
+		</div>
+	</div>
+	<div class="row mt-4 recipe-timing">
+		<div class="col">
+			<strong>Prep: </strong>
+			{{recipe.prepTimeHour}}h
+			{{recipe.prepTimeMinute}}m
+			{{recipe.prepTimeSecond}}s
+		</div>
+		<div class="col">
+			<strong>Cook: </strong>
+			{{recipe.cookTimeHour}}h
+			{{recipe.cookTimeMinute}}m
+			{{recipe.cookTimeSecond}}s
+		</div>
+		<div class="w-100 d-md-none"></div>
+		<div class="col">
+			<strong>Total: </strong>
+			{{totalTimeHour}}h
+			{{totalTimeMinute}}m
+			{{totalTimeSecond}}s
+		</div>
+		<div class="col">
+			<strong>Yield: </strong>
+			{{recipe.servings}} serving(s)
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col-md-5">
+			<div class="row">
+				<div class="col">
+					<h4>Ingredients:</h4>
+				</div>
+			</div>
+			<ul>
+				<li *ngFor="let ingredient of recipe.ingredients">
+					{{ ingredient.displayValue }}
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-7">
+			<div class="row">
+				<div class="col">
+					<h4>Directions:</h4>
+				</div>
+			</div>
+			<ol>
+				<li *ngFor="let direction of recipe.directions">
+					{{ direction.instruction }}
+				</li>
+			</ol>
+		</div>
+	</div>
+
+	<div class="row mt-2" *ngIf="hasUserPermissions">
+		<div class="col d-flex justify-content-begin">
+			<button type="button" class="btn btn-link" (click)="delete(recipe.id)">Delete</button>
+		</div>
+		<div class="col d-flex justify-content-end">
+			<button type="button" class="btn btn-primary" [routerLink]="['/recipe/edit', recipe.id]">Edit</button>
+		</div>
+	</div>
+</div>

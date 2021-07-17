@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ScheduleService } from 'app/delectable/schedule/schedule.service';
-import { Schedule } from 'app/delectable/schedule/schedule';
-import { Recipe } from 'app/delectable/meal/recipe/recipe';
-import { RecipeService } from 'app/delectable/meal/recipe/recipe.service';
-import { FormComponent } from 'app/delectable/component/form-component';
-import { RestaurantService } from 'app/delectable/restaurant/restaurant.service';
-import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-food.service';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Schedule } from 'app/delectable/schedule/model/schedule';
+import { FormComponent } from 'app/delectable/shared/component/form/base-form/form-component';
+import { ScheduleService } from '../../service/schedule.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-form',
@@ -15,50 +12,54 @@ import { PreparedFoodService } from 'app/delectable/meal/preparedfood/prepared-f
   styleUrls: ['./schedule-form.component.css']
 })
 export class ScheduleFormComponent extends FormComponent implements OnInit {
-  epochString: string;
-  epochStrings: string[];
-  date: Date;
-  mealTypes: string[];
+  mealTimes: string[];
   scheduleTypes: string[];
-
-  items: any[];
-
-  recipes: Recipe[];
-  schedule: Schedule = new Schedule();
+  schedulableItems: any[];
+  schedule: Schedule;
   formSubmitted: boolean = false;
 
-  constructor(formBuilder: FormBuilder, private scheduleService: ScheduleService,
-    private recipeService: RecipeService, router: Router, private restaurantService: RestaurantService, private preparedFoodService: PreparedFoodService) {
+  constructor(formBuilder: FormBuilder, private scheduleService: ScheduleService, router: Router) {
     super(router, formBuilder);
   }
 
   ngOnInit() {
     this.buildFormforCreate();
-
-    this.scheduleService.getAllMealTypes().subscribe(data => {
-      this.mealTypes = data;
-    })
-
-    this.scheduleService.getAllScheduleTypes().subscribe(data => {
-      this.scheduleTypes = data;
+    this.schedulableItems = new Array();
+    forkJoin([
+      this.scheduleService.getScheduleable("", 10),
+      this.scheduleService.getAllScheduleTypes(),
+      this.scheduleService.getAllMealTypes()
+    ]).subscribe(([schedulableItems, scheduleTypes, mealTimes]) => {
+      this.schedulableItems = JSON.parse(schedulableItems).content;
+      this.scheduleTypes = scheduleTypes;
+      this.mealTimes = mealTimes;
     })
   }
 
-  onScheduleTypeChange(event) {
-    this.items = [];
-    if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "restaurant")) {
-      this.restaurantService.findAll().subscribe(data => {
-        this.items = data;
-      })
-    } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "recipe")) {
-      this.recipeService.findAll().subscribe(data => {
-        this.items = data;
-      })
-    } else if (event.target.value == this.scheduleTypes.find(element => element.toLowerCase() == "prepared food")) {
-      this.preparedFoodService.findAll().subscribe(data => {
-        this.items = data;
-      })
-    }
+  searchOnType(event) {
+    this.scheduleService.getScheduleable(event.target.value, 10).subscribe(data => {
+      this.schedulableItems = [];
+      this.schedulableItems = JSON.parse(data).content;
+    })
+  }
+
+  buildFormforCreate() {
+    let formGroup = this.getFormGroupComponent('element');
+    formGroup.addControl('schedules', new FormArray([]));
+  }
+
+  addSchedule(index: number) {
+    this.getFormArrayComponent('element.schedules').push(this.formBuilder.group({
+      scheduledItemName: [this.schedulableItems[index].name],
+      date: [new Date().toISOString().substring(0, 10), Validators.required],
+      mealTime: [this.mealTimes[0], Validators.required],
+      scheduleType: [this.schedulableItems[index].scheduleType, Validators.required],
+      scheduledItemId: [this.schedulableItems[index].id, Validators.required]
+    }));
+  }
+
+  removeSchedule(index: number) {
+    this.getFormArrayComponent('element.schedules').removeAt(index);
   }
 
   submitForm() {
@@ -66,15 +67,8 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
     if (this.form.invalid) {
       return;
     } else {
-      this.epochString = this.form.get("epochDay").value;
-      this.epochStrings = this.epochString.split("-");
-      this.date = new Date(parseInt(this.epochStrings[0]), parseInt(this.epochStrings[1]) - 1, parseInt(this.epochStrings[2]));
-      this.schedule.epoch = this.date.getTime();
-      this.schedule.mealType = this.form.get("mealType").value;
-      this.schedule.scheduleType = this.form.get("scheduleType").value;
-      this.schedule.scheduledTypeId = this.form.get("scheduleTypeId").value;
-      this.scheduleService.add(this.schedule).subscribe(data => {
-        this.router.navigate(['', this.date.getTime()]);
+      this.scheduleService.add(this.getFormComponent("element.schedules").value).subscribe(() => {
+        this.router.navigate(['']);
       })
     }
   }
@@ -83,12 +77,4 @@ export class ScheduleFormComponent extends FormComponent implements OnInit {
     throw new Error("Method not implemented.");
   }
 
-  buildFormforCreate() {
-    this.form = this.formBuilder.group({
-      epochDay: ['', Validators.required],
-      mealType: ['', Validators.required],
-      scheduleType: ['', Validators.required],
-      scheduleTypeId: ['', Validators.required]
-    });
-  }
 }

@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="mr-2">
+    <app-list-header addItemRoute="/recipe/add" addButtonText="Add new" headerText="Recipes"
+      listItemRoute="/recipe/list">
+    </app-list-header>
+  </div>
+  <div class="mt-2">
+    <app-carddeck *ngIf="responseBody" [items]="responseBody.content">
+      <ng-template #item let-item="item">
+        <app-recipe-card-info [item]="item" detailItemRoute="/recipe/detail">
+        </app-recipe-card-info>
+      </ng-template>
+    </app-carddeck>
+  </div>
+  <div class="mt-2 d-flex justify-content-center">
+    <app-pagination *ngIf="responseBody.totalPages > 0" [logicalCurrentPage]="responseBody.number" [pageSize]="responseBody.size"
+      [totalPages]="responseBody.totalPages" [totalElements]="responseBody.totalElements" listItemRoute="/recipe/list">
+    </app-pagination>
+  </div>
+</div>

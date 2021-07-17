@@ -1,81 +1,80 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators, FormControl, FormGroup, Form } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RestaurantService } from '../../restaurant.service';
-
+import { FormComponent } from 'app/delectable/shared/component/form/base-form/form-component';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-form',
   templateUrl: './restaurant-form.component.html',
   styleUrls: ['./restaurant-form.component.css']
 })
-export class RestaurantFormComponent implements OnInit {
+export class RestaurantFormComponent extends FormComponent implements OnInit {
 
-  restaurantForm: FormGroup;
-  editRestaurant: boolean;
-  formSubmitted: boolean;
-  id: Number;
-
-  constructor(private formBuilder: FormBuilder, private activatedroute: ActivatedRoute,
-    private restaurantService: RestaurantService, private router: Router) {
-
+  constructor(formBuilder: FormBuilder, private activatedroute: ActivatedRoute,
+    private restaurantService: RestaurantService, router: Router, private fileHandlerService: FileHandlerService) {
+    super(router, formBuilder);
   }
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
-      if (params.get('id') != null) {
-        this.id = Number(params.get('id'));
-        this.editRestaurant = true;
-        this.restaurantService.findById(Number.parseInt(params.get('id'))).subscribe(data => {
-          this.restaurantForm = this.formBuilder.group({
-            restaurant: this.formBuilder.group({
-              name: [data.name, Validators.required]
-            })
-          })
-        })
+      if (params.has('id')) {
+        this.edit = true;
+        this.id = Number.parseInt(params.get('id'));
+        this.buildFormforEdit(this.id);
       } else {
-        this.editRestaurant = false;
-        this.restaurantForm = this.formBuilder.group({
-          restaurant: this.formBuilder.group({
-            name: ['', Validators.required]
-          })
-        })
+        this.edit = false;
+        this.buildFormforCreate()
       }
     })
   }
 
-  onSubmit() {
+  buildFormforEdit(id: number) {
+    this.restaurantService.getById(id).subscribe(restaurant => {
+      this.getFormGroupComponent('element').addControl('name', new FormControl(restaurant.name, Validators.required));
+      this.getFormGroupComponent('element').addControl('address', new FormControl(restaurant.address, Validators.required));
+      this.getFormGroupComponent('element').addControl('addressNumber', new FormControl(restaurant.addressNumber));
+      this.getFormGroupComponent('element').addControl('city', new FormControl(restaurant.city, Validators.required));
+      this.getFormGroupComponent('element').addControl('state', new FormControl(restaurant.state, Validators.required));
+      this.getFormGroupComponent('element').addControl('postalCode', new FormControl(restaurant.postalCode, Validators.required));
+      this.getFormGroupComponent('element').addControl('phoneNumber', new FormControl(restaurant.phoneNumber));
+      this.getFormGroupComponent('element').addControl('website', new FormControl(restaurant.website));
+      this.getFormGroupComponent('element').addControl('carryOut', new FormControl(restaurant.carryOut));
+      this.getFormGroupComponent('element').addControl('delivery', new FormControl(restaurant.delivery));
+      this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl(restaurant.glutenFreeOptions));
+    })
+  }
+
+  buildFormforCreate() {
+    this.getFormGroupComponent('element').addControl('name', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('address', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('addressNumber', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('city', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('state', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('postalCode', new FormControl('', Validators.required));
+    this.getFormGroupComponent('element').addControl('phoneNumber', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('website', new FormControl(''));
+    this.getFormGroupComponent('element').addControl('carryOut', new FormControl());
+    this.getFormGroupComponent('element').addControl('delivery', new FormControl());
+    this.getFormGroupComponent('element').addControl('glutenFreeOptions', new FormControl());
+  }
+
+  submitForm() {
     this.formSubmitted = true;
-    if (this.restaurantForm.invalid) {
+    console.log(this.form.invalid);
+    if (this.form.invalid) {
       return;
     } else {
-      if (this.editRestaurant) {
-        this.restaurantService.update(this.restaurantForm.get('restaurant').value, this.id).subscribe(() => {
+      if (this.edit) {
+        this.restaurantService.update(this.form.get('element').value, this.id).subscribe(() => {
           this.router.navigate(['/restaurant/list']);
         });
       } else {
-        this.restaurantService.add(this.restaurantForm.get('restaurant').value).subscribe(() => {
+        this.restaurantService.create(this.form.get('element').value).subscribe(() => {
           this.router.navigate(['/restaurant/list']);
         });
       }
     }
   }
-
-  getFormComponent(component: string) {
-    return this.restaurantForm.get(component);
-  }
-
-  getFormArrayComponent(component: string) {
-    return this.restaurantForm.get(component) as FormArray;
-  }
-
-  formFieldInvalid(component: string) {
-    return this.getFormComponent(component).invalid && (this.getFormComponent(component).dirty || this.getFormComponent(component).touched || this.formSubmitted)
-  }
-
-  formFieldRequired(component: string) {
-    if (this.formFieldInvalid(component))
-      return this.getFormComponent(component).errors?.required;
-  }
-
 }

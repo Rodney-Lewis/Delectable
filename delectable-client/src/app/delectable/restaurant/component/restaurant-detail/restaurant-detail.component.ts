@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantService } from '../../restaurant.service';
-import { Restaurant } from '../../restaurant';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { Role } from 'app/delectable/user/model/Role';
+import { UserAuthService } from 'app/delectable/user/service/auth.service';
+import { Restaurant } from '../../model/restaurant';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -11,11 +14,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RestuarantDetailComponent implements OnInit {
 
   restaurant: Restaurant = new Restaurant();
-  constructor(private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router) { }
+  hasUserPermissions: boolean = false;
+  constructor(private authService: UserAuthService, private restaurantService: RestaurantService, private activatedroute: ActivatedRoute, private router: Router, private fileHandlerService: FileHandlerService) { }
 
   ngOnInit(): void {
+    this.hasUserPermissions = this.authService.hasPermissions(Role[Role.ROLE_USER]);
+
     this.activatedroute.paramMap.subscribe(params => {
-      this.restaurantService.findById(Number(params.get('id'))).subscribe(data => {
+      this.restaurantService.getById(Number(params.get('id'))).subscribe(data => {
         this.restaurant = data;
       })
     })
@@ -28,7 +34,7 @@ export class RestuarantDetailComponent implements OnInit {
   }
 
   displayDeleteButton() {
-    return !this.restaurant.deleted;
+    return ((!this.restaurant.deleted) && this.authService.isLoggedIn());
   }
 
 }

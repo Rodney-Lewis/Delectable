@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from '../../restaurant';
-import { RestaurantService } from '../../restaurant.service';
+import { ActivatedRoute } from '@angular/router';
+import { FileHandlerService } from 'app/delectable/shared/service/file-handler.service';
+import { RestaurantService } from '../../service/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -9,13 +10,24 @@ import { RestaurantService } from '../../restaurant.service';
 })
 export class RestaurantListComponent implements OnInit {
 
-  restaurants: Restaurant[];
-  constructor(private restaurantService: RestaurantService) { }
-
-  ngOnInit() {
-    this.restaurantService.findAll().subscribe(data => {
-      this.restaurants = data;
-    })
+  constructor(private restaurantService: RestaurantService, private filehandler: FileHandlerService, private activatedRoute: ActivatedRoute) {
   }
 
+  jsonResponse: any;
+  pageSize: number = 12;
+
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params.ps)
+        this.pageSize = params.ps;
+
+      this.restaurantService.getPage(params.cp, this.pageSize, params.s).subscribe(data => {
+        this.jsonResponse = data.body;
+      },
+        err => {
+          this.jsonResponse = JSON.parse(err.error).message;
+        }
+      );
+    })
+  }
 }

@@ -1,15 +1,21 @@
-<div class="row mt-3 mb-3">
-    <div class="col d-flex justify-content-end">
-        <a routerLink="/restaurant/add" class="btn btn-outline-primary" role="button">Add resturant</a>
+<div class="container">
+    <div class="mr-2">
+        <app-list-header addItemRoute="/restaurant/add" addButtonText="Add new" headerText="Restaurants"
+            listItemRoute="/restaurant/list">
+        </app-list-header>
     </div>
-</div>
-<div class="card-deck mr-auto">
-    <div class="card" *ngFor="let restaurant of restaurants">
-        <a [routerLink]="['/restaurant/detail', restaurant.id]">
-            <!-- <img class="card-img-top img-fluid" src="{{ resturant.imageSource }}" alt="Card image cap"> -->
-            <div class="card-body">
-                <h5 class="card-title">{{ restaurant.name }} </h5>
-            </div>
-        </a>
+    <div class="mt-2">
+        <app-carddeck *ngIf="jsonResponse" [items]="jsonResponse.content">
+            <ng-template #item let-item="item">
+                <app-restaurant-card-info [item]="item" detailItemRoute="/restaurant/detail">
+                </app-restaurant-card-info>
+            </ng-template>
+        </app-carddeck>
+    </div>
+    <div class="mt-2 d-flex justify-content-center">
+        <app-pagination *ngIf="jsonResponse.totalPages > 0" [logicalCurrentPage]="jsonResponse.number" [pageSize]="jsonResponse.size"
+            [totalPages]="jsonResponse.totalPages" [totalElements]="jsonResponse.totalElements"
+            listItemRoute="/restaurant/list">
+        </app-pagination>
     </div>
 </div>

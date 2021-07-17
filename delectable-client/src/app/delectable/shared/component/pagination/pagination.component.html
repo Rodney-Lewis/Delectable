@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-auto">
+        <ul class="pagination">
+            <li *ngIf="previousPage == null" class="page-item">
+                <a class="page-link disabled" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li *ngIf="previousPage != null" class="page-item">
+                <a class="page-link" [routerLink]="listItemRoute" [queryParams]="{ 'cp': previousPage}"
+                    queryParamsHandling="merge" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <ng-container *ngFor="let page of pages">
+                <ng-container *ngIf="page != 'offset'">
+                    <ng-container *ngIf="isActivePage(page)">
+                        <li class="page-item active"><a class="page-link" [routerLink]="listItemRoute"
+                                [queryParams]="{ 'cp': page}">{{page}}</a></li>
+                    </ng-container>
+                    <ng-container *ngIf="!isActivePage(page)">
+                        <li class="page-item"><a class="page-link" [routerLink]="listItemRoute"
+                                [queryParams]="{ 'cp': page}" queryParamsHandling="merge">{{page}}</a>
+                        </li>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="page == 'offset'">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Offset">
+                            <span aria-hidden="true">&hellip;</span>
+                            <span class="sr-only">Offset</span>
+                        </a>
+                    </li>
+                </ng-container>
+            </ng-container>
+
+            <li *ngIf="nextPage == null" class="page-item">
+                <a class="page-link disabled" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li *ngIf="nextPage != null" class="page-item">
+                <a class="page-link" [routerLink]="listItemRoute" [queryParams]="{ 'cp': nextPage }"
+                    queryParamsHandling="merge" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

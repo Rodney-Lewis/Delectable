@@ -1,0 +1,81 @@
+<div class="container" id="scheduleContainer">
+    <div class="row">
+        <div class="col">
+            <div class="row month">
+                <div *ngIf=lessThan425px class="col">
+                    {{ MONTHS[startDate.getMonth()].abbreviatedName }}
+                    {{ startDate.getFullYear() }}
+                </div>
+                <div *ngIf=!lessThan425px class="col">
+                    {{ MONTHS[startDate.getMonth()].fullName }}
+                    {{ startDate.getFullYear() }}
+                </div>
+                <div class="col d-flex justify-content-end mb-2">
+                    <button type="button" class="btn btn-primary" (click)="previousMonth()">&lt;</button>
+                    <button type="button" class="btn btn-primary ml-2" (click)="today()">&bull;</button>
+                    <button type="button" class="btn btn-primary ml-2" (click)="nextMonth()"> &gt;</button>
+                    <a *ngIf="isLoggedIn" class="btn btn-primary ml-2" routerLink="/schedule/add">Schedule</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table appCalendarMultiDateSelect class="table table-bordered table-sm">
+                        <th class="daysInWeek" *ngFor="let weekday of WEEKDAYS">{{ weekday.abbreviatedName }}</th>
+                        <tr class="tablerows" *ngFor="let week of calendar">
+                            <td *ngFor="let day of week">
+                                <div class="btn btn-link" *ngIf="!endDate" [data-date]="day.getTime()"
+                                    [ngClass]="{'betweenactive ': day.getTime() == startDate.getTime()}">
+                                    {{ day.getDate() }}</div>
+                                <div class="btn btn-link" *ngIf="endDate" [data-date]="day.getTime()"
+                                    [ngClass]="{'betweenactive ': day.getTime() >= startDate.getTime() && day.getTime() <= endDate.getTime()}">
+                                    {{ day.getDate() }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max">
+        <div *ngFor="let itemsScheduledOnDate of itemsScheduledByDate; let i = index" class="mt-2">
+            <div class="row no-gutters">
+                <div class="col font-weight-bold">
+                    {{ dates[i].toDateString() }}
+                </div>
+            </div>
+            <div class="row ml-2 mt-1" *ngIf="itemsScheduledOnDate.length == 0; else somethingSchedule">
+                <div class="col">
+                    Nothing scheduled!
+                </div>
+            </div>
+            <ng-template #somethingSchedule>
+                <div *ngFor="let item of itemsScheduledOnDate; let j = index" class="row ml-2 mt-1">
+                    <div class="col-3 col-sm-2">
+                        {{ item.mealType }}
+                    </div>
+                    <div class="col">
+                        <span *ngIf="item.scheduleType.toLowerCase() == 'recipe'">
+                            <a [routerLink]="['/recipe/detail', item.scheduledTypeId]">{{ item.scheduledItemName }}</a>
+                        </span>
+                        <span *ngIf="item.scheduleType.toLowerCase() == 'restaurant'">
+                            <a [routerLink]="['/restaurant/detail', item.scheduledTypeId]">{{ item.scheduledItemName
+                                }}</a>
+                        </span>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" (click)="delete(item.id)"
+                            class="btn btn-outline-secondary btn-sm">Delete</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <!--
+ <div class="row justify-content-end mt-2 mb-2">
+        <div class="col-auto">
+            <a routerLink="/schedule/add" class="add btn btn-lg btn-primary rounded-circle" role="button">+</a>
+        </div>
+    </div>
+    -->

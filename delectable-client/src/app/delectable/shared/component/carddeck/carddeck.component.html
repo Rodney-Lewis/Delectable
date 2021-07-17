@@ -1,0 +1,6 @@
+<div class="card-deck">
+    <div class="card" *ngFor="let item of items">
+        <ng-container *ngTemplateOutlet="template; context: { item: item }">
+        </ng-container>
+    </div>
+</div>

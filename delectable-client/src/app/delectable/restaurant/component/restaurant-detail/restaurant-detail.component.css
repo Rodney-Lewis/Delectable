@@ -1,0 +1,10 @@
+.table {
+  vertical-align: top;
+  table-layout: fixed;
+}
+
+@media (max-width: 768px) { 
+  .img-fluid {
+    max-height: 175px;
+  }
+}

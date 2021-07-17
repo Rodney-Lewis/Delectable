@@ -1,10 +1,10 @@
 package com.delectable.restaurant;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import com.delectable.shared.crud.CRUSoftDeleteRepository;
+import com.delectable.shared.crud.CRUSoftDeleteService;
 
-@Repository
-public interface RestaurantService extends CrudRepository<Restaurant, Integer> {
-    List<Restaurant> findAllByDeleted(boolean deleted);
+public class RestaurantService extends CRUSoftDeleteService<Restaurant>{
+    public RestaurantService(CRUSoftDeleteRepository<Restaurant> repository) {
+        super(repository);
+    }
 }

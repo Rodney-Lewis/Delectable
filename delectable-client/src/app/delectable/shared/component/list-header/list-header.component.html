@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col">
+        <h3>{{ headerText }}</h3>
+    </div>
+    <div *ngIf="hasUserPermissions" class="col d-flex justify-content-end">
+        <a [routerLink]="addItemRoute">
+            <button type="button" class="btn btn-primary" role="button">
+                {{ addButtonText }}
+            </button>
+        </a>
+    </div>
+</div>
+<div class="row no-gutters">
+    <div class="col">
+        <form name="searchForm" (ngSubmit)="onSubmit()">
+            <div class="input-group">
+                <input type="search" class="form-control" name="search" [(ngModel)]="searchForm.query" required
+                    #query="ngModel" placeholder="Search" aria-label="Search" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
